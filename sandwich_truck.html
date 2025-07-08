@@ -220,7 +220,19 @@
             {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>"}, "coords": "top: 20%; left: 10%;"},
         ];
         
+        // --- NEW: Event Data ---
+        const EVENTS = [
+            { type: 'customer_boost', values: [0.05, 0.1, 0.15, 0.2], flavor: "A local festival is in town, bringing in hungry crowds! / A glowing review in the local paper has people lining up! / A nearby office just let out for a company-wide lunch break!", isPositive: true },
+            { type: 'cost_decrease', values: [-0.05, -0.1], flavor: "Your supplier found a surplus of fresh ingredients and is passing the savings on to you! / A new highway opened up, drastically cutting down on shipping fees. / You found a coupon book under the driver's seat. Score!", isPositive: true },
+            { type: 'bogo', values: [true], flavor: "The local wholesale market is having a massive 'Buy One, Get One Free' sale to clear out inventory! It's your lucky day!", isPositive: true },
+            { type: 'competition', values: [], flavor: "A traveling Food Truck Competition has rolled into town! Today's theme is {recipe}. Impress the judges and the crowd!", isPositive: true },
+            { type: 'customer_slump', values: [-0.05, -0.1, -0.15, -0.2], flavor: "Unexpected road construction is diverting traffic away from your spot. / A sudden downpour has everyone running for cover, not for sandwiches. / A rival food truck set up shop just across the street, stealing business.", isPositive: false },
+            { type: 'cost_increase', values: [0.05, 0.1, 0.2], flavor: "Bad weather has ruined a large crop, causing ingredient shortages. / Gas prices have skyrocketed, and your suppliers are adding a fuel surcharge. / Your refrigerator is on the fritz; you had to buy emergency supplies at a premium.", isPositive: false }
+        ];
+        
         let player = {};
+        // --- NEW: Global flag to trigger event checks ---
+        let isNewDay = false;
 
         const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
 
@@ -368,7 +380,14 @@
             mainPanel.innerHTML = html;
         }
         
+        // --- MODIFIED: To handle daily events ---
         function renderAtLocation(locationName) {
+            // --- NEW: Event check logic ---
+            if (isNewDay) {
+                checkForDailyEvent();
+                isNewDay = false;
+            }
+
             const location = LOCATIONS.find(l => l.name === locationName);
             const recipesToBuy = location.available_recipes.filter(r => !player.cookbook.includes(r));
             const isMenuValid = player.dailyMenu.length === DAILY_MENU_SLOTS;
@@ -379,9 +398,22 @@
             if (sellButtonDisabled) {
                 sellButtonHelperText = `<p class="text-sm text-gray-500 mt-2">Select ${DAILY_MENU_SLOTS} items in the Cookbook panel to enable selling.</p>`;
             }
+            
+            // --- NEW: Event banner display ---
+            let eventBannerHTML = '';
+            if (player.activeEvent) {
+                const bannerColor = player.activeEvent.isPositive ? 'bg-green-100 border-green-500 text-green-700' : 'bg-red-100 border-red-500 text-red-700';
+                eventBannerHTML = `
+                    <div class="p-4 mb-6 border-l-4 rounded-r-lg ${bannerColor}" role="alert">
+                        <p class="font-bold">✨ Daily Event!</p>
+                        <p>${player.activeEvent.description}</p>
+                    </div>
+                `;
+            }
 
             mainPanel.innerHTML = `
                 <div id="main-panel-content" class="flex flex-col h-full">
+                    ${eventBannerHTML} 
                     <header class="text-center mb-6">
                         <h2 class="text-3xl font-bold flex items-center justify-center gap-3">${location.emoji} Welcome to ${location.name}</h2>
                         <p class="text-md text-gray-500 italic mt-1">"${location.lore}"</p>
@@ -477,7 +509,8 @@
                 renderAtLocation(locationName);
             };
         }
-
+        
+        // --- MODIFIED: To handle event-based pricing ---
         function renderStore(locationName) {
              const location = LOCATIONS.find(l => l.name === locationName);
              let ingredientsHTML = '';
@@ -485,9 +518,24 @@
              Object.keys(INGREDIENT_DATA).forEach(itemName => {
                 const details = INGREDIENT_DATA[itemName];
                 const isLocallyAvailable = location.available_ingredients.includes(itemName);
-                const isDisabled = !isLocallyAvailable || player.money < details.price;
+
+                let currentPrice = details.price;
+                let priceModificationHTML = '';
+                
+                if (player.activeEvent) {
+                    if (player.activeEvent.type === 'cost_increase' || player.activeEvent.type === 'cost_decrease') {
+                        currentPrice *= (1 + player.activeEvent.value);
+                        const changeClass = player.activeEvent.isPositive ? 'text-green-600' : 'text-red-600';
+                        const sign = player.activeEvent.value > 0 ? '+' : '';
+                        priceModificationHTML = `<span class="text-xs font-bold ${changeClass}">(${sign}${(player.activeEvent.value * 100).toFixed(0)}%)</span>`;
+                    } else if (player.activeEvent.type === 'bogo') {
+                        priceModificationHTML = `<span class="text-xs font-bold text-blue-600">BOGO!</span>`;
+                    }
+                }
+                
+                const isDisabled = !isLocallyAvailable || player.money < currentPrice;
                 const priceDetailsHTML = isLocallyAvailable
-                    ? `<p class="font-semibold text-green-600">$${details.price.toFixed(2)}</p><p class="text-sm text-gray-500">+${details.servings} servings</p>`
+                    ? `<div class="flex items-center gap-2"><p class="font-semibold text-green-600">$${currentPrice.toFixed(2)}</p>${priceModificationHTML}</div><p class="text-sm text-gray-500">+${details.servings} servings</p>`
                     : `<p class="font-semibold text-gray-400">$${details.price.toFixed(2)}</p><p class="text-sm text-red-600 font-medium">Not sold here</p>`;
                 
                 ingredientsHTML += `<button onclick="buyIngredient('${locationName}', '${itemName}')" ${isDisabled ? 'disabled' : ''} class="w-full text-left p-4 border-b border-gray-200 last:border-b-0 flex justify-between items-center transition-colors hover:bg-gray-50 disabled:bg-gray-50 disabled:cursor-not-allowed">
@@ -519,7 +567,8 @@
         }
 
         function goToLocationMenu() { renderLocations(); }
-
+        
+        // --- MODIFIED: To handle day changes for events ---
         function chooseLocation(locationName) {
             if (player.currentLocation === locationName) {
                 renderAtLocation(locationName);
@@ -528,15 +577,33 @@
             const travelDays = getTravelDays(player.currentLocation, locationName);
             player.day += travelDays;
             player.currentLocation = locationName;
+            isNewDay = true; // --- NEW: Flag that a new day has started
             updateAllUI();
             renderAtLocation(locationName);
         }
         
+        // --- MODIFIED: To handle event-based pricing ---
         function buyIngredient(locationName, itemName) { 
             const details = INGREDIENT_DATA[itemName]; 
-            if (player.money >= details.price) { 
-                player.money -= details.price; 
-                player.inventory[itemName] += details.servings; 
+            let currentPrice = details.price;
+            let isBogo = false;
+
+            if (player.activeEvent) {
+                if (player.activeEvent.type === 'cost_increase' || player.activeEvent.type === 'cost_decrease') {
+                    currentPrice *= (1 + player.activeEvent.value);
+                } else if (player.activeEvent.type === 'bogo') {
+                    isBogo = true;
+                }
+            }
+            
+            if (player.money >= currentPrice) { 
+                player.money -= currentPrice; 
+                let servingsToAdd = details.servings;
+                if (isBogo) {
+                    servingsToAdd *= 2;
+                }
+                player.inventory[itemName] += servingsToAdd;
+                
                 updateAllUI(); 
                 renderStore(locationName); 
             } 
@@ -557,13 +624,29 @@
             runSalesSimulation(locationName);
         }
 
+        // --- MODIFIED: To incorporate event effects ---
         function runSalesSimulation(locationName) {
-            player.day++;
             const location = LOCATIONS.find(l => l.name === locationName);
-            let actual_customers = Math.floor(Math.random() * (location.max_customers * 0.25));
+            
+            // --- NEW: Apply event effects to simulation parameters ---
+            let baseMaxCustomers = location.max_customers;
+            let dailyPreferences = location.preferences;
+
+            if (player.activeEvent) {
+                if (player.activeEvent.type === 'customer_boost' || player.activeEvent.type === 'customer_slump') {
+                    baseMaxCustomers *= (1 + player.activeEvent.value);
+                }
+                if (player.activeEvent.type === 'competition' && player.dailyMenu.includes(player.activeEvent.value)) {
+                    dailyPreferences = [player.activeEvent.value];
+                }
+            }
+            
+            let actual_customers = Math.floor(Math.random() * (baseMaxCustomers * 0.25));
             
             if (actual_customers === 0) {
                 showModal('A Quiet Day...', '<p>No customers showed up today. Maybe it was the weather? Better luck tomorrow!</p>', 'Continue', () => {
+                    player.day++;
+                    isNewDay = true;
                     updateAllUI();
                     renderAtLocation(locationName);
                 });
@@ -572,7 +655,7 @@
         
             const saleEvents = [];
             const tempInventory = JSON.parse(JSON.stringify(player.inventory));
-            const available_prefs = location.preferences.filter(p => player.dailyMenu.includes(p));
+            const available_prefs = dailyPreferences.filter(p => player.dailyMenu.includes(p));
         
             for (let i = 0; i < actual_customers; i++) {
                 let chosen_food = player.dailyMenu[Math.floor(Math.random() * player.dailyMenu.length)];
@@ -605,7 +688,7 @@
                     };
         
                     if (mastery_details.level < 3) {
-                        const isPreferred = location.preferences.includes(chosen_food);
+                        const isPreferred = dailyPreferences.includes(chosen_food);
                         if (Math.random() < (isPreferred ? 0.75 : 0.30)) {
                             sale.xpGain = 1;
                             if (player.reputation[locationName] < location.max_rep) {
@@ -722,11 +805,16 @@
                 progressContainer.classList.add('hidden');
                 continueBtn.classList.remove('hidden');
             }, 500);
-
+            
+            // --- MODIFIED: To advance day and trigger new event check ---
             continueBtn.onclick = () => {
                 modal.classList.add('hidden');
                 modalContent.innerHTML = '';
                 modalContent.style.maxWidth = "500px";
+                
+                player.day++; // Advance to the next day
+                isNewDay = true; // Flag that a new day has started
+
                 updateAllUI();
                 renderAtLocation(locationName);
             };
@@ -760,10 +848,49 @@
         
         function checkForWin() { if (player.cookbook.length === Object.keys(RECIPES).length && Object.values(player.recipe_mastery).every(r => r.level >= 3)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
 
+        // --- NEW: Helper function to get random element from an array ---
+        function getRandomElement(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        // --- NEW: Daily Event generation system ---
+        function checkForDailyEvent() {
+            player.activeEvent = null;
+
+            // ~30% chance of an event for the new day.
+            if (Math.random() > 0.3) {
+                return;
+            }
+
+            const eventBlueprint = getRandomElement(EVENTS);
+            const eventValue = getRandomElement(eventBlueprint.values);
+            let eventFlavors = eventBlueprint.flavor.split(' / ');
+            let eventDescription = getRandomElement(eventFlavors);
+
+            const newEvent = {
+                type: eventBlueprint.type,
+                value: eventValue,
+                description: eventDescription,
+                isPositive: eventBlueprint.isPositive
+            };
+            
+            if (newEvent.type === 'competition') {
+                if (player.cookbook.length === 0) return;
+                const competitionRecipe = getRandomElement(player.cookbook);
+                newEvent.value = competitionRecipe;
+                newEvent.description = newEvent.description.replace('{recipe}', `<strong>${competitionRecipe}</strong>`);
+            }
+            player.activeEvent = newEvent;
+        }
+        
+        // --- MODIFIED: To handle day changes for events ---
         function initGame() {
-            player = { day: 1, money: 100.00, inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, cookbook: ["Ham & cheese", "BLT"], recipe_mastery: { "Ham & cheese": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["Ham & cheese"].xp_to_next_levels}, "BLT": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["BLT"].xp_to_next_levels}, }, reputation: LOCATIONS.reduce((acc, loc) => ({ ...acc, [loc.name]: 0 }), {}), currentLocation: "Central City", knownPreferences: [] };
+            player = { day: 1, money: 100.00, inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, cookbook: ["Ham & cheese", "BLT"], recipe_mastery: { "Ham & cheese": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["Ham & cheese"].xp_to_next_levels}, "BLT": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["BLT"].xp_to_next_levels}, }, reputation: LOCATIONS.reduce((acc, loc) => ({ ...acc, [loc.name]: 0 }), {}), currentLocation: "Central City", knownPreferences: [], activeEvent: null }; // --- NEW: activeEvent property
             player.dailyMenu = player.cookbook.slice(0, DAILY_MENU_SLOTS);
-            player.reputation["Central City"] = 1; updateAllUI(); renderAtLocation(player.currentLocation);
+            player.reputation["Central City"] = 1; 
+            isNewDay = true; // --- NEW: Flag that a new day has started
+            updateAllUI(); 
+            renderAtLocation(player.currentLocation);
         }
 
         initGame();
