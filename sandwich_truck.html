@@ -139,6 +139,46 @@
         #progress-bar {
             transition: width 0.2s ease-out;
         }
+
+        /* --- NEW: Toast Notification Styles --- */
+        #toast-container {
+            position: fixed;
+            top: 1.25rem;
+            right: 1.25rem;
+            z-index: 100;
+            width: 22rem; /* 352px */
+            max-width: 90%;
+        }
+        .toast {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            transform: translateX(100%);
+            animation: toast-in 0.5s forwards, toast-out 0.5s 6.5s forwards;
+        }
+        @keyframes toast-in {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes toast-out {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -173,6 +213,9 @@
             </aside>
         </div>
     </div>
+    
+    <!-- --- NEW: Toast Notification Container --- -->
+    <div id="toast-container"></div>
 
     <!-- Modal for Events and Summaries -->
     <div id="modal" class="modal-overlay hidden">
@@ -220,21 +263,21 @@
             {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>"}, "coords": "top: 20%; left: 10%;"},
         ];
         
-        // --- NEW: Event Data ---
+        // --- MODIFIED: Event Data (values for customer events are now symbolic) ---
         const EVENTS = [
-            { type: 'customer_boost', values: [0.05, 0.1, 0.15, 0.2], flavor: "A local festival is in town, bringing in hungry crowds! / A glowing review in the local paper has people lining up! / A nearby office just let out for a company-wide lunch break!", isPositive: true },
-            { type: 'cost_decrease', values: [-0.05, -0.1], flavor: "Your supplier found a surplus of fresh ingredients and is passing the savings on to you! / A new highway opened up, drastically cutting down on shipping fees. / You found a coupon book under the driver's seat. Score!", isPositive: true },
+            { type: 'customer_boost', values: [true], flavor: "It's a beautiful day! A local festival is in town, bringing in hungry crowds! / A glowing review in the local paper has people lining up for a taste!", isPositive: true },
+            { type: 'cost_decrease', values: [-0.05, -0.1], flavor: "Your supplier found a surplus of fresh ingredients and is passing the savings on to you! / You found a coupon book under the driver's seat. Score!", isPositive: true },
             { type: 'bogo', values: [true], flavor: "The local wholesale market is having a massive 'Buy One, Get One Free' sale to clear out inventory! It's your lucky day!", isPositive: true },
             { type: 'competition', values: [], flavor: "A traveling Food Truck Competition has rolled into town! Today's theme is {recipe}. Impress the judges and the crowd!", isPositive: true },
-            { type: 'customer_slump', values: [-0.05, -0.1, -0.15, -0.2], flavor: "Unexpected road construction is diverting traffic away from your spot. / A sudden downpour has everyone running for cover, not for sandwiches. / A rival food truck set up shop just across the street, stealing business.", isPositive: false },
-            { type: 'cost_increase', values: [0.05, 0.1, 0.2], flavor: "Bad weather has ruined a large crop, causing ingredient shortages. / Gas prices have skyrocketed, and your suppliers are adding a fuel surcharge. / Your refrigerator is on the fritz; you had to buy emergency supplies at a premium.", isPositive: false }
+            { type: 'customer_slump', values: [true], flavor: "A sudden downpour has everyone running for cover, not for sandwiches. / A rival food truck set up shop just across the street, stealing business.", isPositive: false },
+            { type: 'cost_increase', values: [0.05, 0.1, 0.2], flavor: "Bad weather has ruined a large crop, causing ingredient shortages. / Gas prices have skyrocketed, and your suppliers are adding a fuel surcharge.", isPositive: false }
         ];
         
         let player = {};
-        // --- NEW: Global flag to trigger event checks ---
         let isNewDay = false;
 
         const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
+        const toastContainer = document.getElementById('toast-container');
 
         function updateAllUI() { updateStatusUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
 
@@ -380,9 +423,8 @@
             mainPanel.innerHTML = html;
         }
         
-        // --- MODIFIED: To handle daily events ---
+        // --- MODIFIED: Removed the old banner UI ---
         function renderAtLocation(locationName) {
-            // --- NEW: Event check logic ---
             if (isNewDay) {
                 checkForDailyEvent();
                 isNewDay = false;
@@ -399,21 +441,8 @@
                 sellButtonHelperText = `<p class="text-sm text-gray-500 mt-2">Select ${DAILY_MENU_SLOTS} items in the Cookbook panel to enable selling.</p>`;
             }
             
-            // --- NEW: Event banner display ---
-            let eventBannerHTML = '';
-            if (player.activeEvent) {
-                const bannerColor = player.activeEvent.isPositive ? 'bg-green-100 border-green-500 text-green-700' : 'bg-red-100 border-red-500 text-red-700';
-                eventBannerHTML = `
-                    <div class="p-4 mb-6 border-l-4 rounded-r-lg ${bannerColor}" role="alert">
-                        <p class="font-bold">✨ Daily Event!</p>
-                        <p>${player.activeEvent.description}</p>
-                    </div>
-                `;
-            }
-
             mainPanel.innerHTML = `
                 <div id="main-panel-content" class="flex flex-col h-full">
-                    ${eventBannerHTML} 
                     <header class="text-center mb-6">
                         <h2 class="text-3xl font-bold flex items-center justify-center gap-3">${location.emoji} Welcome to ${location.name}</h2>
                         <p class="text-md text-gray-500 italic mt-1">"${location.lore}"</p>
@@ -510,7 +539,6 @@
             };
         }
         
-        // --- MODIFIED: To handle event-based pricing ---
         function renderStore(locationName) {
              const location = LOCATIONS.find(l => l.name === locationName);
              let ingredientsHTML = '';
@@ -568,7 +596,6 @@
 
         function goToLocationMenu() { renderLocations(); }
         
-        // --- MODIFIED: To handle day changes for events ---
         function chooseLocation(locationName) {
             if (player.currentLocation === locationName) {
                 renderAtLocation(locationName);
@@ -577,12 +604,11 @@
             const travelDays = getTravelDays(player.currentLocation, locationName);
             player.day += travelDays;
             player.currentLocation = locationName;
-            isNewDay = true; // --- NEW: Flag that a new day has started
+            isNewDay = true;
             updateAllUI();
             renderAtLocation(locationName);
         }
         
-        // --- MODIFIED: To handle event-based pricing ---
         function buyIngredient(locationName, itemName) { 
             const details = INGREDIENT_DATA[itemName]; 
             let currentPrice = details.price;
@@ -624,26 +650,28 @@
             runSalesSimulation(locationName);
         }
 
-        // --- MODIFIED: To incorporate event effects ---
+        // --- MODIFIED: To use new ranged customer logic ---
         function runSalesSimulation(locationName) {
             const location = LOCATIONS.find(l => l.name === locationName);
             
-            // --- NEW: Apply event effects to simulation parameters ---
-            let baseMaxCustomers = location.max_customers;
             let dailyPreferences = location.preferences;
+            const maxPossibleCustomers = location.max_customers * 0.25;
+            let minCustomers = 0;
+            let maxCustomers = maxPossibleCustomers;
 
             if (player.activeEvent) {
-                if (player.activeEvent.type === 'customer_boost' || player.activeEvent.type === 'customer_slump') {
-                    baseMaxCustomers *= (1 + player.activeEvent.value);
-                }
-                if (player.activeEvent.type === 'competition' && player.dailyMenu.includes(player.activeEvent.value)) {
+                if (player.activeEvent.type === 'customer_boost') {
+                    minCustomers = (maxPossibleCustomers / 3) * 2; // Upper third
+                } else if (player.activeEvent.type === 'customer_slump') {
+                    maxCustomers = maxPossibleCustomers / 3; // Lower third
+                } else if (player.activeEvent.type === 'competition' && player.dailyMenu.includes(player.activeEvent.value)) {
                     dailyPreferences = [player.activeEvent.value];
                 }
             }
             
-            let actual_customers = Math.floor(Math.random() * (baseMaxCustomers * 0.25));
+            let actual_customers = Math.floor(minCustomers + Math.random() * (maxCustomers - minCustomers));
             
-            if (actual_customers === 0) {
+            if (actual_customers <= 0) {
                 showModal('A Quiet Day...', '<p>No customers showed up today. Maybe it was the weather? Better luck tomorrow!</p>', 'Continue', () => {
                     player.day++;
                     isNewDay = true;
@@ -806,14 +834,13 @@
                 continueBtn.classList.remove('hidden');
             }, 500);
             
-            // --- MODIFIED: To advance day and trigger new event check ---
             continueBtn.onclick = () => {
                 modal.classList.add('hidden');
                 modalContent.innerHTML = '';
                 modalContent.style.maxWidth = "500px";
                 
-                player.day++; // Advance to the next day
-                isNewDay = true; // Flag that a new day has started
+                player.day++;
+                isNewDay = true;
 
                 updateAllUI();
                 renderAtLocation(locationName);
@@ -848,47 +875,69 @@
         
         function checkForWin() { if (player.cookbook.length === Object.keys(RECIPES).length && Object.values(player.recipe_mastery).every(r => r.level >= 3)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
 
-        // --- NEW: Helper function to get random element from an array ---
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        // --- NEW: Daily Event generation system ---
+        // --- NEW: Toast Notification Function ---
+        function showToast(message, isPositive) {
+            const toast = document.createElement('div');
+            const colorClasses = isPositive 
+                ? 'bg-green-100 border-l-4 border-green-500 text-green-700' 
+                : 'bg-red-100 border-l-4 border-red-500 text-red-700';
+            toast.className = `toast ${colorClasses}`;
+            toast.innerHTML = `<p class="font-bold">${isPositive ? 'Good News!' : 'Oh No!'}</p><p class="text-sm">${message}</p>`;
+            toastContainer.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 7000); // Animation is 0.5s in + 6.5s out
+        }
+
+        // --- MODIFIED: Event system with dynamic odds ---
         function checkForDailyEvent() {
             player.activeEvent = null;
-
-            // ~30% chance of an event for the new day.
-            if (Math.random() > 0.3) {
-                return;
-            }
-
-            const eventBlueprint = getRandomElement(EVENTS);
-            const eventValue = getRandomElement(eventBlueprint.values);
-            let eventFlavors = eventBlueprint.flavor.split(' / ');
-            let eventDescription = getRandomElement(eventFlavors);
-
-            const newEvent = {
-                type: eventBlueprint.type,
-                value: eventValue,
-                description: eventDescription,
-                isPositive: eventBlueprint.isPositive
-            };
             
-            if (newEvent.type === 'competition') {
-                if (player.cookbook.length === 0) return;
-                const competitionRecipe = getRandomElement(player.cookbook);
-                newEvent.value = competitionRecipe;
-                newEvent.description = newEvent.description.replace('{recipe}', `<strong>${competitionRecipe}</strong>`);
+            const BASE_CHANCE = 0.05; // 5% base chance
+            const CHANCE_INCREMENT = 0.02; // 2% increase per day
+            const MAX_CHANCE = 0.25; // Capped at 25%
+
+            const currentChance = Math.min(MAX_CHANCE, BASE_CHANCE + (player.daysSinceEvent * CHANCE_INCREMENT));
+            
+            if (Math.random() < currentChance) {
+                // Event Triggered!
+                const eventBlueprint = getRandomElement(EVENTS);
+                const eventValue = getRandomElement(eventBlueprint.values);
+                let eventFlavors = eventBlueprint.flavor.split(' / ');
+                let eventDescription = getRandomElement(eventFlavors);
+
+                const newEvent = {
+                    type: eventBlueprint.type,
+                    value: eventValue,
+                    description: eventDescription,
+                    isPositive: eventBlueprint.isPositive
+                };
+                
+                if (newEvent.type === 'competition') {
+                    if (player.cookbook.length === 0) return;
+                    const competitionRecipe = getRandomElement(player.cookbook);
+                    newEvent.value = competitionRecipe;
+                    newEvent.description = newEvent.description.replace('{recipe}', `<strong>${competitionRecipe}</strong>`);
+                }
+                player.activeEvent = newEvent;
+                player.daysSinceEvent = 0; // Reset the counter
+                showToast(newEvent.description, newEvent.isPositive);
+            } else {
+                // No event, increment the counter
+                player.daysSinceEvent++;
             }
-            player.activeEvent = newEvent;
         }
         
-        // --- MODIFIED: To handle day changes for events ---
+        // --- MODIFIED: initGame with new player property ---
         function initGame() {
-            player = { day: 1, money: 100.00, inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, cookbook: ["Ham & cheese", "BLT"], recipe_mastery: { "Ham & cheese": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["Ham & cheese"].xp_to_next_levels}, "BLT": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["BLT"].xp_to_next_levels}, }, reputation: LOCATIONS.reduce((acc, loc) => ({ ...acc, [loc.name]: 0 }), {}), currentLocation: "Central City", knownPreferences: [], activeEvent: null }; // --- NEW: activeEvent property
+            player = { day: 1, money: 100.00, inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, cookbook: ["Ham & cheese", "BLT"], recipe_mastery: { "Ham & cheese": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["Ham & cheese"].xp_to_next_levels}, "BLT": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["BLT"].xp_to_next_levels}, }, reputation: LOCATIONS.reduce((acc, loc) => ({ ...acc, [loc.name]: 0 }), {}), currentLocation: "Central City", knownPreferences: [], activeEvent: null, daysSinceEvent: 0 };
             player.dailyMenu = player.cookbook.slice(0, DAILY_MENU_SLOTS);
             player.reputation["Central City"] = 1; 
-            isNewDay = true; // --- NEW: Flag that a new day has started
+            isNewDay = true;
             updateAllUI(); 
             renderAtLocation(player.currentLocation);
         }
