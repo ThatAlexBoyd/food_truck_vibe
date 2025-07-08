@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandwich Hero</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            opacity: 1;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: #4338ca;
+        }
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background-color: #d1d5db;
+        }
+         .btn-green {
+            background-color: #10b981;
+            color: white;
+        }
+        .btn-green:hover:not(:disabled) {
+            background-color: #059669;
+        }
+        .btn-yellow {
+            background-color: #f59e0b;
+            color: white;
+        }
+        .btn-yellow:hover:not(:disabled) {
+            background-color: #d97706;
+        }
+        .btn-light-blue {
+            background-color: #dbeafe; /* bg-blue-200 */
+            color: #1e40af; /* text-blue-800 */
+        }
+        .btn-light-blue:hover:not(:disabled) {
+            background-color: #bfdbfe; /* bg-blue-300 */
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            max-width: 90%;
+            width: 500px;
+        }
+        /* Styles for the map */
+        .map-pin {
+            transition: all 0.2s ease-in-out;
+        }
+        .map-pin:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 4px 3px rgba(0,0,0,0.2));
+        }
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 25rem;
+            background-color: #dbeafe;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 2px solid #d1d5db;
+        }
+        .map-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .location-marker {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .location-marker:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        .current-location-tile {
+            background-color: rgba(191, 219, 254, 0.9); /* bg-blue-200 */
+        }
+        
+        .flash {
+            animation: flash-animation 0.3s ease-out;
+        }
+        @keyframes flash-animation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+        #progress-bar {
+            transition: width 0.2s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div id="game-container" class="max-w-7xl mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Sandwich Hero</h1>
+            <p class="text-lg text-gray-600 mt-2">Your goal is to unlock and master your cookbook</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Left Column -->
+            <aside class="lg:w-1/4 space-y-6">
+                <div id="status-panel" class="card p-6">
+                    <!-- Status content will be injected here -->
+                </div>
+                <div id="inventory-panel" class="card p-6">
+                    <!-- Inventory content will be injected here -->
+                </div>
+            </aside>
+
+            <!-- Middle Column -->
+            <main id="main-panel" class="lg:w-5/12 card p-6">
+                <!-- Main game content will be injected here -->
+            </main>
+
+            <!-- Right Column -->
+            <aside class="lg:w-1/3">
+                <div id="cookbook-panel" class="card p-6 h-full">
+                    <!-- Cookbook/Menu content will be injected here -->
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Modal for Events and Summaries -->
+    <div id="modal" class="modal-overlay hidden">
+        <div id="modal-content" class="modal-content">
+            <!-- Modal content will be injected here -->
+        </div>
+    </div>
+
+
+    <script>
+        // --- Game Data ---
+        const DAILY_MENU_SLOTS = 2;
+        const INGREDIENT_DATA = {
+            "Bread":      { "price": 10, "servings": 100, "emoji": "🍞" },
+            "Meat":       { "price": 15, "servings": 75,  "emoji": "🥩" },
+            "Spread":     { "price": 20, "servings": 20,  "emoji": "🧈" },
+            "Cheese":     { "price": 20, "servings": 20,  "emoji": "🧀" },
+            "Toppings":   { "price": 10, "servings": 75,  "emoji": "🥓" },
+            "Sauce":      { "price": 10, "servings": 40,  "emoji": "🥫" },
+            "Vegetables": { "price": 10, "servings": 25,  "emoji": "🥬" },
+        };
+        const RECIPES = {
+            "Ham & cheese": {"unlock_cost": 0, "selling_prices": [2.00, 2.00, 3.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [35, 80]},
+            "Italian": {"unlock_cost": 75, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
+            "Club": {"unlock_cost": 50, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
+            "Patty melt": {"unlock_cost": 60, "selling_prices": [2.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35, 80]},
+            "BLT": {"unlock_cost": 0, "selling_prices": [2.00, 2.00, 3.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [35, 80]},
+            "West Coast": {"unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
+            "Salad": {"unlock_cost": 30, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [50, 100]},
+            "Burger": {"unlock_cost": 150, "selling_prices": [6.00, 7.00, 8.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150]},
+            "Chicken salad": {"unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100]},
+            "Reuben": {"unlock_cost": 90, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100]},
+            "The Ultimate": {"unlock_cost": 250, "selling_prices": [8.00, 9.00, 10.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150]},
+        };
+        
+        const LOCATIONS = [
+            {"name": "Central City", "emoji": "🛣️", "max_rep": 75, "max_customers": 100, "lore": "A quiet crossroads where your journey begins.", "preferences": ["Ham & cheese", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Toppings", "Vegetables", "Spread"], "available_recipes": ["Club"], "recipe_seller": {"name": "Old Man Earl", "emoji": "👴", "description": "<p>Earl has been sitting on this porch since the highway was just a dirt track. He's watched the world change from the comfort of his rocking chair.</p><p class='mt-2'>'A good sandwich is a simple one,' he'll tell you. He's willing to teach you how to make a proper <strong>Club</strong> sandwich—a true classic that's a step up from the basics.</p>"}, "coords": "top: 50%; left: 50%;"},
+            {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city with international flavors.", "preferences": ["Italian", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>As the captain of a fishing vessel, Sofia has spent more time on the water than on land. She'll tell you that a proper sandwich needs to be robust enough to survive the spray of the sea.</p><p class='mt-2'>She'll share her recipe for a zesty <strong>Italian</strong> sub, a taste of distant ports that never fails to satisfy a hungry crew.</p>"}, "coords": "top: 50%; left: 90%;"},
+            {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "Nestled between mountains, a haven for health nuts.", "preferences": ["West Coast", "Salad"], "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>Forrest isn't just a park ranger; he's part of the forest itself. He believes the best meals are the ones you can pack in and enjoy with a mountain view.</p><p class='mt-2'>He's perfected the <strong>West Coast</strong> sandwich, a tribute to the fresh, vibrant flavors of the region, perfect for fueling a long hike.</p>"}, "coords": "top: 20%; left: 25%;"},
+            {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town, lovely for a picnic.", "preferences": ["Chicken salad", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>Patty is the unofficial mayor of Maple Heights, famous for her legendary town picnics. Her secret? It's all in the sandwich.</p><p class='mt-2'>She believes the magic is in the details, and she's willing to share her prized <strong>Chicken Salad</strong> recipe, but only if you promise to uphold the sacred art of the picnic.</p>"}, "coords": "top: 25%; left: 75%;"},
+            {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors, and smooth jazz.", "preferences": ["Patty melt", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], "recipe_seller": {"name": "Chef Antoine", "emoji": "👨‍🍳", "description": "<p>Down at 'Antoine's Eatery', the jazz is as smooth as the butter on the grill. 'Good food, like good music, takes time,' he'll tell you.</p><p class='mt-2'>His <strong>Patty Melt</strong> is a local legend—a rich, cheesy, and savory masterpiece that embodies the slow-cooked, big-flavor spirit of Bourbon Creek.</p>"}, "coords": "top: 85%; left: 70%;"},
+            {"name": "Steel City", "emoji": "🏢", "max_rep": 225, "max_customers": 1000, "lore": "The heart of industry where hard workers need hearty meals.", "preferences": ["Reuben", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce"], "available_recipes": ["Reuben"], "recipe_seller": {"name": "Frankie 'The Furnace'", "emoji": "👨‍🏭", "description": "<p>Frankie's worked the steel mills for thirty years. 'You can't get by on a flimsy salad,' he says, wiping grease from his hands. 'You need something that sticks to your ribs.'</p><p class='mt-2'>His answer is the <strong>Reuben</strong>: a hefty, hot, and tangy stack of meat and cheese grilled to perfection. It’s the kind of sandwich that feels like a reward.</p>"}, "coords": "top: 20%; left: 90%;"},
+            {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A major travel hub on the river, full of artists.", "preferences": ["Salad", "BLT"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>Belle's a traveling musician who learned to eat light and healthy on the road. 'You can't sing your heart out on a heavy stomach,' she says.</p><p class='mt-2'>In her travels, she pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl. It's fresh, satisfying, and full of flavor—a traveler's best friend.</p>"}, "coords": "top: 80%; left: 50%;"},
+            {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks after a day on the slopes.", "preferences": ["Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], "recipe_seller": {"name": "Chad", "emoji": "🏂", "description": "<p>Chad lives for the thrill of shredding fresh powder. But his true passion? The 'après-ski' refuel. 'After a full day of sending it, you need a burger that's, like, totally epic,' he explains.</p><p class='mt-2'>He spent an entire off-season engineering the perfect <strong>Burger</strong>. It's got all the essentials, maxed out. He's ready to share his masterpiece.</p>"}, "coords": "top: 55%; left: 20%;"},
+            {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>"}, "coords": "top: 20%; left: 10%;"},
+        ];
+        
+        let player = {};
+
+        const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
+
+        function updateAllUI() { updateStatusUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
+
+        function updateStatusUI() {
+            const totalReputation = Object.values(player.reputation).reduce((a, b) => a + b, 0);
+            statusPanel.innerHTML = `<h2 class="text-2xl font-bold mb-4">📈 Status</h2><div class="space-y-2"><p class="text-lg"><strong>🗓️ Day:</strong> <span class="text-gray-900 font-semibold">${player.day}</span></p><p class="text-lg"><strong>💰 Money:</strong> <span class="text-green-600">$${player.money.toFixed(2)}</span></p><p class="text-lg"><strong>⭐ Reputation:</strong> <span class="text-yellow-600 font-semibold">${totalReputation}</span></p></div>`;
+        }
+
+        function updateInventoryUI() {
+            let inventoryHTML = `<h2 class="text-2xl font-bold mb-4">📦 Inventory</h2><div class="space-y-2">`;
+            for (const [item, quantity] of Object.entries(player.inventory)) { 
+                inventoryHTML += `<div class="flex items-baseline"><span>${INGREDIENT_DATA[item].emoji} ${item}</span><span class="flex-grow border-b border-dotted border-gray-300 mx-2"></span><span class="font-semibold">${quantity}</span></div>`; 
+            }
+            inventoryHTML += `</div>`; inventoryPanel.innerHTML = inventoryHTML;
+        }
+        
+        function toggleMenuItem(recipeName) {
+            const index = player.dailyMenu.indexOf(recipeName);
+            if (index > -1) {
+                player.dailyMenu.splice(index, 1);
+            } else {
+                player.dailyMenu.push(recipeName);
+                if (player.dailyMenu.length > DAILY_MENU_SLOTS) {
+                    player.dailyMenu.shift();
+                }
+            }
+            updateCookbookPanel(); 
+            if (document.getElementById('main-panel-content')) {
+                 renderAtLocation(player.currentLocation);
+            }
+        }
+
+        function generateIngredientsTooltip(recipeName) {
+            const ingredients = RECIPES[recipeName].ingredients; let ingredientsList = '';
+            for (const [ing, qty] of Object.entries(ingredients)) { if(qty > 0) { ingredientsList += `<li class="text-xs">${qty}x ${ing}</li>`; } }
+            return `<div class="group relative flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg><div class="absolute bottom-full mb-2 w-40 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-10"><p class="font-bold mb-1">Ingredients:</p><ul class="list-none">${ingredientsList}</ul><svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg></div></div>`;
+        }
+        
+        function updateCookbookPanel() {
+            let masteryHTML = `<div class="flex items-center gap-2 mb-3">
+                                <h2 class="text-2xl font-bold">📘 Cookbook</h2>
+                                <div class="group relative flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                    <div class="absolute bottom-full mb-2 w-64 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-10">
+                                        Click a recipe to add it to your daily menu (max ${DAILY_MENU_SLOTS}). The oldest selection will be replaced if the menu is full.
+                                        <svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">`;
+
+            for (const recipeName of player.cookbook.sort()) {
+                const mastery = player.recipe_mastery[recipeName];
+                const isSelected = player.dailyMenu.includes(recipeName);
+                
+                const selectionClasses = isSelected 
+                    ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-300' 
+                    : 'border-gray-200 bg-white hover:bg-gray-50';
+                
+                const menuBadge = isSelected 
+                    ? `<span class="text-xs font-bold text-white bg-indigo-500 rounded-full px-2 py-0.5">ON MENU</span>` 
+                    : '';
+
+                let xpBarHTML;
+                if (mastery.level >= 3) {
+                     const levelBadge = `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
+                     xpBarHTML = `
+                        <div class="flex justify-between items-center text-sm mb-1">
+                            <div class="flex items-center gap-2 truncate pr-2">
+                                <span class="truncate">${recipeName}</span>
+                                ${generateIngredientsTooltip(recipeName)}
+                            </div>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                ${menuBadge}
+                                ${levelBadge}
+                            </div>
+                        </div>
+                        <div class="w-full bg-yellow-400 rounded-full h-2.5 mt-1"></div>`;
+                } else {
+                    const xp_to_next = mastery.xp_to_next_levels[mastery.level - 1]; 
+                    const progress = (mastery.xp / xp_to_next) * 100;
+                    const levelBadge = `<span class="font-semibold">Lvl ${mastery.level}</span>`;
+                    xpBarHTML = `
+                        <div class="flex justify-between items-center text-sm mb-1">
+                            <div class="flex items-center gap-2 truncate pr-2">
+                                <span class="truncate">${recipeName}</span>
+                                ${generateIngredientsTooltip(recipeName)}
+                            </div>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                ${menuBadge}
+                                ${levelBadge}
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-indigo-600 h-2.5 rounded-full" style="width: ${progress}%"></div></div>`;
+                }
+                
+                masteryHTML += `<button onclick="toggleMenuItem('${recipeName}')" class="w-full text-left p-3 rounded-lg border-2 transition-all duration-150 ${selectionClasses}">
+                                    ${xpBarHTML}
+                               </button>`;
+            }
+            
+            masteryHTML += `</div>`; 
+            cookbookPanel.innerHTML = masteryHTML;
+        }
+
+        function renderLocationMastery(location) {
+            const recipeDone = location.available_recipes.length === 0 || location.available_recipes.every(r => player.cookbook.includes(r));
+            const repDone = player.reputation[location.name] >= location.max_rep;
+            const favsDone = player.knownPreferences.includes(location.name);
+            return `<div class="mt-2 pt-2 border-t"><h4 class="font-semibold text-sm mb-1 text-gray-600">Location Goals</h4><div class="flex justify-around text-xs"><span title="Purchase all local recipes">${recipeDone ? '📗' : '⬜️'} Recipe</span><span title="Earn maximum reputation here">${repDone ? '⭐' : '⬜️'} Reputation</span><span title="Learn the local favorites">${favsDone ? '🏅' : '⬜️'} Favorites</span></div></div>`;
+        }
+
+        function updateMapInfoPanel(locationName) {
+            const infoPanel = document.getElementById('map-info-panel');
+            if (!locationName) { infoPanel.innerHTML = `<p class="text-gray-500 italic">Hover over a location to see details.</p>`; return; }
+            const loc = LOCATIONS.find(l => l.name === locationName); const travelDays = getTravelDays(player.currentLocation, locationName);
+            infoPanel.innerHTML = `<div class="flex justify-between items-start"><h3 class="font-bold text-xl">${loc.name}</h3>${travelDays > 0 ? `<span class="text-sm font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded">Travel: ${travelDays} Day(s)</span>` : ''}</div><p class="text-sm italic my-1">"${loc.lore}"</p>${renderLocationMastery(loc)}`;
+        }
+
+        function renderLocations() {
+            let html = `
+                <h2 class="text-2xl font-bold mb-4 text-center">📍 Choose a Location</h2>
+                <div class="map-container" onmouseout="updateMapInfoPanel(null)">
+                    <svg class="map-svg" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="2.5" stroke-dasharray="5 5">
+                        <polyline points="50%,50% 25%,50%"/>
+                        <polyline points="25%,50% 25%,20%"/>
+                        <polyline points="25%,20% 10%,20%"/>
+                        <polyline points="25%,50% 20%,55%"/>
+                        <polyline points="50%,50% 50%,80%"/>
+                        <polyline points="50%,80% 70%,80% 70%,85%"/>
+                        <polyline points="50%,50% 75%,50% 75%,25%"/>
+                        <polyline points="75%,25% 90%,25% 90%,20%"/>
+                        <polyline points="90%,25% 90%,50%"/>
+                    </svg>`;
+            LOCATIONS.forEach(loc => {
+                const isCurrent = loc.name === player.currentLocation;
+                html += `<div class="location-marker ${isCurrent ? 'current-location-tile' : ''}" style="${loc.coords}" onmouseover="updateMapInfoPanel('${loc.name}')">
+                            <button onclick="chooseLocation('${loc.name}')" class="map-pin text-4xl">${loc.emoji}</button>
+                            <p class="text-xs font-semibold text-gray-700 mt-1">${loc.name}</p>
+                        </div>`;
+            });
+            html += `</div><div id="map-info-panel" class="mt-4 p-4 border rounded-lg bg-gray-50 min-h-[120px]"><p class="text-gray-500 italic">Hover over a location to see details.</p></div>`;
+            mainPanel.innerHTML = html;
+        }
+        
+        function renderAtLocation(locationName) {
+            const location = LOCATIONS.find(l => l.name === locationName);
+            const recipesToBuy = location.available_recipes.filter(r => !player.cookbook.includes(r));
+            const isMenuValid = player.dailyMenu.length === DAILY_MENU_SLOTS;
+            const sellButtonDisabled = !isMenuValid;
+            const sellButtonTitle = sellButtonDisabled ? `title="You must select ${DAILY_MENU_SLOTS} items for your daily menu before setting up shop."` : `title="Start the day and sell your sandwiches!"`;
+            
+            let sellButtonHelperText = '';
+            if (sellButtonDisabled) {
+                sellButtonHelperText = `<p class="text-sm text-gray-500 mt-2">Select ${DAILY_MENU_SLOTS} items in the Cookbook panel to enable selling.</p>`;
+            }
+
+            mainPanel.innerHTML = `
+                <div id="main-panel-content" class="flex flex-col h-full">
+                    <header class="text-center mb-6">
+                        <h2 class="text-3xl font-bold flex items-center justify-center gap-3">${location.emoji} Welcome to ${location.name}</h2>
+                        <p class="text-md text-gray-500 italic mt-1">"${location.lore}"</p>
+                    </header>
+
+                    <main class="flex-grow overflow-y-auto">
+                        <!-- Main Action: Setup Shop -->
+                        <div class="text-center my-6 md:my-8">
+                            <button class="btn btn-green w-full text-xl shadow-lg hover:shadow-xl py-5 md:py-6" onclick="sellFoodAt('${locationName}')" ${sellButtonDisabled ? 'disabled' : ''} ${sellButtonTitle}>
+                                <span class="mr-2">🚚</span> Setup Shop & Sell
+                            </button>
+                            ${sellButtonHelperText}
+                        </div>
+
+                        <!-- Town Activities -->
+                        <div class="py-6 border-y border-gray-200">
+                            <h3 class="text-xl font-bold text-center text-gray-700 mb-5">Town Activities</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button class="btn btn-light-blue py-4" onclick="renderStore('${locationName}')">
+                                    <span class="mr-2">🛒</span> Visit Store
+                                </button>
+                                <button class="btn btn-light-blue py-4" onclick="showRecipeSellerModal('${locationName}')" ${recipesToBuy.length === 0 ? 'disabled' : ''}>
+                                    <span class="mr-2">${location.recipe_seller.emoji}</span> Talk to ${location.recipe_seller.name}
+                                </button>
+                                <button class="btn btn-light-blue py-4" onclick="talkToLocals('${locationName}')">
+                                    <span class="mr-2">🏘️</span> Talk to Locals
+                                </button>
+                                <button class="btn btn-light-blue py-4" onclick="checkLocalPaper('${locationName}')">
+                                    <span class="mr-2">📰</span> Check the Paper
+                                </button>
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- Navigation -->
+                    <footer class="mt-6 md:mt-8 pt-4 border-t border-gray-200">
+                        <button class="btn btn-secondary w-full py-3" onclick="goToLocationMenu()">
+                            <span class="mr-2">📍</span> Change Location
+                        </button>
+                    </footer>
+                </div>
+            `;
+        }
+        
+        function showRecipeSellerModal(locationName) {
+            const location = LOCATIONS.find(l => l.name === locationName);
+            const seller = location.recipe_seller;
+            const recipesToBuy = location.available_recipes.filter(r => !player.cookbook.includes(r));
+        
+            let contentHTML = `<div class="text-center">
+                                 <h2 class="text-2xl font-bold mb-2 flex items-center justify-center gap-2">${seller.emoji} ${seller.name}</h2>
+                                 <div class="text-gray-600 text-left text-sm leading-relaxed mt-1 mb-4 p-3 bg-gray-50 rounded-lg">${seller.description}</div>
+                               </div>`;
+            
+            let footerHTML = '';
+
+            if (recipesToBuy.length > 0) {
+                const recipeName = recipesToBuy[0]; // There will only be one
+                const details = RECIPES[recipeName];
+                const ingredients = details.ingredients;
+                let ingredientsListHTML = '<ul class="list-disc list-inside text-sm text-gray-600 mt-2 space-y-1">';
+                for (const [ing, qty] of Object.entries(ingredients)) {
+                    if (qty > 0) {
+                        ingredientsListHTML += `<li>${qty}x ${INGREDIENT_DATA[ing].emoji} ${ing}</li>`;
+                    }
+                }
+                ingredientsListHTML += '</ul>';
+                
+                contentHTML += `<div class="p-4 border rounded-lg bg-gray-100">
+                                  <p class="font-bold text-xl mb-2">${recipeName}</p>
+                                  <h4 class="font-semibold text-md text-gray-700">Ingredients:</h4>
+                                  ${ingredientsListHTML}
+                                </div>`;
+                
+                const canAfford = player.money >= details.unlock_cost;
+                footerHTML = `<div class="mt-6 flex justify-end gap-3">
+                                <button id="modal-leave-btn" class="btn btn-secondary">Leave</button>
+                                <button class="btn btn-primary" onclick="buyRecipe('${locationName}', '${recipeName}')" ${!canAfford ? 'disabled' : ''}>
+                                  Train ($${details.unlock_cost.toFixed(2)})
+                                </button>
+                              </div>`;
+
+            } else {
+                contentHTML += `<p class="p-4 text-center text-gray-500 bg-gray-50 rounded-lg">You've learned everything they have to teach for now.</p>`;
+                footerHTML = `<div class="text-center mt-6"><button id="modal-leave-btn" class="btn btn-primary">Leave</button></div>`;
+            }
+            
+            modalContent.innerHTML = contentHTML + footerHTML;
+            modal.classList.remove('hidden');
+            
+            document.getElementById('modal-leave-btn').onclick = () => {
+                modal.classList.add('hidden');
+                renderAtLocation(locationName);
+            };
+        }
+
+        function renderStore(locationName) {
+             const location = LOCATIONS.find(l => l.name === locationName);
+             let ingredientsHTML = '';
+             
+             Object.keys(INGREDIENT_DATA).forEach(itemName => {
+                const details = INGREDIENT_DATA[itemName];
+                const isLocallyAvailable = location.available_ingredients.includes(itemName);
+                const isDisabled = !isLocallyAvailable || player.money < details.price;
+                const priceDetailsHTML = isLocallyAvailable
+                    ? `<p class="font-semibold text-green-600">$${details.price.toFixed(2)}</p><p class="text-sm text-gray-500">+${details.servings} servings</p>`
+                    : `<p class="font-semibold text-gray-400">$${details.price.toFixed(2)}</p><p class="text-sm text-red-600 font-medium">Not sold here</p>`;
+                
+                ingredientsHTML += `<button onclick="buyIngredient('${locationName}', '${itemName}')" ${isDisabled ? 'disabled' : ''} class="w-full text-left p-4 border-b border-gray-200 last:border-b-0 flex justify-between items-center transition-colors hover:bg-gray-50 disabled:bg-gray-50 disabled:cursor-not-allowed">
+                                        <div>
+                                            <p class="font-semibold text-lg">${details.emoji} ${itemName}</p>
+                                            <p class="text-sm text-gray-500">In Stock: ${player.inventory[itemName]}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            ${priceDetailsHTML}
+                                        </div>
+                                     </button>`;
+             });
+             mainPanel.innerHTML = `<div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">Store at ${location.name}</h2><button class="btn btn-secondary" onclick="renderAtLocation('${locationName}')">Back</button></div><div>${ingredientsHTML}</div>`;
+        }
+        
+        function showModal(title, content, buttonText, callback) {
+            modal.classList.remove('hidden');
+            modalContent.style.maxWidth = "500px"; // Reset to default width
+            modalContent.innerHTML = `<div class="text-center"><h2 class="text-2xl font-bold mb-4">${title}</h2><div class="text-left space-y-2 mb-6">${content}</div><button id="modal-btn" class="btn btn-primary">${buttonText}</button></div>`;
+            document.getElementById('modal-btn').onclick = () => { modal.classList.add('hidden'); if(callback) callback(); };
+        }
+
+        function getTravelDays(fromLocationName, toLocationName) {
+            if (fromLocationName === toLocationName) return 0;
+            const fromLoc = LOCATIONS.find(l => l.name === fromLocationName); const toLoc = LOCATIONS.find(l => l.name === toLocationName);
+            const fromCoords = { x: parseInt(fromLoc.coords.split(';')[1].split(':')[1]), y: parseInt(fromLoc.coords.split(';')[0].split(':')[1]) };
+            const toCoords = { x: parseInt(toLoc.coords.split(';')[1].split(':')[1]), y: parseInt(toLoc.coords.split(';')[0].split(':')[1]) };
+            const distance = Math.sqrt(Math.pow(toCoords.x - fromCoords.x, 2) + Math.pow(toCoords.y - fromCoords.y, 2)); return Math.ceil(distance / 20);
+        }
+
+        function goToLocationMenu() { renderLocations(); }
+
+        function chooseLocation(locationName) {
+            if (player.currentLocation === locationName) {
+                renderAtLocation(locationName);
+                return;
+            }
+            const travelDays = getTravelDays(player.currentLocation, locationName);
+            player.day += travelDays;
+            player.currentLocation = locationName;
+            updateAllUI();
+            renderAtLocation(locationName);
+        }
+        
+        function buyIngredient(locationName, itemName) { 
+            const details = INGREDIENT_DATA[itemName]; 
+            if (player.money >= details.price) { 
+                player.money -= details.price; 
+                player.inventory[itemName] += details.servings; 
+                updateAllUI(); 
+                renderStore(locationName); 
+            } 
+        }
+        
+        function buyRecipe(locationName, recipeName) {
+            const details = RECIPES[recipeName];
+            if(player.money >= details.unlock_cost) {
+                player.money -= details.unlock_cost;
+                player.cookbook.push(recipeName);
+                player.recipe_mastery[recipeName] = {"level": 1, "xp": 0, "xp_to_next_levels": details.xp_to_next_levels};
+                updateAllUI();
+                showRecipeSellerModal(locationName); 
+            }
+        }
+
+        function sellFoodAt(locationName) {
+            runSalesSimulation(locationName);
+        }
+
+        function runSalesSimulation(locationName) {
+            player.day++;
+            const location = LOCATIONS.find(l => l.name === locationName);
+            let actual_customers = Math.floor(Math.random() * (location.max_customers * 0.25));
+            
+            if (actual_customers === 0) {
+                showModal('A Quiet Day...', '<p>No customers showed up today. Maybe it was the weather? Better luck tomorrow!</p>', 'Continue', () => {
+                    updateAllUI();
+                    renderAtLocation(locationName);
+                });
+                return;
+            }
+        
+            const saleEvents = [];
+            const tempInventory = JSON.parse(JSON.stringify(player.inventory));
+            const available_prefs = location.preferences.filter(p => player.dailyMenu.includes(p));
+        
+            for (let i = 0; i < actual_customers; i++) {
+                let chosen_food = player.dailyMenu[Math.floor(Math.random() * player.dailyMenu.length)];
+                if (available_prefs.length > 0 && Math.random() < 0.7) {
+                    chosen_food = available_prefs[Math.floor(Math.random() * available_prefs.length)];
+                }
+                
+                const recipe_details = RECIPES[chosen_food];
+                const mastery_details = player.recipe_mastery[chosen_food];
+                let can_make = true;
+                
+                for (const [ingredient, required_qty] of Object.entries(recipe_details.ingredients)) {
+                    if (tempInventory[ingredient] < required_qty) {
+                        can_make = false;
+                        break;
+                    }
+                }
+                
+                if (can_make) {
+                    for (const [ingredient, required_qty] of Object.entries(recipe_details.ingredients)) {
+                        tempInventory[ingredient] -= required_qty;
+                    }
+        
+                    const sale = {
+                        itemName: chosen_food,
+                        price: recipe_details.selling_prices[mastery_details.level - 1],
+                        repGain: 0,
+                        xpGain: 0,
+                        levelUpInfo: null
+                    };
+        
+                    if (mastery_details.level < 3) {
+                        const isPreferred = location.preferences.includes(chosen_food);
+                        if (Math.random() < (isPreferred ? 0.75 : 0.30)) {
+                            sale.xpGain = 1;
+                            if (player.reputation[locationName] < location.max_rep) {
+                                sale.repGain = isPreferred ? 2 : 1;
+                            }
+                        }
+                    }
+                    saleEvents.push(sale);
+                }
+            }
+            showSalesVisualizer(saleEvents, locationName);
+        }
+
+        async function showSalesVisualizer(saleEvents, locationName) {
+            let menuSalesHTML = '';
+            player.dailyMenu.forEach((item, index) => {
+                menuSalesHTML += `
+                    <div class="bg-gray-50 rounded-md p-4 flex justify-between items-center text-xl">
+                        <span class="font-semibold">${item}</span>
+                        <span>Sold: <span id="menu-item-count-${index}" class="font-bold">0</span></span>
+                    </div>`;
+            });
+
+            const modalHTML = `
+                <div id="sales-visualizer-content" class="w-full">
+                    <h2 class="text-2xl font-bold mb-2 text-center">🚚 Selling Sandwiches...</h2>
+                    <p id="sales-status" class="text-center text-gray-500 mb-4 h-6">The day is underway!</p>
+
+                    <div class="grid grid-cols-3 gap-4 my-4 text-center">
+                        <div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Customers</div><div id="sales-customer-count" class="text-2xl font-bold">0</div></div>
+                        <div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Revenue</div><div id="sales-money-earned" class="text-2xl font-bold text-green-600">$0.00</div></div>
+                        <div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Reputation</div><div id="sales-rep-gained" class="text-2xl font-bold text-yellow-500">+0</div></div>
+                    </div>
+
+                    <div class="my-6 space-y-3">
+                        ${menuSalesHTML}
+                    </div>
+
+                    <div id="sales-footer" class="mt-6 text-center h-12 flex flex-col justify-center items-center">
+                        <div id="progress-container" class="w-full bg-gray-200 rounded-full h-4">
+                           <div id="progress-bar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <button id="sales-continue-btn" class="btn btn-primary hidden">Continue</button>
+                    </div>
+                </div>`;
+            
+            modalContent.innerHTML = modalHTML;
+            modalContent.style.maxWidth = "600px";
+            modal.classList.remove('hidden');
+
+            const customerCountEl = document.getElementById('sales-customer-count'), moneyEarnedEl = document.getElementById('sales-money-earned'), repGainedEl = document.getElementById('sales-rep-gained'), statusEl = document.getElementById('sales-status'), progressContainer = document.getElementById('progress-container'), progressBar = document.getElementById('progress-bar'), continueBtn = document.getElementById('sales-continue-btn');
+            
+            const menuItemCounters = {};
+            const menuItemCounterEls = {};
+            player.dailyMenu.forEach((item, index) => {
+                menuItemCounters[item] = 0;
+                menuItemCounterEls[item] = document.getElementById(`menu-item-count-${index}`);
+            });
+            
+            const totalDuration = Math.min(5000, Math.max(3000, saleEvents.length * 50));
+            const delay = saleEvents.length > 0 ? totalDuration / saleEvents.length : 0;
+            let totalMoney = 0, totalRep = 0;
+            const originalStatusText = statusEl.innerHTML;
+
+            for (let i = 0; i < saleEvents.length; i++) {
+                const sale = saleEvents[i];
+                
+                statusEl.innerHTML = originalStatusText;
+                statusEl.className = "text-center text-gray-500 mb-4 h-6";
+
+                const recipe_details = RECIPES[sale.itemName], mastery_details = player.recipe_mastery[sale.itemName];
+                
+                for (const [ingredient, required_qty] of Object.entries(recipe_details.ingredients)) { player.inventory[ingredient] -= required_qty; }
+                player.money += sale.price;
+                const loc = LOCATIONS.find(l=>l.name===locationName);
+                player.reputation[locationName] = Math.min(loc.max_rep, player.reputation[locationName] + sale.repGain);
+                
+                if (sale.xpGain > 0 && mastery_details.level < 3) {
+                    mastery_details.xp += sale.xpGain;
+                    const xp_to_next = mastery_details.xp_to_next_levels[mastery_details.level - 1];
+                    if (mastery_details.xp >= xp_to_next) {
+                        mastery_details.level += 1;
+                        mastery_details.xp = 0;
+                        sale.levelUpInfo = { name: sale.itemName, newLevel: mastery_details.level };
+                    }
+                }
+                
+                totalMoney += sale.price; totalRep += sale.repGain;
+                customerCountEl.textContent = i + 1;
+                moneyEarnedEl.textContent = `$${totalMoney.toFixed(2)}`;
+                repGainedEl.textContent = `+${totalRep}`;
+                [customerCountEl, moneyEarnedEl, repGainedEl].forEach(el => { el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 300); });
+
+                menuItemCounters[sale.itemName]++;
+                menuItemCounterEls[sale.itemName].textContent = menuItemCounters[sale.itemName];
+                menuItemCounterEls[sale.itemName].classList.add('flash');
+                setTimeout(() => menuItemCounterEls[sale.itemName].classList.remove('flash'), 300);
+                
+                if (sale.levelUpInfo) {
+                    statusEl.innerHTML = `⭐ <strong>${sale.levelUpInfo.name}</strong> leveled up to <strong>Lvl ${sale.levelUpInfo.newLevel}</strong>! ⭐`;
+                    statusEl.className = "text-center text-yellow-600 font-semibold mb-4 h-6 flash";
+                }
+                
+                const progress = ((i + 1) / saleEvents.length) * 100;
+                progressBar.style.width = `${progress}%`;
+
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+
+            statusEl.textContent = 'Day Finished!';
+            statusEl.className = "text-center text-gray-500 mb-4 h-6";
+
+            setTimeout(() => {
+                progressContainer.classList.add('hidden');
+                continueBtn.classList.remove('hidden');
+            }, 500);
+
+            continueBtn.onclick = () => {
+                modal.classList.add('hidden');
+                modalContent.innerHTML = '';
+                modalContent.style.maxWidth = "500px";
+                updateAllUI();
+                renderAtLocation(locationName);
+            };
+        }
+        
+        function checkLocalPaper(locationName) {
+            const location = LOCATIONS.find(l => l.name === locationName); 
+            const localRep = player.reputation[locationName]; 
+            let review = '';
+            if (localRep >= location.max_rep) { 
+                review = `"The Sandwich Hero truck is the undisputed champion of the local lunch scene! Lines form around the block daily. One has to wonder what new culinary mountains this mobile marvel will conquer next. The world is their oyster... or, perhaps, their sandwich!"`; 
+            } else if (localRep > location.max_rep / 2) { 
+                review = `"The buzz around the 'Sandwich Hero' truck is undeniable. What started as a whisper is now a roar. They're quickly becoming a beloved fixture in our town. A must-try for any sandwich aficionado!"`; 
+            } else { 
+                review = `"We're hearing good things about the new 'Sandwich Hero' food truck that rolled into town. Early reports are positive, with delicious smells and happy customers. We're watching to see if they can make a lasting impression."`; 
+            }
+            const modalHTML = `<div class="p-4 bg-yellow-50 border-l-4 border-yellow-400"><p class="text-lg italic text-gray-700">${review}</p></div>`;
+            showModal(`From the ${locationName} Gazette`, modalHTML, 'Interesting!', null);
+        }
+
+        function talkToLocals(locationName) {
+            const location = LOCATIONS.find(l => l.name === locationName);
+            if (!player.knownPreferences.includes(locationName)) {
+                player.knownPreferences.push(locationName);
+            }
+            const hint = location.preferences[Math.floor(Math.random() * location.preferences.length)];
+            const dialogue = `"Psst... hey! I was just talking with my friends, and we all agreed that a really good <strong>${hint}</strong> sandwich would hit the spot right about now. Just sayin'."`;
+            const modalHTML = `<p class="text-lg italic">${dialogue}</p>`;
+            showModal('Local Gossip', modalHTML, 'Thanks for the tip!', null);
+        }
+        
+        function checkForWin() { if (player.cookbook.length === Object.keys(RECIPES).length && Object.values(player.recipe_mastery).every(r => r.level >= 3)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
+
+        function initGame() {
+            player = { day: 1, money: 100.00, inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, cookbook: ["Ham & cheese", "BLT"], recipe_mastery: { "Ham & cheese": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["Ham & cheese"].xp_to_next_levels}, "BLT": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["BLT"].xp_to_next_levels}, }, reputation: LOCATIONS.reduce((acc, loc) => ({ ...acc, [loc.name]: 0 }), {}), currentLocation: "Central City", knownPreferences: [] };
+            player.dailyMenu = player.cookbook.slice(0, DAILY_MENU_SLOTS);
+            player.reputation["Central City"] = 1; updateAllUI(); renderAtLocation(player.currentLocation);
+        }
+
+        initGame();
+    </script>
+</body>
+</html>
