@@ -12,6 +12,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            padding-bottom: 5rem; /* --- NEW: Add padding to prevent content from being hidden behind the notification bar --- */
         }
         .card {
             background-color: white;
@@ -140,45 +141,37 @@
             transition: width 0.2s ease-out;
         }
 
-        /* --- NEW: Toast Notification Styles --- */
-        #toast-container {
+        /* --- MODIFIED: New Notification Bar Styles --- */
+        #event-notification-bar {
             position: fixed;
-            top: 1.25rem;
-            right: 1.25rem;
-            z-index: 100;
-            width: 22rem; /* 352px */
-            max-width: 90%;
-        }
-        .toast {
+            bottom: 0;
+            left: 0;
+            right: 0;
             padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none; /* The bar itself isn't clickable */
+            z-index: 40; /* Above main content, below modals */
+            transition: all 0.3s ease-in-out;
+        }
+        .event-notification {
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px; /* Pill shape */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            pointer-events: auto; /* The notification itself can be interacted with */
+            max-width: 100%;
+            text-align: center;
             opacity: 0;
-            transform: translateX(100%);
-            animation: toast-in 0.5s forwards, toast-out 0.5s 6.5s forwards;
+            transform: translateY(20px);
+            animation: notification-in 0.5s forwards;
         }
-        @keyframes toast-in {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
+        @keyframes notification-in {
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
             }
         }
-        @keyframes toast-out {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-        }
-
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -214,8 +207,8 @@
         </div>
     </div>
     
-    <!-- --- NEW: Toast Notification Container --- -->
-    <div id="toast-container"></div>
+    <!-- --- MODIFIED: Changed ID and location of this container --- -->
+    <div id="event-notification-bar"></div>
 
     <!-- Modal for Events and Summaries -->
     <div id="modal" class="modal-overlay hidden">
@@ -263,7 +256,6 @@
             {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>"}, "coords": "top: 20%; left: 10%;"},
         ];
         
-        // --- MODIFIED: Event Data (values for customer events are now symbolic) ---
         const EVENTS = [
             { type: 'customer_boost', values: [true], flavor: "It's a beautiful day! A local festival is in town, bringing in hungry crowds! / A glowing review in the local paper has people lining up for a taste!", isPositive: true },
             { type: 'cost_decrease', values: [-0.05, -0.1], flavor: "Your supplier found a surplus of fresh ingredients and is passing the savings on to you! / You found a coupon book under the driver's seat. Score!", isPositive: true },
@@ -277,7 +269,7 @@
         let isNewDay = false;
 
         const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
-        const toastContainer = document.getElementById('toast-container');
+        const eventNotificationBar = document.getElementById('event-notification-bar');
 
         function updateAllUI() { updateStatusUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
 
@@ -423,7 +415,6 @@
             mainPanel.innerHTML = html;
         }
         
-        // --- MODIFIED: Removed the old banner UI ---
         function renderAtLocation(locationName) {
             if (isNewDay) {
                 checkForDailyEvent();
@@ -650,7 +641,6 @@
             runSalesSimulation(locationName);
         }
 
-        // --- MODIFIED: To use new ranged customer logic ---
         function runSalesSimulation(locationName) {
             const location = LOCATIONS.find(l => l.name === locationName);
             
@@ -879,27 +869,28 @@
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        // --- NEW: Toast Notification Function ---
-        function showToast(message, isPositive) {
-            const toast = document.createElement('div');
+        // --- MODIFIED: Renamed and updated notification function ---
+        function displayDailyEventNotification(message, isPositive) {
+            const notification = document.createElement('div');
             const colorClasses = isPositive 
-                ? 'bg-green-100 border-l-4 border-green-500 text-green-700' 
-                : 'bg-red-100 border-l-4 border-red-500 text-red-700';
-            toast.className = `toast ${colorClasses}`;
-            toast.innerHTML = `<p class="font-bold">${isPositive ? 'Good News!' : 'Oh No!'}</p><p class="text-sm">${message}</p>`;
-            toastContainer.appendChild(toast);
-            setTimeout(() => {
-                toast.remove();
-            }, 7000); // Animation is 0.5s in + 6.5s out
+                ? 'bg-green-100 text-green-800' 
+                : 'bg-red-100 text-red-800';
+            notification.className = `event-notification ${colorClasses}`;
+            
+            const icon = isPositive ? '🎉' : '😟';
+            notification.innerHTML = `<p class="font-semibold text-sm flex items-center gap-2"><span>${icon}</span> <span>${message}</span></p>`;
+
+            eventNotificationBar.appendChild(notification);
         }
 
-        // --- MODIFIED: Event system with dynamic odds ---
+        // --- MODIFIED: Event system with clearing logic and concise messages ---
         function checkForDailyEvent() {
+            eventNotificationBar.innerHTML = ''; // Clear previous day's notification
             player.activeEvent = null;
             
-            const BASE_CHANCE = 0.05; // 5% base chance
-            const CHANCE_INCREMENT = 0.02; // 2% increase per day
-            const MAX_CHANCE = 0.25; // Capped at 25%
+            const BASE_CHANCE = 0.05;
+            const CHANCE_INCREMENT = 0.02;
+            const MAX_CHANCE = 0.25;
 
             const currentChance = Math.min(MAX_CHANCE, BASE_CHANCE + (player.daysSinceEvent * CHANCE_INCREMENT));
             
@@ -907,32 +898,37 @@
                 // Event Triggered!
                 const eventBlueprint = getRandomElement(EVENTS);
                 const eventValue = getRandomElement(eventBlueprint.values);
-                let eventFlavors = eventBlueprint.flavor.split(' / ');
-                let eventDescription = getRandomElement(eventFlavors);
 
                 const newEvent = {
                     type: eventBlueprint.type,
                     value: eventValue,
-                    description: eventDescription,
                     isPositive: eventBlueprint.isPositive
                 };
                 
-                if (newEvent.type === 'competition') {
-                    if (player.cookbook.length === 0) return;
-                    const competitionRecipe = getRandomElement(player.cookbook);
-                    newEvent.value = competitionRecipe;
-                    newEvent.description = newEvent.description.replace('{recipe}', `<strong>${competitionRecipe}</strong>`);
+                let shortDescription = "Daily Event!";
+                switch(newEvent.type) {
+                    case 'customer_boost': shortDescription = "Busy Day! Expect more customers."; break;
+                    case 'customer_slump': shortDescription = "Slow Day... Expect fewer customers."; break;
+                    case 'cost_decrease': shortDescription = `Supplier Discount! ${(newEvent.value * -100)}% off ingredients.`; break;
+                    case 'cost_increase': shortDescription = `Supply Shortage! ${(newEvent.value * 100)}% price increase.`; break;
+                    case 'bogo': shortDescription = "Market Sale! All ingredients are BOGO."; break;
+                    case 'competition':
+                        if (player.cookbook.length === 0) return;
+                        const competitionRecipe = getRandomElement(player.cookbook);
+                        newEvent.value = competitionRecipe;
+                        shortDescription = `Food Competition! Today's theme: ${competitionRecipe}.`;
+                        break;
                 }
+                
                 player.activeEvent = newEvent;
                 player.daysSinceEvent = 0; // Reset the counter
-                showToast(newEvent.description, newEvent.isPositive);
+                displayDailyEventNotification(shortDescription, newEvent.isPositive);
             } else {
                 // No event, increment the counter
                 player.daysSinceEvent++;
             }
         }
         
-        // --- MODIFIED: initGame with new player property ---
         function initGame() {
             player = { day: 1, money: 100.00, inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, cookbook: ["Ham & cheese", "BLT"], recipe_mastery: { "Ham & cheese": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["Ham & cheese"].xp_to_next_levels}, "BLT": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["BLT"].xp_to_next_levels}, }, reputation: LOCATIONS.reduce((acc, loc) => ({ ...acc, [loc.name]: 0 }), {}), currentLocation: "Central City", knownPreferences: [], activeEvent: null, daysSinceEvent: 0 };
             player.dailyMenu = player.cookbook.slice(0, DAILY_MENU_SLOTS);
