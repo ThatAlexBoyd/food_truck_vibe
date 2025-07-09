@@ -2,9 +2,6 @@
 
 Welcome to Sandwich Hero, a single-file HTML, CSS, and JavaScript food truck simulation game. Embark on a journey across a charming region, building your reputation one sandwich at a time. Your goal is to fill your cookbook with every regional recipe and become the ultimate Sandwich Hero by mastering them all.
 
-
-*(Feel free to replace this with your own screenshot!)*
-
 ## 🕹️ Gameplay
 
 Sandwich Hero is a strategic management game where every day presents new opportunities and challenges.
