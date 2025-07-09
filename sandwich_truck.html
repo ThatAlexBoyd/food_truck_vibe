@@ -12,7 +12,6 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            padding-bottom: 5rem; /* --- NEW: Add padding to prevent content from being hidden behind the notification bar --- */
         }
         .card {
             background-color: white;
@@ -140,38 +139,6 @@
         #progress-bar {
             transition: width 0.2s ease-out;
         }
-
-        /* --- MODIFIED: New Notification Bar Styles --- */
-        #event-notification-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none; /* The bar itself isn't clickable */
-            z-index: 40; /* Above main content, below modals */
-            transition: all 0.3s ease-in-out;
-        }
-        .event-notification {
-            padding: 0.75rem 1.25rem;
-            border-radius: 9999px; /* Pill shape */
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            pointer-events: auto; /* The notification itself can be interacted with */
-            max-width: 100%;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: notification-in 0.5s forwards;
-        }
-        @keyframes notification-in {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -183,10 +150,14 @@
         </header>
 
         <div class="flex flex-col lg:flex-row gap-8">
-            <!-- Left Column -->
-            <aside class="lg:w-1/4 space-y-6">
+            <!-- --- MODIFIED: Left Column now uses flexbox for alignment --- -->
+            <aside class="lg:w-1/4 flex flex-col gap-6">
                 <div id="status-panel" class="card p-6">
                     <!-- Status content will be injected here -->
+                </div>
+                <!-- --- NEW: Calendar Panel --- -->
+                <div id="calendar-panel" class="card p-6 flex-grow min-h-0">
+                    <!-- Calendar content will be injected here -->
                 </div>
                 <div id="inventory-panel" class="card p-6">
                     <!-- Inventory content will be injected here -->
@@ -207,9 +178,6 @@
         </div>
     </div>
     
-    <!-- --- MODIFIED: Changed ID and location of this container --- -->
-    <div id="event-notification-bar"></div>
-
     <!-- Modal for Events and Summaries -->
     <div id="modal" class="modal-overlay hidden">
         <div id="modal-content" class="modal-content">
@@ -268,14 +236,36 @@
         let player = {};
         let isNewDay = false;
 
-        const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
-        const eventNotificationBar = document.getElementById('event-notification-bar');
-
-        function updateAllUI() { updateStatusUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
+        // --- MODIFIED: Added calendarPanel to the list of elements ---
+        const statusPanel = document.getElementById('status-panel'), calendarPanel = document.getElementById('calendar-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
+        
+        // --- MODIFIED: Added calendar UI update to the main UI update function ---
+        function updateAllUI() { updateStatusUI(); updateCalendarUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
 
         function updateStatusUI() {
             const totalReputation = Object.values(player.reputation).reduce((a, b) => a + b, 0);
-            statusPanel.innerHTML = `<h2 class="text-2xl font-bold mb-4">📈 Status</h2><div class="space-y-2"><p class="text-lg"><strong>🗓️ Day:</strong> <span class="text-gray-900 font-semibold">${player.day}</span></p><p class="text-lg"><strong>💰 Money:</strong> <span class="text-green-600">$${player.money.toFixed(2)}</span></p><p class="text-lg"><strong>⭐ Reputation:</strong> <span class="text-yellow-600 font-semibold">${totalReputation}</span></p></div>`;
+            statusPanel.innerHTML = `<h2 class="text-2xl font-bold mb-4">📈 Status</h2><div class="space-y-2"><p class="text-lg"><strong>💰 Money:</strong> <span class="text-green-600">$${player.money.toFixed(2)}</span></p><p class="text-lg"><strong>⭐ Reputation:</strong> <span class="text-yellow-600 font-semibold">${totalReputation}</span></p></div>`;
+        }
+
+        // --- NEW: Function to update the calendar panel ---
+        function updateCalendarUI() {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const formattedDate = `${months[player.currentDate.getMonth()]} ${player.currentDate.getDate()}`;
+            
+            let eventHTML = '';
+            if (player.activeEvent) {
+                const eventColor = player.activeEvent.isPositive ? 'text-green-600' : 'text-red-600';
+                eventHTML = `<div class="mt-2 text-sm"><p class="font-semibold ${eventColor}">${player.activeEvent.shortDescription}</p></div>`;
+            } else {
+                eventHTML = `<div class="mt-2 text-sm"><p class="text-gray-500 italic">No events today.</p></div>`;
+            }
+
+            calendarPanel.innerHTML = `
+                <h2 class="text-2xl font-bold mb-2 flex items-center gap-2"><span>🗓️</span> <span>${formattedDate}</span></h2>
+                <div class="border-t border-gray-200 pt-2">
+                    ${eventHTML}
+                </div>
+            `;
         }
 
         function updateInventoryUI() {
@@ -296,16 +286,17 @@
                     player.dailyMenu.shift();
                 }
             }
-            updateCookbookPanel(); 
+            updateAllUI(); 
             if (document.getElementById('main-panel-content')) {
                  renderAtLocation(player.currentLocation);
             }
         }
-
+        
+        // --- BUG FIX: Increased z-index of tooltip from z-10 to z-50 ---
         function generateIngredientsTooltip(recipeName) {
             const ingredients = RECIPES[recipeName].ingredients; let ingredientsList = '';
             for (const [ing, qty] of Object.entries(ingredients)) { if(qty > 0) { ingredientsList += `<li class="text-xs">${qty}x ${ing}</li>`; } }
-            return `<div class="group relative flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg><div class="absolute bottom-full mb-2 w-40 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-10"><p class="font-bold mb-1">Ingredients:</p><ul class="list-none">${ingredientsList}</ul><svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg></div></div>`;
+            return `<div class="group relative flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg><div class="absolute bottom-full mb-2 w-40 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-50"><p class="font-bold mb-1">Ingredients:</p><ul class="list-none">${ingredientsList}</ul><svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg></div></div>`;
         }
         
         function updateCookbookPanel() {
@@ -313,7 +304,7 @@
                                 <h2 class="text-2xl font-bold">📘 Cookbook</h2>
                                 <div class="group relative flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
-                                    <div class="absolute bottom-full mb-2 w-64 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-10">
+                                    <div class="absolute bottom-full mb-2 w-64 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-50">
                                         Click a recipe to add it to your daily menu (max ${DAILY_MENU_SLOTS}). The oldest selection will be replaced if the menu is full.
                                         <svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
                                     </div>
@@ -587,6 +578,7 @@
 
         function goToLocationMenu() { renderLocations(); }
         
+        // --- MODIFIED: Advances both day counter and Date object ---
         function chooseLocation(locationName) {
             if (player.currentLocation === locationName) {
                 renderAtLocation(locationName);
@@ -594,6 +586,7 @@
             }
             const travelDays = getTravelDays(player.currentLocation, locationName);
             player.day += travelDays;
+            player.currentDate.setDate(player.currentDate.getDate() + travelDays);
             player.currentLocation = locationName;
             isNewDay = true;
             updateAllUI();
@@ -651,19 +644,20 @@
 
             if (player.activeEvent) {
                 if (player.activeEvent.type === 'customer_boost') {
-                    minCustomers = (maxPossibleCustomers / 3) * 2; // Upper third
+                    minCustomers = Math.ceil((maxPossibleCustomers / 3) * 2); // Upper third
                 } else if (player.activeEvent.type === 'customer_slump') {
-                    maxCustomers = maxPossibleCustomers / 3; // Lower third
+                    maxCustomers = Math.floor(maxPossibleCustomers / 3); // Lower third
                 } else if (player.activeEvent.type === 'competition' && player.dailyMenu.includes(player.activeEvent.value)) {
                     dailyPreferences = [player.activeEvent.value];
                 }
             }
             
-            let actual_customers = Math.floor(minCustomers + Math.random() * (maxCustomers - minCustomers));
+            let actual_customers = Math.floor(minCustomers + Math.random() * (maxCustomers - minCustomers + 1));
             
             if (actual_customers <= 0) {
-                showModal('A Quiet Day...', '<p>No customers showed up today. Maybe it was the weather? Better luck tomorrow!</p>', 'Continue', () => {
+                showModal('A Quiet Day...', '<p>No customers showed up today. Better luck tomorrow!</p>', 'Continue', () => {
                     player.day++;
+                    player.currentDate.setDate(player.currentDate.getDate() + 1);
                     isNewDay = true;
                     updateAllUI();
                     renderAtLocation(locationName);
@@ -830,6 +824,7 @@
                 modalContent.style.maxWidth = "500px";
                 
                 player.day++;
+                player.currentDate.setDate(player.currentDate.getDate() + 1);
                 isNewDay = true;
 
                 updateAllUI();
@@ -869,23 +864,7 @@
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        // --- MODIFIED: Renamed and updated notification function ---
-        function displayDailyEventNotification(message, isPositive) {
-            const notification = document.createElement('div');
-            const colorClasses = isPositive 
-                ? 'bg-green-100 text-green-800' 
-                : 'bg-red-100 text-red-800';
-            notification.className = `event-notification ${colorClasses}`;
-            
-            const icon = isPositive ? '🎉' : '😟';
-            notification.innerHTML = `<p class="font-semibold text-sm flex items-center gap-2"><span>${icon}</span> <span>${message}</span></p>`;
-
-            eventNotificationBar.appendChild(notification);
-        }
-
-        // --- MODIFIED: Event system with clearing logic and concise messages ---
         function checkForDailyEvent() {
-            eventNotificationBar.innerHTML = ''; // Clear previous day's notification
             player.activeEvent = null;
             
             const BASE_CHANCE = 0.05;
@@ -902,35 +881,53 @@
                 const newEvent = {
                     type: eventBlueprint.type,
                     value: eventValue,
-                    isPositive: eventBlueprint.isPositive
+                    isPositive: eventBlueprint.isPositive,
+                    shortDescription: "Daily Event!" // Default description
                 };
                 
-                let shortDescription = "Daily Event!";
                 switch(newEvent.type) {
-                    case 'customer_boost': shortDescription = "Busy Day! Expect more customers."; break;
-                    case 'customer_slump': shortDescription = "Slow Day... Expect fewer customers."; break;
-                    case 'cost_decrease': shortDescription = `Supplier Discount! ${(newEvent.value * -100)}% off ingredients.`; break;
-                    case 'cost_increase': shortDescription = `Supply Shortage! ${(newEvent.value * 100)}% price increase.`; break;
-                    case 'bogo': shortDescription = "Market Sale! All ingredients are BOGO."; break;
+                    case 'customer_boost': newEvent.shortDescription = "Busy Day! Expect more customers."; break;
+                    case 'customer_slump': newEvent.shortDescription = "Slow Day... Expect fewer customers."; break;
+                    case 'cost_decrease': newEvent.shortDescription = `Supplier Discount! ${(newEvent.value * -100)}% off ingredients.`; break;
+                    case 'cost_increase': newEvent.shortDescription = `Supply Shortage! ${(newEvent.value * 100)}% price increase.`; break;
+                    case 'bogo': newEvent.shortDescription = "Market Sale! All ingredients are BOGO."; break;
                     case 'competition':
-                        if (player.cookbook.length === 0) return;
+                        if (player.cookbook.length === 0) return; // Can't have competition with no recipes
                         const competitionRecipe = getRandomElement(player.cookbook);
                         newEvent.value = competitionRecipe;
-                        shortDescription = `Food Competition! Today's theme: ${competitionRecipe}.`;
+                        newEvent.shortDescription = `Food Competition! Theme: ${competitionRecipe}.`;
                         break;
                 }
                 
                 player.activeEvent = newEvent;
                 player.daysSinceEvent = 0; // Reset the counter
-                displayDailyEventNotification(shortDescription, newEvent.isPositive);
             } else {
                 // No event, increment the counter
                 player.daysSinceEvent++;
             }
+            updateCalendarUI(); // Update the UI with the new event info (or lack thereof)
         }
         
         function initGame() {
-            player = { day: 1, money: 100.00, inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, cookbook: ["Ham & cheese", "BLT"], recipe_mastery: { "Ham & cheese": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["Ham & cheese"].xp_to_next_levels}, "BLT": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["BLT"].xp_to_next_levels}, }, reputation: LOCATIONS.reduce((acc, loc) => ({ ...acc, [loc.name]: 0 }), {}), currentLocation: "Central City", knownPreferences: [], activeEvent: null, daysSinceEvent: 0 };
+            // --- MODIFIED: Added currentDate to the player object with a random start ---
+            const startYear = new Date().getFullYear();
+            const randomDayOfYear = Math.floor(Math.random() * 365);
+            const startDate = new Date(startYear, 0, 1);
+            startDate.setDate(startDate.getDate() + randomDayOfYear);
+
+            player = { 
+                day: 1, 
+                currentDate: startDate,
+                money: 100.00, 
+                inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, 
+                cookbook: ["Ham & cheese", "BLT"], 
+                recipe_mastery: { "Ham & cheese": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["Ham & cheese"].xp_to_next_levels}, "BLT": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["BLT"].xp_to_next_levels}, }, 
+                reputation: LOCATIONS.reduce((acc, loc) => ({ ...acc, [loc.name]: 0 }), {}), 
+                currentLocation: "Central City", 
+                knownPreferences: [], 
+                activeEvent: null, 
+                daysSinceEvent: 0 
+            };
             player.dailyMenu = player.cookbook.slice(0, DAILY_MENU_SLOTS);
             player.reputation["Central City"] = 1; 
             isNewDay = true;
@@ -939,6 +936,7 @@
         }
 
         initGame();
+
     </script>
 </body>
 </html>
