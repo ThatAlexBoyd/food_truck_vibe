@@ -150,12 +150,12 @@
         </header>
 
         <div class="flex flex-col lg:flex-row gap-8">
-            <!-- --- MODIFIED: Left Column now uses flexbox for alignment --- -->
+            <!-- Left Column -->
             <aside class="lg:w-1/4 flex flex-col gap-6">
                 <div id="status-panel" class="card p-6">
                     <!-- Status content will be injected here -->
                 </div>
-                <!-- --- NEW: Calendar Panel --- -->
+                <!-- Calendar Panel -->
                 <div id="calendar-panel" class="card p-6 flex-grow min-h-0">
                     <!-- Calendar content will be injected here -->
                 </div>
@@ -236,18 +236,21 @@
         let player = {};
         let isNewDay = false;
 
-        // --- MODIFIED: Added calendarPanel to the list of elements ---
         const statusPanel = document.getElementById('status-panel'), calendarPanel = document.getElementById('calendar-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
         
-        // --- MODIFIED: Added calendar UI update to the main UI update function ---
         function updateAllUI() { updateStatusUI(); updateCalendarUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
 
         function updateStatusUI() {
             const totalReputation = Object.values(player.reputation).reduce((a, b) => a + b, 0);
-            statusPanel.innerHTML = `<h2 class="text-2xl font-bold mb-4">📈 Status</h2><div class="space-y-2"><p class="text-lg"><strong>💰 Money:</strong> <span class="text-green-600">$${player.money.toFixed(2)}</span></p><p class="text-lg"><strong>⭐ Reputation:</strong> <span class="text-yellow-600 font-semibold">${totalReputation}</span></p></div>`;
+            statusPanel.innerHTML = `
+                <h2 class="text-2xl font-bold mb-4">📈 Status</h2>
+                <div class="space-y-2">
+                    <p class="text-lg"><strong>🗓️ Day:</strong> <span class="text-blue-600 font-semibold">${player.day}</span></p>
+                    <p class="text-lg"><strong>💰 Money:</strong> <span class="text-green-600">$${player.money.toFixed(2)}</span></p>
+                    <p class="text-lg"><strong>⭐ Reputation:</strong> <span class="text-yellow-600 font-semibold">${totalReputation}</span></p>
+                </div>`;
         }
 
-        // --- NEW: Function to update the calendar panel ---
         function updateCalendarUI() {
             const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             const formattedDate = `${months[player.currentDate.getMonth()]} ${player.currentDate.getDate()}`;
@@ -292,7 +295,6 @@
             }
         }
         
-        // --- BUG FIX: Increased z-index of tooltip from z-10 to z-50 ---
         function generateIngredientsTooltip(recipeName) {
             const ingredients = RECIPES[recipeName].ingredients; let ingredientsList = '';
             for (const [ing, qty] of Object.entries(ingredients)) { if(qty > 0) { ingredientsList += `<li class="text-xs">${qty}x ${ing}</li>`; } }
@@ -329,7 +331,7 @@
                      const levelBadge = `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
                      xpBarHTML = `
                         <div class="flex justify-between items-center text-sm mb-1">
-                            <div class="flex items-center gap-2 truncate pr-2">
+                            <div class="flex items-center gap-2 pr-2">
                                 <span class="truncate">${recipeName}</span>
                                 ${generateIngredientsTooltip(recipeName)}
                             </div>
@@ -345,7 +347,7 @@
                     const levelBadge = `<span class="font-semibold">Lvl ${mastery.level}</span>`;
                     xpBarHTML = `
                         <div class="flex justify-between items-center text-sm mb-1">
-                            <div class="flex items-center gap-2 truncate pr-2">
+                            <div class="flex items-center gap-2 pr-2">
                                 <span class="truncate">${recipeName}</span>
                                 ${generateIngredientsTooltip(recipeName)}
                             </div>
@@ -423,23 +425,25 @@
                 sellButtonHelperText = `<p class="text-sm text-gray-500 mt-2">Select ${DAILY_MENU_SLOTS} items in the Cookbook panel to enable selling.</p>`;
             }
             
+            // --- MODIFIED: Restructured the main content area for 3 distinct, evenly spaced sections ---
             mainPanel.innerHTML = `
                 <div id="main-panel-content" class="flex flex-col h-full">
-                    <header class="text-center mb-6">
+                    <header class="text-center mb-4">
                         <h2 class="text-3xl font-bold flex items-center justify-center gap-3">${location.emoji} Welcome to ${location.name}</h2>
                         <p class="text-md text-gray-500 italic mt-1">"${location.lore}"</p>
                     </header>
 
-                    <main class="flex-grow overflow-y-auto">
-                        <!-- Main Action: Setup Shop -->
-                        <div class="text-center my-6 md:my-8">
-                            <button class="btn btn-green w-full text-xl shadow-lg hover:shadow-xl py-5 md:py-6" onclick="sellFoodAt('${locationName}')" ${sellButtonDisabled ? 'disabled' : ''} ${sellButtonTitle}>
+                    <div class="flex-grow flex flex-col justify-between py-4">
+
+                        <!-- Section 1: Setup Shop -->
+                        <div class="text-center">
+                            <button class="btn btn-green w-full text-xl shadow-lg hover:shadow-xl py-5" onclick="sellFoodAt('${locationName}')" ${sellButtonDisabled ? 'disabled' : ''} ${sellButtonTitle}>
                                 <span class="mr-2">🚚</span> Setup Shop & Sell
                             </button>
                             ${sellButtonHelperText}
                         </div>
 
-                        <!-- Town Activities -->
+                        <!-- Section 2: Town Activities -->
                         <div class="py-6 border-y border-gray-200">
                             <h3 class="text-xl font-bold text-center text-gray-700 mb-5">Town Activities</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -457,14 +461,15 @@
                                 </button>
                             </div>
                         </div>
-                    </main>
 
-                    <!-- Navigation -->
-                    <footer class="mt-6 md:mt-8 pt-4 border-t border-gray-200">
-                        <button class="btn btn-secondary w-full py-3" onclick="goToLocationMenu()">
-                            <span class="mr-2">📍</span> Change Location
-                        </button>
-                    </footer>
+                        <!-- Section 3: Navigation -->
+                        <div class="text-center">
+                            <button class="btn btn-secondary w-full py-3" onclick="goToLocationMenu()">
+                                <span class="mr-2">📍</span> Change Location
+                            </button>
+                        </div>
+                        
+                    </div>
                 </div>
             `;
         }
@@ -578,7 +583,6 @@
 
         function goToLocationMenu() { renderLocations(); }
         
-        // --- MODIFIED: Advances both day counter and Date object ---
         function chooseLocation(locationName) {
             if (player.currentLocation === locationName) {
                 renderAtLocation(locationName);
@@ -909,7 +913,6 @@
         }
         
         function initGame() {
-            // --- MODIFIED: Added currentDate to the player object with a random start ---
             const startYear = new Date().getFullYear();
             const randomDayOfYear = Math.floor(Math.random() * 365);
             const startDate = new Date(startYear, 0, 1);
