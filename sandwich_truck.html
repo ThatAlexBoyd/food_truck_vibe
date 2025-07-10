@@ -213,15 +213,35 @@
         };
         
         const LOCATIONS = [
-            {"name": "Central City", "emoji": "🛣️", "max_rep": 75, "max_customers": 100, "lore": "A quiet crossroads where your journey begins.", "preferences": ["Ham & cheese", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Toppings", "Vegetables", "Spread"], "available_recipes": ["Club"], "recipe_seller": {"name": "Old Man Earl", "emoji": "👴", "description": "<p>Earl has been sitting on this porch since the highway was just a dirt track. He's watched the world change from the comfort of his rocking chair.</p><p class='mt-2'>'A good sandwich is a simple one,' he'll tell you. He's willing to teach you how to make a proper <strong>Club</strong> sandwich—a true classic that's a step up from the basics.</p>"}, "coords": "top: 50%; left: 50%;"},
-            {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city with international flavors.", "preferences": ["Italian", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>As the captain of a fishing vessel, Sofia has spent more time on the water than on land. She'll tell you that a proper sandwich needs to be robust enough to survive the spray of the sea.</p><p class='mt-2'>She'll share her recipe for a zesty <strong>Italian</strong> sub, a taste of distant ports that never fails to satisfy a hungry crew.</p>"}, "coords": "top: 50%; left: 90%;"},
-            {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "Nestled between mountains, a haven for health nuts.", "preferences": ["West Coast", "Salad"], "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>Forrest isn't just a park ranger; he's part of the forest itself. He believes the best meals are the ones you can pack in and enjoy with a mountain view.</p><p class='mt-2'>He's perfected the <strong>West Coast</strong> sandwich, a tribute to the fresh, vibrant flavors of the region, perfect for fueling a long hike.</p>"}, "coords": "top: 20%; left: 25%;"},
-            {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town, lovely for a picnic.", "preferences": ["Chicken salad", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>Patty is the unofficial mayor of Maple Heights, famous for her legendary town picnics. Her secret? It's all in the sandwich.</p><p class='mt-2'>She believes the magic is in the details, and she's willing to share her prized <strong>Chicken Salad</strong> recipe, but only if you promise to uphold the sacred art of the picnic.</p>"}, "coords": "top: 25%; left: 75%;"},
-            {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors, and smooth jazz.", "preferences": ["Patty melt", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], "recipe_seller": {"name": "Chef Antoine", "emoji": "👨‍🍳", "description": "<p>Down at 'Antoine's Eatery', the jazz is as smooth as the butter on the grill. 'Good food, like good music, takes time,' he'll tell you.</p><p class='mt-2'>His <strong>Patty Melt</strong> is a local legend—a rich, cheesy, and savory masterpiece that embodies the slow-cooked, big-flavor spirit of Bourbon Creek.</p>"}, "coords": "top: 85%; left: 70%;"},
-            {"name": "Steel City", "emoji": "🏢", "max_rep": 225, "max_customers": 1000, "lore": "The heart of industry where hard workers need hearty meals.", "preferences": ["Reuben", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce"], "available_recipes": ["Reuben"], "recipe_seller": {"name": "Frankie 'The Furnace'", "emoji": "👨‍🏭", "description": "<p>Frankie's worked the steel mills for thirty years. 'You can't get by on a flimsy salad,' he says, wiping grease from his hands. 'You need something that sticks to your ribs.'</p><p class='mt-2'>His answer is the <strong>Reuben</strong>: a hefty, hot, and tangy stack of meat and cheese grilled to perfection. It’s the kind of sandwich that feels like a reward.</p>"}, "coords": "top: 20%; left: 90%;"},
-            {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A major travel hub on the river, full of artists.", "preferences": ["Salad", "BLT"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>Belle's a traveling musician who learned to eat light and healthy on the road. 'You can't sing your heart out on a heavy stomach,' she says.</p><p class='mt-2'>In her travels, she pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl. It's fresh, satisfying, and full of flavor—a traveler's best friend.</p>"}, "coords": "top: 80%; left: 50%;"},
-            {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks after a day on the slopes.", "preferences": ["Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], "recipe_seller": {"name": "Chad", "emoji": "🏂", "description": "<p>Chad lives for the thrill of shredding fresh powder. But his true passion? The 'après-ski' refuel. 'After a full day of sending it, you need a burger that's, like, totally epic,' he explains.</p><p class='mt-2'>He spent an entire off-season engineering the perfect <strong>Burger</strong>. It's got all the essentials, maxed out. He's ready to share his masterpiece.</p>"}, "coords": "top: 55%; left: 20%;"},
-            {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>"}, "coords": "top: 20%; left: 10%;"},
+            {"name": "Central City", "emoji": "🛣️", "max_rep": 75, "max_customers": 100, "lore": "A quiet crossroads where your journey begins.", "preferences": ["Ham & cheese", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Toppings", "Vegetables", "Spread"], "available_recipes": ["Club"], 
+             "recipe_seller": {
+                "name": "Old Man Earl", "emoji": "👴", 
+                "description": "<p>Earl has been sitting on this porch since the highway was just a dirt track. He's watched the world change from the comfort of his rocking chair.</p><p class='mt-2'>'A good sandwich is a simple one,' he'll tell you. He's willing to teach you how to make a proper <strong>Club</strong> sandwich—a true classic that's a step up from the basics.</p>",
+                "unlock_condition": { "type": "buy", "description": "He's happy to teach you for a small fee." }
+             }, "coords": "top: 50%; left: 50%;"},
+            {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city with international flavors.", "preferences": ["Italian", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>As the captain of a fishing vessel, Sofia has spent more time on the water than on land. She'll tell you that a proper sandwich needs to be robust enough to survive the spray of the sea.</p><p class='mt-2'>She'll share her recipe for a zesty <strong>Italian</strong> sub, a taste of distant ports that never fails to satisfy a hungry crew.</p>", "unlock_condition": { "type": "buy", "description": "She'll trade her knowledge for some coin for her next voyage."}}, "coords": "top: 50%; left: 90%;"},
+            {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "Nestled between mountains, a haven for health nuts.", "preferences": ["West Coast", "Salad"], "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>Forrest isn't just a park ranger; he's part of the forest itself. He believes the best meals are the ones you can pack in and enjoy with a mountain view.</p><p class='mt-2'>He's perfected the <strong>West Coast</strong> sandwich, a tribute to the fresh, vibrant flavors of the region, perfect for fueling a long hike.</p>", "unlock_condition": { "type": "buy", "description": "He'll teach you in exchange for a contribution to the park preservation fund." }}, "coords": "top: 20%; left: 25%;"},
+            {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town, lovely for a picnic.", "preferences": ["Chicken salad", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>Patty is the unofficial mayor of Maple Heights, famous for her legendary town picnics. Her secret? It's all in the sandwich.</p><p class='mt-2'>She believes the magic is in the details, and she's willing to share her prized <strong>Chicken Salad</strong> recipe, but only if you promise to uphold the sacred art of the picnic.</p>", "unlock_condition": { "type": "buy", "description": "A donation for the next town picnic is all she asks." }}, "coords": "top: 25%; left: 75%;"},
+            {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors, and smooth jazz.", "preferences": ["Patty melt", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], 
+             "recipe_seller": {
+                "name": "Chef Antoine", "emoji": "👨‍🍳",
+                "description": "<p>Down at 'Antoine's Eatery', the jazz is as smooth as the butter on the grill. 'Good food, like good music, takes time,' he'll tell you.</p><p class='mt-2'>His <strong>Patty Melt</strong> is a local legend—a rich, cheesy, and savory masterpiece that embodies the slow-cooked, big-flavor spirit of Bourbon Creek.</p>",
+                "unlock_condition": { "type": "mastery", "value": "Club", "description": "Chef Antoine believes in fundamentals. He wants to see that you've truly mastered a classic like the <strong>Club</strong> sandwich before he'll teach you his specialty." }
+             }, "coords": "top: 85%; left: 70%;"},
+            {"name": "Steel City", "emoji": "🏢", "max_rep": 225, "max_customers": 1000, "lore": "The heart of industry where hard workers need hearty meals.", "preferences": ["Reuben", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce"], "available_recipes": ["Reuben"], 
+             "recipe_seller": {
+                "name": "Frankie 'The Furnace'", "emoji": "👨‍🏭",
+                "description": "<p>Frankie's worked the steel mills for thirty years. 'You can't get by on a flimsy salad,' he says, wiping grease from his hands. 'You need something that sticks to your ribs.'</p><p class='mt-2'>His answer is the <strong>Reuben</strong>: a hefty, hot, and tangy stack of meat and cheese grilled to perfection. It’s the kind of sandwich that feels like a reward.</p>",
+                "unlock_condition": { "type": "rep", "value": 50, "description": "Frankie only shares his secrets with those who've earned the respect of the city. He wants to see you build a solid reputation first." }
+             }, "coords": "top: 20%; left: 90%;"},
+            {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A major travel hub on the river, full of artists.", "preferences": ["Salad", "BLT"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>Belle's a traveling musician who learned to eat light and healthy on the road. 'You can't sing your heart out on a heavy stomach,' she says.</p><p class='mt-2'>In her travels, she pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl. It's fresh, satisfying, and full of flavor—a traveler's best friend.</p>", "unlock_condition": { "type": "buy", "description": "She'll teach you her recipe for the price of a new guitar string." }}, "coords": "top: 80%; left: 50%;"},
+            {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks after a day on the slopes.", "preferences": ["Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], 
+             "recipe_seller": {
+                "name": "Chad", "emoji": "🏂",
+                "description": "<p>Chad lives for the thrill of shredding fresh powder. But his true passion? The 'après-ski' refuel. 'After a full day of sending it, you need a burger that's, like, totally epic,' he explains.</p><p class='mt-2'>He spent an entire off-season engineering the perfect <strong>Burger</strong>. He'll share the recipe, but first, you've got to prove you can handle the heat in a friendly competition.</p>",
+                "unlock_condition": { "type": "competition", "value": "Burger", "target": 15, "description": "Chad challenges you to a <strong>Burger</strong> sell-off! If you can sell <strong>15 Burgers</strong> in a single day, he'll be so stoked he'll teach you his recipe for free." }
+             }, "coords": "top: 55%; left: 20%;"},
+            {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy", "description": "His time is money, and so is his intellectual property." }}, "coords": "top: 20%; left: 10%;"},
         ];
         
         const EVENTS = [
@@ -413,62 +433,50 @@
                 checkForDailyEvent();
                 isNewDay = false;
             }
-
+        
             const location = LOCATIONS.find(l => l.name === locationName);
             const recipesToBuy = location.available_recipes.filter(r => !player.cookbook.includes(r));
             const isMenuValid = player.dailyMenu.length === DAILY_MENU_SLOTS;
-            const sellButtonDisabled = !isMenuValid;
-            const sellButtonTitle = sellButtonDisabled ? `title="You must select ${DAILY_MENU_SLOTS} items for your daily menu before setting up shop."` : `title="Start the day and sell your sandwiches!"`;
+            
+            // Check for active competition
+            const isCompetitionDay = player.activeCompetition && player.activeCompetition.location === locationName;
+            const sellButtonText = isCompetitionDay ? `🏆 Start ${player.activeCompetition.recipe} Challenge!` : '🚚 Setup Shop & Sell';
+            const sellButtonTitle = !isMenuValid ? `title="You must select ${DAILY_MENU_SLOTS} items for your daily menu before setting up shop."` : `title="Start the day and sell your sandwiches!"`;
             
             let sellButtonHelperText = '';
-            if (sellButtonDisabled) {
+            if (!isMenuValid) {
                 sellButtonHelperText = `<p class="text-sm text-gray-500 mt-2">Select ${DAILY_MENU_SLOTS} items in the Cookbook panel to enable selling.</p>`;
             }
             
-            // --- MODIFIED: Restructured the main content area for 3 distinct, evenly spaced sections ---
+            const otherActionsDisabled = isCompetitionDay ? 'disabled' : '';
+            const otherActionsTitle = isCompetitionDay ? `title="You must complete the competition today!"` : '';
+        
+        
             mainPanel.innerHTML = `
                 <div id="main-panel-content" class="flex flex-col h-full">
                     <header class="text-center mb-4">
                         <h2 class="text-3xl font-bold flex items-center justify-center gap-3">${location.emoji} Welcome to ${location.name}</h2>
                         <p class="text-md text-gray-500 italic mt-1">"${location.lore}"</p>
                     </header>
-
                     <div class="flex-grow flex flex-col justify-between py-4">
-
-                        <!-- Section 1: Setup Shop -->
                         <div class="text-center">
-                            <button class="btn btn-green w-full text-xl shadow-lg hover:shadow-xl py-5" onclick="sellFoodAt('${locationName}')" ${sellButtonDisabled ? 'disabled' : ''} ${sellButtonTitle}>
-                                <span class="mr-2">🚚</span> Setup Shop & Sell
+                            <button class="btn btn-green w-full text-xl shadow-lg hover:shadow-xl py-5" onclick="sellFoodAt('${locationName}')" ${!isMenuValid ? 'disabled' : ''} ${sellButtonTitle}>
+                                <span class="mr-2"></span> ${sellButtonText}
                             </button>
                             ${sellButtonHelperText}
                         </div>
-
-                        <!-- Section 2: Town Activities -->
                         <div class="py-6 border-y border-gray-200">
                             <h3 class="text-xl font-bold text-center text-gray-700 mb-5">Town Activities</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <button class="btn btn-light-blue py-4" onclick="renderStore('${locationName}')">
-                                    <span class="mr-2">🛒</span> Visit Store
-                                </button>
-                                <button class="btn btn-light-blue py-4" onclick="showRecipeSellerModal('${locationName}')" ${recipesToBuy.length === 0 ? 'disabled' : ''}>
-                                    <span class="mr-2">${location.recipe_seller.emoji}</span> Talk to ${location.recipe_seller.name}
-                                </button>
-                                <button class="btn btn-light-blue py-4" onclick="talkToLocals('${locationName}')">
-                                    <span class="mr-2">🏘️</span> Talk to Locals
-                                </button>
-                                <button class="btn btn-light-blue py-4" onclick="checkLocalPaper('${locationName}')">
-                                    <span class="mr-2">📰</span> Check the Paper
-                                </button>
+                                <button class="btn btn-light-blue py-4" onclick="renderStore('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🛒</span> Visit Store</button>
+                                <button class="btn btn-light-blue py-4" onclick="showRecipeSellerModal('${locationName}')" ${otherActionsDisabled || recipesToBuy.length === 0 ? 'disabled' : ''} ${otherActionsTitle}><span class="mr-2">${location.recipe_seller.emoji}</span> Talk to ${location.recipe_seller.name}</button>
+                                <button class="btn btn-light-blue py-4" onclick="talkToLocals('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🏘️</span> Talk to Locals</button>
+                                <button class="btn btn-light-blue py-4" onclick="checkLocalPaper('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📰</span> Check the Paper</button>
                             </div>
                         </div>
-
-                        <!-- Section 3: Navigation -->
                         <div class="text-center">
-                            <button class="btn btn-secondary w-full py-3" onclick="goToLocationMenu()">
-                                <span class="mr-2">📍</span> Change Location
-                            </button>
+                            <button class="btn btn-secondary w-full py-3" onclick="goToLocationMenu()" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📍</span> Change Location</button>
                         </div>
-                        
                     </div>
                 </div>
             `;
@@ -477,6 +485,7 @@
         function showRecipeSellerModal(locationName) {
             const location = LOCATIONS.find(l => l.name === locationName);
             const seller = location.recipe_seller;
+            const condition = seller.unlock_condition;
             const recipesToBuy = location.available_recipes.filter(r => !player.cookbook.includes(r));
         
             let contentHTML = `<div class="text-center">
@@ -484,34 +493,79 @@
                                  <div class="text-gray-600 text-left text-sm leading-relaxed mt-1 mb-4 p-3 bg-gray-50 rounded-lg">${seller.description}</div>
                                </div>`;
             
+            let challengeHTML = '';
             let footerHTML = '';
-
+        
             if (recipesToBuy.length > 0) {
-                const recipeName = recipesToBuy[0]; // There will only be one
+                const recipeName = recipesToBuy[0];
                 const details = RECIPES[recipeName];
-                const ingredients = details.ingredients;
-                let ingredientsListHTML = '<ul class="list-disc list-inside text-sm text-gray-600 mt-2 space-y-1">';
-                for (const [ing, qty] of Object.entries(ingredients)) {
-                    if (qty > 0) {
-                        ingredientsListHTML += `<li>${qty}x ${INGREDIENT_DATA[ing].emoji} ${ing}</li>`;
-                    }
+                let challengeMet = false;
+        
+                // Main logic switch for different challenge types
+                if (condition.type === 'buy') {
+                    challengeMet = player.money >= details.unlock_cost;
+                    challengeHTML = `
+                        <div class="p-4 border rounded-lg bg-indigo-50 border-indigo-200">
+                            <p class="font-semibold text-lg text-indigo-800">Recipe for Sale: ${recipeName}</p>
+                            <p class="mt-1 text-sm text-indigo-700">${condition.description}</p>
+                        </div>`;
+                    footerHTML = `<div class="mt-6 flex justify-end gap-3">
+                                    <button id="modal-leave-btn" class="btn btn-secondary">Leave</button>
+                                    <button class="btn btn-primary" onclick="buyRecipe('${locationName}', '${recipeName}', ${details.unlock_cost})" ${!challengeMet ? 'disabled' : ''}>
+                                      Buy ($${details.unlock_cost.toFixed(2)})
+                                    </button>
+                                  </div>`;
+                } 
+                else if (condition.type === 'rep') {
+                    const currentRep = player.reputation[locationName];
+                    challengeMet = currentRep >= condition.value;
+                    challengeHTML = `
+                        <div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}">
+                            <p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Earn Reputation</p>
+                            <p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description}</p>
+                            <div class="mt-3 text-center font-bold text-lg ${challengeMet ? 'text-green-600' : 'text-yellow-600'}">
+                                ${currentRep} / ${condition.value} Reputation
+                            </div>
+                        </div>`;
+                    footerHTML = `<div class="mt-6 flex justify-end gap-3">
+                                    <button id="modal-leave-btn" class="btn btn-secondary">Leave</button>
+                                    <button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>
+                                      Claim Recipe!
+                                    </button>
+                                  </div>`;
                 }
-                ingredientsListHTML += '</ul>';
+                else if (condition.type === 'mastery') {
+                    const requiredRecipe = condition.value;
+                    const masteryDetails = player.recipe_mastery[requiredRecipe];
+                    challengeMet = masteryDetails && masteryDetails.level >= 3;
+                    challengeHTML = `
+                        <div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}">
+                             <p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Master a Recipe</p>
+                             <p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description}</p>
+                        </div>`;
+                    footerHTML = `<div class="mt-6 flex justify-end gap-3">
+                                    <button id="modal-leave-btn" class="btn btn-secondary">Leave</button>
+                                    <button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>
+                                      Claim Recipe!
+                                    </button>
+                                  </div>`;
+                }
+                else if (condition.type === 'competition') {
+                    challengeHTML = `
+                        <div class="p-4 border rounded-lg bg-red-50 border-red-200">
+                             <p class="font-semibold text-lg text-red-800">Challenge: Sales Competition!</p>
+                             <p class="mt-1 text-sm text-red-700">${condition.description}</p>
+                        </div>`;
+                    footerHTML = `<div class="mt-6 flex justify-end gap-3">
+                                    <button id="modal-leave-btn" class="btn btn-secondary">Maybe Later</button>
+                                    <button class="btn btn-yellow" id="accept-challenge-btn">
+                                      Accept Challenge!
+                                    </button>
+                                  </div>`;
+                }
+        
+                contentHTML += challengeHTML;
                 
-                contentHTML += `<div class="p-4 border rounded-lg bg-gray-100">
-                                  <p class="font-bold text-xl mb-2">${recipeName}</p>
-                                  <h4 class="font-semibold text-md text-gray-700">Ingredients:</h4>
-                                  ${ingredientsListHTML}
-                                </div>`;
-                
-                const canAfford = player.money >= details.unlock_cost;
-                footerHTML = `<div class="mt-6 flex justify-end gap-3">
-                                <button id="modal-leave-btn" class="btn btn-secondary">Leave</button>
-                                <button class="btn btn-primary" onclick="buyRecipe('${locationName}', '${recipeName}')" ${!canAfford ? 'disabled' : ''}>
-                                  Train ($${details.unlock_cost.toFixed(2)})
-                                </button>
-                              </div>`;
-
             } else {
                 contentHTML += `<p class="p-4 text-center text-gray-500 bg-gray-50 rounded-lg">You've learned everything they have to teach for now.</p>`;
                 footerHTML = `<div class="text-center mt-6"><button id="modal-leave-btn" class="btn btn-primary">Leave</button></div>`;
@@ -524,6 +578,25 @@
                 modal.classList.add('hidden');
                 renderAtLocation(locationName);
             };
+        
+            // Special handler for the competition button
+            const acceptChallengeBtn = document.getElementById('accept-challenge-btn');
+            if (acceptChallengeBtn) {
+                acceptChallengeBtn.onclick = () => {
+                    player.activeCompetition = {
+                        location: locationName,
+                        recipe: condition.value,
+                        target: condition.target
+                    };
+                    modal.classList.add('hidden');
+                    showModal(
+                        'Challenge Accepted!', 
+                        `The competition is on for tomorrow! Make sure you have the <strong>${condition.value}</strong> on your menu. Good luck!`,
+                        'Let\'s do this!',
+                        () => renderAtLocation(locationName)
+                    );
+                };
+            }
         }
         
         function renderStore(locationName) {
@@ -623,37 +696,72 @@
             } 
         }
         
-        function buyRecipe(locationName, recipeName) {
-            const details = RECIPES[recipeName];
-            if(player.money >= details.unlock_cost) {
-                player.money -= details.unlock_cost;
+        function buyRecipe(locationName, recipeName, cost) {
+            if (player.money >= cost) {
+                player.money -= cost;
                 player.cookbook.push(recipeName);
+                const details = RECIPES[recipeName];
                 player.recipe_mastery[recipeName] = {"level": 1, "xp": 0, "xp_to_next_levels": details.xp_to_next_levels};
                 updateAllUI();
-                showRecipeSellerModal(locationName); 
+                if(modal.classList.contains('hidden')) {
+                     // This case is for when buyRecipe is called from outside the modal (e.g. competition win)
+                     showModal("Recipe Learned!", `You have successfully learned how to make the <strong>${recipeName}</strong>!`, "Great!", () => {
+                        renderAtLocation(locationName);
+                     });
+                } else {
+                    // This case is for when it's called from within the seller modal
+                    showRecipeSellerModal(locationName); 
+                }
             }
         }
 
         function sellFoodAt(locationName) {
-            runSalesSimulation(locationName);
+            const location = LOCATIONS.find(l => l.name === locationName);
+            const isCompetition = player.activeCompetition && player.activeCompetition.location === locationName;
+            if (isCompetition) {
+                // Check if competition recipe is on the menu
+                if (!player.dailyMenu.includes(player.activeCompetition.recipe)) {
+                    showModal(
+                        'Menu Error!',
+                        `You accepted the <strong>${player.activeCompetition.recipe}</strong> challenge, but it's not on your menu today! You must feature it to compete. The challenge is forfeit for today.`,
+                        'My Bad',
+                        () => {
+                            player.activeCompetition = null; // Forfeit
+                            renderAtLocation(locationName);
+                        }
+                    );
+                    return;
+                }
+                runSalesSimulation(locationName, player.activeCompetition);
+            } else {
+                runSalesSimulation(locationName);
+            }
         }
 
-        function runSalesSimulation(locationName) {
+        function runSalesSimulation(locationName, competitionDetails = null) {
             const location = LOCATIONS.find(l => l.name === locationName);
             
             let dailyPreferences = location.preferences;
             const maxPossibleCustomers = location.max_customers * 0.25;
             let minCustomers = 0;
             let maxCustomers = maxPossibleCustomers;
-
-            if (player.activeEvent) {
+        
+            if (player.activeEvent && !competitionDetails) { // Events don't apply during competitions
                 if (player.activeEvent.type === 'customer_boost') {
-                    minCustomers = Math.ceil((maxPossibleCustomers / 3) * 2); // Upper third
+                    minCustomers = Math.ceil((maxPossibleCustomers / 3) * 2);
                 } else if (player.activeEvent.type === 'customer_slump') {
-                    maxCustomers = Math.floor(maxPossibleCustomers / 3); // Lower third
+                    maxCustomers = Math.floor(maxPossibleCustomers / 3);
                 } else if (player.activeEvent.type === 'competition' && player.dailyMenu.includes(player.activeEvent.value)) {
                     dailyPreferences = [player.activeEvent.value];
                 }
+            }
+            
+            // During a competition, you get a guaranteed rush of interested customers
+            if (competitionDetails) {
+                minCustomers = maxPossibleCustomers * 0.5;
+                maxCustomers = maxPossibleCustomers;
+                // The competition recipe becomes the most popular item for the day
+                dailyPreferences = [competitionDetails.recipe];
             }
             
             let actual_customers = Math.floor(minCustomers + Math.random() * (maxCustomers - minCustomers + 1));
@@ -675,7 +783,9 @@
         
             for (let i = 0; i < actual_customers; i++) {
                 let chosen_food = player.dailyMenu[Math.floor(Math.random() * player.dailyMenu.length)];
-                if (available_prefs.length > 0 && Math.random() < 0.7) {
+                
+                let preferenceChance = competitionDetails ? 0.9 : 0.7; // Higher chance to sell competition item
+                if (available_prefs.length > 0 && Math.random() < preferenceChance) {
                     chosen_food = available_prefs[Math.floor(Math.random() * available_prefs.length)];
                 }
                 
@@ -685,8 +795,7 @@
                 
                 for (const [ingredient, required_qty] of Object.entries(recipe_details.ingredients)) {
                     if (tempInventory[ingredient] < required_qty) {
-                        can_make = false;
-                        break;
+                        can_make = false; break;
                     }
                 }
                 
@@ -698,9 +807,7 @@
                     const sale = {
                         itemName: chosen_food,
                         price: recipe_details.selling_prices[mastery_details.level - 1],
-                        repGain: 0,
-                        xpGain: 0,
-                        levelUpInfo: null
+                        repGain: 0, xpGain: 0, levelUpInfo: null
                     };
         
                     if (mastery_details.level < 3) {
@@ -715,6 +822,7 @@
                     saleEvents.push(sale);
                 }
             }
+            
             showSalesVisualizer(saleEvents, locationName);
         }
 
@@ -727,22 +835,20 @@
                         <span>Sold: <span id="menu-item-count-${index}" class="font-bold">0</span></span>
                     </div>`;
             });
-
+        
+            const isCompetition = player.activeCompetition && player.activeCompetition.location === locationName;
+            const modalTitle = isCompetition ? `🏆 ${player.activeCompetition.recipe} Sell-Off! 🏆` : '🚚 Selling Sandwiches...';
+        
             const modalHTML = `
                 <div id="sales-visualizer-content" class="w-full">
-                    <h2 class="text-2xl font-bold mb-2 text-center">🚚 Selling Sandwiches...</h2>
+                    <h2 class="text-2xl font-bold mb-2 text-center">${modalTitle}</h2>
                     <p id="sales-status" class="text-center text-gray-500 mb-4 h-6">The day is underway!</p>
-
                     <div class="grid grid-cols-3 gap-4 my-4 text-center">
                         <div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Customers</div><div id="sales-customer-count" class="text-2xl font-bold">0</div></div>
                         <div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Revenue</div><div id="sales-money-earned" class="text-2xl font-bold text-green-600">$0.00</div></div>
                         <div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Reputation</div><div id="sales-rep-gained" class="text-2xl font-bold text-yellow-500">+0</div></div>
                     </div>
-
-                    <div class="my-6 space-y-3">
-                        ${menuSalesHTML}
-                    </div>
-
+                    <div class="my-6 space-y-3">${menuSalesHTML}</div>
                     <div id="sales-footer" class="mt-6 text-center h-12 flex flex-col justify-center items-center">
                         <div id="progress-container" class="w-full bg-gray-200 rounded-full h-4">
                            <div id="progress-bar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
@@ -754,7 +860,7 @@
             modalContent.innerHTML = modalHTML;
             modalContent.style.maxWidth = "600px";
             modal.classList.remove('hidden');
-
+        
             const customerCountEl = document.getElementById('sales-customer-count'), moneyEarnedEl = document.getElementById('sales-money-earned'), repGainedEl = document.getElementById('sales-rep-gained'), statusEl = document.getElementById('sales-status'), progressContainer = document.getElementById('progress-container'), progressBar = document.getElementById('progress-bar'), continueBtn = document.getElementById('sales-continue-btn');
             
             const menuItemCounters = {};
@@ -768,71 +874,86 @@
             const delay = saleEvents.length > 0 ? totalDuration / saleEvents.length : 0;
             let totalMoney = 0, totalRep = 0;
             const originalStatusText = statusEl.innerHTML;
-
+        
             for (let i = 0; i < saleEvents.length; i++) {
                 const sale = saleEvents[i];
-                
                 statusEl.innerHTML = originalStatusText;
                 statusEl.className = "text-center text-gray-500 mb-4 h-6";
-
                 const recipe_details = RECIPES[sale.itemName], mastery_details = player.recipe_mastery[sale.itemName];
-                
                 for (const [ingredient, required_qty] of Object.entries(recipe_details.ingredients)) { player.inventory[ingredient] -= required_qty; }
                 player.money += sale.price;
                 const loc = LOCATIONS.find(l=>l.name===locationName);
                 player.reputation[locationName] = Math.min(loc.max_rep, player.reputation[locationName] + sale.repGain);
-                
                 if (sale.xpGain > 0 && mastery_details.level < 3) {
                     mastery_details.xp += sale.xpGain;
                     const xp_to_next = mastery_details.xp_to_next_levels[mastery_details.level - 1];
                     if (mastery_details.xp >= xp_to_next) {
-                        mastery_details.level += 1;
-                        mastery_details.xp = 0;
+                        mastery_details.level += 1; mastery_details.xp = 0;
                         sale.levelUpInfo = { name: sale.itemName, newLevel: mastery_details.level };
                     }
                 }
-                
                 totalMoney += sale.price; totalRep += sale.repGain;
                 customerCountEl.textContent = i + 1;
                 moneyEarnedEl.textContent = `$${totalMoney.toFixed(2)}`;
                 repGainedEl.textContent = `+${totalRep}`;
                 [customerCountEl, moneyEarnedEl, repGainedEl].forEach(el => { el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 300); });
-
                 menuItemCounters[sale.itemName]++;
                 menuItemCounterEls[sale.itemName].textContent = menuItemCounters[sale.itemName];
                 menuItemCounterEls[sale.itemName].classList.add('flash');
                 setTimeout(() => menuItemCounterEls[sale.itemName].classList.remove('flash'), 300);
-                
                 if (sale.levelUpInfo) {
                     statusEl.innerHTML = `⭐ <strong>${sale.levelUpInfo.name}</strong> leveled up to <strong>Lvl ${sale.levelUpInfo.newLevel}</strong>! ⭐`;
                     statusEl.className = "text-center text-yellow-600 font-semibold mb-4 h-6 flash";
                 }
-                
                 const progress = ((i + 1) / saleEvents.length) * 100;
                 progressBar.style.width = `${progress}%`;
-
                 await new Promise(resolve => setTimeout(resolve, delay));
             }
-
+        
             statusEl.textContent = 'Day Finished!';
             statusEl.className = "text-center text-gray-500 mb-4 h-6";
-
+        
             setTimeout(() => {
                 progressContainer.classList.add('hidden');
                 continueBtn.classList.remove('hidden');
             }, 500);
             
             continueBtn.onclick = () => {
-                modal.classList.add('hidden');
-                modalContent.innerHTML = '';
-                modalContent.style.maxWidth = "500px";
-                
-                player.day++;
-                player.currentDate.setDate(player.currentDate.getDate() + 1);
-                isNewDay = true;
-
-                updateAllUI();
-                renderAtLocation(locationName);
+                // --- COMPETITION OUTCOME LOGIC ---
+                if (isCompetition) {
+                    const compDetails = player.activeCompetition;
+                    const soldCount = menuItemCounters[compDetails.recipe] || 0;
+                    const target = compDetails.target;
+                    let resultTitle, resultMessage;
+        
+                    if (soldCount >= target) {
+                        resultTitle = "🏆 Challenge Won! 🏆";
+                        resultMessage = `<p>You sold <strong>${soldCount} ${compDetails.recipe}s</strong>, crushing the goal of ${target}!</p><p class="mt-2">Chad is super impressed and teaches you the <strong>${compDetails.recipe}</strong> recipe as promised!</p>`;
+                        buyRecipe(locationName, compDetails.recipe, 0); // Unlock recipe for free
+                    } else {
+                        resultTitle = "😭 Challenge Lost 😭";
+                        resultMessage = `<p>You only sold <strong>${soldCount} ${compDetails.recipe}s</strong> and didn't meet the goal of ${target}.</p><p class="mt-2">Chad is a little bummed, but tells you to come back and try again another time.</p>`;
+                    }
+                    player.activeCompetition = null; // End the competition
+                    showModal(resultTitle, resultMessage, 'Awesome!', () => {
+                        modal.classList.add('hidden');
+                        player.day++;
+                        player.currentDate.setDate(player.currentDate.getDate() + 1);
+                        isNewDay = true;
+                        updateAllUI();
+                        renderAtLocation(locationName);
+                    });
+                } else {
+                    // Normal day-end logic
+                    modal.classList.add('hidden');
+                    modalContent.innerHTML = '';
+                    modalContent.style.maxWidth = "500px";
+                    player.day++;
+                    player.currentDate.setDate(player.currentDate.getDate() + 1);
+                    isNewDay = true;
+                    updateAllUI();
+                    renderAtLocation(locationName);
+                }
             };
         }
         
@@ -929,7 +1050,8 @@
                 currentLocation: "Central City", 
                 knownPreferences: [], 
                 activeEvent: null, 
-                daysSinceEvent: 0 
+                daysSinceEvent: 0,
+                activeCompetition: null
             };
             player.dailyMenu = player.cookbook.slice(0, DAILY_MENU_SLOTS);
             player.reputation["Central City"] = 1; 
