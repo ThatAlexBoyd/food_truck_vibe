@@ -819,15 +819,32 @@
                         repGain: 0, xpGain: 0, levelUpInfo: null
                     };
         
-                    if (mastery_details.level < 3) {
-                        const isPreferred = dailyPreferences.includes(chosen_food);
-                        if (Math.random() < (isPreferred ? 0.75 : 0.30)) {
-                            sale.xpGain = 1;
-                            if (player.reputation[locationName] < location.max_rep) {
-                                sale.repGain = isPreferred ? 2 : 1;
-                            }
+                    const isPreferred = dailyPreferences.includes(chosen_food);
+
+                    // --- New Reputation Gain Logic ---
+                    if (player.reputation[locationName] < location.max_rep) {
+                        // A non-favorite has a 20% base chance. A favorite has a 70% base chance.
+                        const baseRepChance = isPreferred ? 0.70 : 0.20; 
+                        
+                        // Each recipe level adds a 10% chance. (L1: +0%, L2: +10%, L3: +20%)
+                        const levelBonus = (mastery_details.level - 1) * 0.10;
+                        
+                        const finalRepChance = baseRepChance + levelBonus;
+
+                        if (Math.random() < finalRepChance) {
+                            // Award more rep for selling a favorite.
+                            sale.repGain = isPreferred ? 2 : 1;
                         }
                     }
+
+                    // --- Separated XP Gain Logic (remains similar) ---
+                    if (mastery_details.level < 3) {
+                        // XP gain is still more likely when selling a preferred sandwich.
+                        if (Math.random() < (isPreferred ? 0.75 : 0.30)) {
+                            sale.xpGain = 1;
+                        }
+                    }
+                    
                     saleEvents.push(sale);
                 }
             }
