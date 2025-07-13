@@ -192,24 +192,33 @@
         const INGREDIENT_DATA = {
             "Bread":      { "price": 10, "servings": 100, "emoji": "🍞" },
             "Meat":       { "price": 15, "servings": 75,  "emoji": "🥩" },
-            "Spread":     { "price": 20, "servings": 20,  "emoji": "🧈" },
-            "Cheese":     { "price": 20, "servings": 20,  "emoji": "🧀" },
+            "Spread":     { "price": 20, "servings": 25,  "emoji": "🧈" },
+            "Cheese":     { "price": 20, "servings": 25,  "emoji": "🧀" },
             "Toppings":   { "price": 10, "servings": 75,  "emoji": "🥓" },
             "Sauce":      { "price": 10, "servings": 40,  "emoji": "🥫" },
-            "Vegetables": { "price": 10, "servings": 25,  "emoji": "🥬" },
+            "Vegetables": { "price": 10, "servings": 40,  "emoji": "🥬" },
         };
         const RECIPES = {
-            "Ham & cheese": {"unlock_cost": 0, "selling_prices": [2.00, 2.00, 3.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [35, 80]},
-            "Italian": {"unlock_cost": 75, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
-            "Club": {"unlock_cost": 50, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
-            "Patty melt": {"unlock_cost": 60, "selling_prices": [2.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35, 80]},
-            "BLT": {"unlock_cost": 0, "selling_prices": [2.00, 2.00, 3.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [35, 80]},
-            "West Coast": {"unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
-            "Salad": {"unlock_cost": 30, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [50, 100]},
-            "Burger": {"unlock_cost": 150, "selling_prices": [6.00, 7.00, 8.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150]},
+            // --- Starter Tier ---
+            "Ham & cheese": {"unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25, 60]},
+            "BLT": {"unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25, 60]},
+            
+            // --- Low-Mid Tier ---
+            "Patty melt": {"unlock_cost": 40, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [35, 80]},
+            "Salad": {"unlock_cost": 30, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40, 90]},
+
+            // --- Mid-Tier Workhorses ---
+            "Club": {"unlock_cost": 50, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
+            "Italian": {"unlock_cost": 75, "selling_prices": [6.00, 7.00, 8.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 110]},
+            "Reuben": {"unlock_cost": 90, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100]},
+
+            // --- High-Tier Specialists ---
             "Chicken salad": {"unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100]},
-            "Reuben": {"unlock_cost": 90, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100]},
-            "The Ultimate": {"unlock_cost": 250, "selling_prices": [8.00, 9.00, 10.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150]},
+            "West Coast": {"unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
+            
+            // --- Endgame Recipes ---
+            "Burger": {"unlock_cost": 150, "selling_prices": [7.00, 8.00, 9.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150]},
+            "The Ultimate": {"unlock_cost": 250, "selling_prices": [9.00, 11.00, 13.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150]},
         };
         
         const LOCATIONS = [
@@ -221,7 +230,7 @@
              }, "coords": "top: 50%; left: 50%;"},
             {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city with international flavors.", "preferences": ["Italian", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>As the captain of a fishing vessel, Sofia has spent more time on the water than on land. She'll tell you that a proper sandwich needs to be robust enough to survive the spray of the sea.</p><p class='mt-2'>She'll share her recipe for a zesty <strong>Italian</strong> sub, a taste of distant ports that never fails to satisfy a hungry crew.</p>", "unlock_condition": { "type": "buy", "description": "She'll trade her knowledge for some coin for her next voyage."}}, "coords": "top: 50%; left: 90%;"},
             {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "Nestled between mountains, a haven for health nuts.", "preferences": ["West Coast", "Salad"], "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>Forrest isn't just a park ranger; he's part of the forest itself. He believes the best meals are the ones you can pack in and enjoy with a mountain view.</p><p class='mt-2'>He's perfected the <strong>West Coast</strong> sandwich, a tribute to the fresh, vibrant flavors of the region, perfect for fueling a long hike.</p>", "unlock_condition": { "type": "buy", "description": "He'll teach you in exchange for a contribution to the park preservation fund." }}, "coords": "top: 20%; left: 25%;"},
-            {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town, lovely for a picnic.", "preferences": ["Chicken salad", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>Patty is the unofficial mayor of Maple Heights, famous for her legendary town picnics. Her secret? It's all in the sandwich.</p><p class='mt-2'>She believes the magic is in the details, and she's willing to share her prized <strong>Chicken Salad</strong> recipe, but only if you promise to uphold the sacred art of the picnic.</p>", "unlock_condition": { "type": "buy", "description": "A donation for the next town picnic is all she asks." }}, "coords": "top: 25%; left: 75%;"},
+            {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town, lovely for a picnic.", "preferences": ["Chicken salad", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>Patty is the unofficial mayor of Maple Heights, famous for her legendary town picnics. Her secret? It's all in the sandwich.</p><p class='mt-2'>She believes the magic is in the details, and she's willing to share her prized <strong>Chicken Salad</strong> recipe, but only if you promise to uphold the sacred art of the picnic.</p>", "unlock_condition": { "type": "buy", "description": "A donation for the next town picnic is all she asks." }}, "coords": "top: 25%; left: 75%;"},
             {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors, and smooth jazz.", "preferences": ["Patty melt", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], 
              "recipe_seller": {
                 "name": "Chef Antoine", "emoji": "👨‍🍳",
@@ -234,14 +243,14 @@
                 "description": "<p>Frankie's worked the steel mills for thirty years. 'You can't get by on a flimsy salad,' he says, wiping grease from his hands. 'You need something that sticks to your ribs.'</p><p class='mt-2'>His answer is the <strong>Reuben</strong>: a hefty, hot, and tangy stack of meat and cheese grilled to perfection. It’s the kind of sandwich that feels like a reward.</p>",
                 "unlock_condition": { "type": "rep", "value": 50, "description": "Frankie only shares his secrets with those who've earned the respect of the city. He wants to see you build a solid reputation first." }
              }, "coords": "top: 20%; left: 90%;"},
-            {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A major travel hub on the river, full of artists.", "preferences": ["Salad", "BLT"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>Belle's a traveling musician who learned to eat light and healthy on the road. 'You can't sing your heart out on a heavy stomach,' she says.</p><p class='mt-2'>In her travels, she pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl. It's fresh, satisfying, and full of flavor—a traveler's best friend.</p>", "unlock_condition": { "type": "buy", "description": "She'll teach you her recipe for the price of a new guitar string." }}, "coords": "top: 80%; left: 50%;"},
-            {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks after a day on the slopes.", "preferences": ["Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], 
+            {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A major travel hub on the river, full of artists.", "preferences": ["Salad", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>Belle's a traveling musician who learned to eat light and healthy on the road. 'You can't sing your heart out on a heavy stomach,' she says.</p><p class='mt-2'>In her travels, she pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl. It's fresh, satisfying, and full of flavor—a traveler's best friend.</p>", "unlock_condition": { "type": "buy", "description": "She'll teach you her recipe for the price of a new guitar string." }}, "coords": "top: 80%; left: 50%;"},
+            {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks after a day on the slopes.", "preferences": ["Burger", "Reuben"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], 
              "recipe_seller": {
                 "name": "Chad", "emoji": "🏂",
-                "description": "<p>Chad lives for the thrill of shredding fresh powder. But his true passion? The 'après-ski' refuel. 'After a full day of sending it, you need a burger that's, like, totally epic,' he explains.</p><p class='mt-2'>He spent an entire off-season engineering the perfect <strong>Burger</strong>. He'll share the recipe, but first, you've got to prove you can handle the heat in a friendly competition.</p>",
-                "unlock_condition": { "type": "competition", "value": "Burger", "target": 15, "description": "Chad challenges you to a <strong>Burger</strong> sell-off! If you can sell <strong>15 Burgers</strong> in a single day, he'll be so stoked he'll teach you his recipe for free." }
+                "description": "<p>Chad lives for the thrill of shredding fresh powder. He's seen you selling that hefty <strong>Reuben</strong> from Steel City. 'Whoa, that's a legit sandwich,' he says. 'Proves you can handle the heavy hitters.'</p><p class='mt-2'>'If you can prove you're a legend at selling hearty food, I'll teach you my ultimate creation: the Aspen Peak <strong>Burger</strong>.'</p>",
+                "unlock_condition": { "type": "competition", "value": "Reuben", "target": 15, "description": "Chad challenges you to a <strong>Reuben</strong> sell-off! If you can sell <strong>15 Reubens</strong> in a single day, he'll be so stoked he'll teach you his Burger recipe for free." }
              }, "coords": "top: 55%; left: 20%;"},
-            {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy", "description": "His time is money, and so is his intellectual property." }}, "coords": "top: 20%; left: 10%;"},
+            {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy", "description": "His time is money, and so is his intellectual property." }}, "coords": "top: 20%; left: 10%;"},
         ];
         
         const EVENTS = [
@@ -928,8 +937,8 @@
         
                     if (soldCount >= target) {
                         resultTitle = "🏆 Challenge Won! 🏆";
-                        resultMessage = `<p>You sold <strong>${soldCount} ${compDetails.recipe}s</strong>, crushing the goal of ${target}!</p><p class="mt-2">Chad is super impressed and teaches you the <strong>${compDetails.recipe}</strong> recipe as promised!</p>`;
-                        buyRecipe(locationName, compDetails.recipe, 0); // Unlock recipe for free
+                        resultMessage = `<p>You sold <strong>${soldCount} ${compDetails.recipe}s</strong>, crushing the goal of ${target}!</p><p class="mt-2">Chad is super impressed and teaches you the <strong>Burger</strong> recipe as promised!</p>`;
+                        buyRecipe(locationName, "Burger", 0); // Unlock recipe for free
                     } else {
                         resultTitle = "😭 Challenge Lost 😭";
                         resultMessage = `<p>You only sold <strong>${soldCount} ${compDetails.recipe}s</strong> and didn't meet the goal of ${target}.</p><p class="mt-2">Chad is a little bummed, but tells you to come back and try again another time.</p>`;
@@ -1051,7 +1060,11 @@
                 knownPreferences: [], 
                 activeEvent: null, 
                 daysSinceEvent: 0,
-                activeCompetition: null
+                activeCompetition: null,
+                // Placeholders for future features.
+                mastery_perks: {},
+                active_quests: [],
+                completed_quests: []
             };
             player.dailyMenu = player.cookbook.slice(0, DAILY_MENU_SLOTS);
             player.reputation["Central City"] = 1; 
