@@ -199,25 +199,16 @@
             "Vegetables": { "price": 10, "servings": 40,  "emoji": "🥬" },
         };
         const RECIPES = {
-            // --- Starter Tier ---
             "Ham & cheese": {"unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25, 60]},
-            "BLT": {"unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25, 60]},
-            
-            // --- Low-Mid Tier ---
-            "Patty melt": {"unlock_cost": 40, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [35, 80]},
-            "Salad": {"unlock_cost": 30, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40, 90]},
-
-            // --- Mid-Tier Workhorses ---
-            "Club": {"unlock_cost": 50, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
             "Italian": {"unlock_cost": 75, "selling_prices": [6.00, 7.00, 8.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 110]},
-            "Reuben": {"unlock_cost": 90, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100]},
-
-            // --- High-Tier Specialists ---
-            "Chicken salad": {"unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100]},
+            "Club": {"unlock_cost": 50, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
+            "Patty melt": {"unlock_cost": 40, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35, 80]},
+            "BLT": {"unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25, 60]},
             "West Coast": {"unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
-            
-            // --- Endgame Recipes ---
+            "Salad": {"unlock_cost": 30, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40, 90]},
             "Burger": {"unlock_cost": 150, "selling_prices": [7.00, 8.00, 9.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150]},
+            "Chicken salad": {"unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100]},
+            "Reuben": {"unlock_cost": 90, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100]},
             "The Ultimate": {"unlock_cost": 250, "selling_prices": [9.00, 11.00, 13.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150]},
         };
         
@@ -247,7 +238,7 @@
             {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks after a day on the slopes.", "preferences": ["Burger", "Reuben"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], 
              "recipe_seller": {
                 "name": "Chad", "emoji": "🏂",
-                "description": "<p>Chad lives for the thrill of shredding fresh powder. He's seen you selling that hefty <strong>Reuben</strong> from Steel City. 'Whoa, that's a legit sandwich,' he says. 'Proves you can handle the heavy hitters.'</p><p class='mt-2'>'If you can prove you're a legend at selling hearty food, I'll teach you my ultimate creation: the Aspen Peak <strong>Burger</strong>.'</p>",
+                "description": "<p>Chad lives for the thrill of shredding fresh powder. But his true passion? The 'après-ski' refuel. 'After a full day of sending it, you need a burger that's, like, totally epic,' he explains.</p><p class='mt-2'>He spent an entire off-season engineering the perfect <strong>Burger</strong>. He'll share the recipe, but first, you've got to prove you can handle the heat in a friendly competition.</p>",
                 "unlock_condition": { "type": "competition", "value": "Reuben", "target": 15, "description": "Chad challenges you to a <strong>Reuben</strong> sell-off! If you can sell <strong>15 Reubens</strong> in a single day, he'll be so stoked he'll teach you his Burger recipe for free." }
              }, "coords": "top: 55%; left: 20%;"},
             {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy", "description": "His time is money, and so is his intellectual property." }}, "coords": "top: 20%; left: 10%;"},
@@ -819,32 +810,15 @@
                         repGain: 0, xpGain: 0, levelUpInfo: null
                     };
         
-                    const isPreferred = dailyPreferences.includes(chosen_food);
-
-                    // --- New Reputation Gain Logic ---
-                    if (player.reputation[locationName] < location.max_rep) {
-                        // A non-favorite has a 20% base chance. A favorite has a 70% base chance.
-                        const baseRepChance = isPreferred ? 0.70 : 0.20; 
-                        
-                        // Each recipe level adds a 10% chance. (L1: +0%, L2: +10%, L3: +20%)
-                        const levelBonus = (mastery_details.level - 1) * 0.10;
-                        
-                        const finalRepChance = baseRepChance + levelBonus;
-
-                        if (Math.random() < finalRepChance) {
-                            // Award more rep for selling a favorite.
-                            sale.repGain = isPreferred ? 2 : 1;
-                        }
-                    }
-
-                    // --- Separated XP Gain Logic (remains similar) ---
                     if (mastery_details.level < 3) {
-                        // XP gain is still more likely when selling a preferred sandwich.
+                        const isPreferred = dailyPreferences.includes(chosen_food);
                         if (Math.random() < (isPreferred ? 0.75 : 0.30)) {
                             sale.xpGain = 1;
+                            if (player.reputation[locationName] < location.max_rep) {
+                                sale.repGain = isPreferred ? 2 : 1;
+                            }
                         }
                     }
-                    
                     saleEvents.push(sale);
                 }
             }
@@ -1078,10 +1052,9 @@
                 activeEvent: null, 
                 daysSinceEvent: 0,
                 activeCompetition: null,
-                // Placeholders for future features.
                 mastery_perks: {},
                 active_quests: [],
-                completed_quests: []
+                completed_quests: [],
             };
             player.dailyMenu = player.cookbook.slice(0, DAILY_MENU_SLOTS);
             player.reputation["Central City"] = 1; 
