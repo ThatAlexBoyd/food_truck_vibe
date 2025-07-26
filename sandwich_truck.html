@@ -810,15 +810,31 @@
                         repGain: 0, xpGain: 0, levelUpInfo: null
                     };
         
+                    const isPreferred = dailyPreferences.includes(chosen_food);
+
+                    // XP is only gained before mastery
                     if (mastery_details.level < 3) {
-                        const isPreferred = dailyPreferences.includes(chosen_food);
                         if (Math.random() < (isPreferred ? 0.75 : 0.30)) {
                             sale.xpGain = 1;
-                            if (player.reputation[locationName] < location.max_rep) {
-                                sale.repGain = isPreferred ? 2 : 1;
-                            }
                         }
                     }
+
+                    // Reputation can now be gained at all levels, with a bonus for mastered recipes
+                    if (player.reputation[locationName] < location.max_rep) {
+                        let repChance = 0;
+                        if (mastery_details.level < 3) {
+                            // Standard gain for non-mastered recipes
+                            repChance = isPreferred ? 0.75 : 0.30;
+                        } else {
+                            // Increased chance for mastered recipes
+                            repChance = 0.85;
+                        }
+
+                        if (Math.random() < repChance) {
+                            sale.repGain = isPreferred ? 2 : 1;
+                        }
+                    }
+
                     saleEvents.push(sale);
                 }
             }
