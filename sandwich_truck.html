@@ -252,6 +252,80 @@
             { type: 'customer_slump', values: [true], flavor: "A sudden downpour has everyone running for cover, not for sandwiches. / A rival food truck set up shop just across the street, stealing business.", isPositive: false },
             { type: 'cost_increase', values: [0.05, 0.1, 0.2], flavor: "Bad weather has ruined a large crop, causing ingredient shortages. / Gas prices have skyrocketed, and your suppliers are adding a fuel surcharge.", isPositive: false }
         ];
+
+        const MASTERY_PERKS = {
+            "Ham & cheese": [
+                { id: "ham_cheese_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 },
+                { id: "ham_cheese_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
+            ],
+            "BLT": [
+                { id: "blt_save", description: "Vegetable Swap: Chance to use one less Vegetable.", type: "consume_less", value: "Vegetables" },
+                { id: "blt_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
+            ],
+            "Club": [
+                { id: "club_save", description: "Modified Order: Chance to use one less Topping.", type: "consume_less", value: "Toppings" },
+                { id: "club_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
+            ],
+            "Patty melt": [
+                { id: "patty_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 },
+                { id: "patty_save", description: "Lighter Sauce: Chance to use one less Sauce.", type: "consume_less", value: "Sauce" }
+            ],
+            "Italian": [
+                { id: "italian_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 },
+                { id: "italian_save", description: "Extra Lean: Chance to use one less Meat.", type: "consume_less", value: "Meat" }
+            ],
+            "West Coast": [
+                { id: "west_coast_save", description: "Avocado Shortage: Chance to use one less Spread.", type: "consume_less", value: "Spread" },
+                { id: "west_coast_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
+            ],
+            "Reuben": [
+                { id: "reuben_profit", description: "Generous Tipper: Chance to get a $2 tip.", type: "bonus_money", value: 2.00 },
+                { id: "reuben_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
+            ],
+            "Chicken salad": [
+                { id: "chicken_salad_save", description: "Secret Ingredient: Chance to use one less Spread.", type: "consume_less", value: "Spread" },
+                { id: "chicken_salad_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
+            ],
+            "Salad": [
+                { id: "salad_save", description: "Light Dressing: Chance to use one less Sauce.", type: "consume_less", value: "Sauce" },
+                { id: "salad_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
+            ],
+            "Burger": [
+                { id: "burger_profit", description: "Generous Tipper: Chance to get a $2 tip.", type: "bonus_money", value: 2.00 },
+                { id: "burger_save", description: "No Toppings: Chance to use one less Topping.", type: "consume_less", value: "Toppings" }
+            ],
+            "The Ultimate": [
+                { id: "ultimate_rep", description: "Food Critic Favorite: Chance for +3 bonus reputation.", type: "bonus_rep", value: 3 },
+                { id: "ultimate_profit", description: "Generous Tipper: Chance to get a $3 tip.", type: "bonus_money", value: 3.00 }
+            ],
+        };
+
+        const QUEST_DATA = [
+            { 
+                questId: "earls_bread_shortage", 
+                title: "Earl's Bread Shortage",
+                description: "Old Man Earl is having his family over but the store is all out of bread. He needs 50 servings of Bread and will pay handsomely for it.",
+                location: "Central City",
+                objective: { type: "deliver_ingredient", target: { ingredient: "Bread", amount: 50 } },
+                reward: { type: "money", value: 75 }
+            },
+            { 
+                questId: "sofias_craving", 
+                title: "A Salty Craving",
+                description: "'Salty' Sofia has a powerful craving for a proper Club sandwich after a long voyage. She wants you to make her 5 of them. She'll make it worth your while.",
+                location: "Bravoport",
+                objective: { type: "make_sandwich", target: { recipe: "Club", amount: 5 } },
+                reward: { type: "money", value: 100 }
+            },
+            { 
+                questId: "forrests_lesson", 
+                title: "A Ranger's Lesson",
+                description: "Forrest wants to teach a new park ranger how to make a simple, hearty meal. He needs you to demonstrate how to make a BLT. Put it on your menu for a day so he can watch.",
+                location: "Evergreen Pointe",
+                objective: { type: "teach_recipe", target: { recipe: "BLT" } },
+                reward: { type: "ingredient", value: { name: "Vegetables", amount: 25 } }
+            }
+        ];
         
         let player = {};
         let isNewDay = false;
@@ -348,7 +422,8 @@
 
                 let xpBarHTML;
                 if (mastery.level >= 3) {
-                     const levelBadge = `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
+                     const perk = player.mastery_perks[recipeName];
+                     const perkBadge = perk ? `<span class="font-semibold px-2 py-0.5 bg-green-200 text-green-800 rounded-full text-xs">Perk Active</span>` : `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
                      xpBarHTML = `
                         <div class="flex justify-between items-center text-sm mb-1">
                             <div class="flex items-center gap-2 pr-2">
@@ -357,7 +432,7 @@
                             </div>
                             <div class="flex items-center gap-2 flex-shrink-0">
                                 ${menuBadge}
-                                ${levelBadge}
+                                ${perkBadge}
                             </div>
                         </div>
                         <div class="w-full bg-yellow-400 rounded-full h-2.5 mt-1"></div>`;
@@ -438,7 +513,6 @@
             const recipesToBuy = location.available_recipes.filter(r => !player.cookbook.includes(r));
             const isMenuValid = player.dailyMenu.length === DAILY_MENU_SLOTS;
             
-            // Check for active competition
             const isCompetitionDay = player.activeCompetition && player.activeCompetition.location === locationName;
             const sellButtonText = isCompetitionDay ? `🏆 Start ${player.activeCompetition.recipe} Challenge!` : '🚚 Setup Shop & Sell';
             const sellButtonTitle = !isMenuValid ? `title="You must select ${DAILY_MENU_SLOTS} items for your daily menu before setting up shop."` : `title="Start the day and sell your sandwiches!"`;
@@ -450,7 +524,6 @@
             
             const otherActionsDisabled = isCompetitionDay ? 'disabled' : '';
             const otherActionsTitle = isCompetitionDay ? `title="You must complete the competition today!"` : '';
-        
         
             mainPanel.innerHTML = `
                 <div id="main-panel-content" class="flex flex-col h-full">
@@ -471,7 +544,7 @@
                                 <button class="btn btn-light-blue py-4" onclick="renderStore('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🛒</span> Visit Store</button>
                                 <button class="btn btn-light-blue py-4" onclick="showRecipeSellerModal('${locationName}')" ${otherActionsDisabled || recipesToBuy.length === 0 ? 'disabled' : ''} ${otherActionsTitle}><span class="mr-2">${location.recipe_seller.emoji}</span> Talk to ${location.recipe_seller.name}</button>
                                 <button class="btn btn-light-blue py-4" onclick="talkToLocals('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🏘️</span> Talk to Locals</button>
-                                <button class="btn btn-light-blue py-4" onclick="checkLocalPaper('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📰</span> Check the Paper</button>
+                                <button class="btn btn-light-blue py-4" onclick="showBulletinBoard()" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📋</span> Check Bulletin Board</button>
                             </div>
                         </div>
                         <div class="text-center">
@@ -501,67 +574,27 @@
                 const details = RECIPES[recipeName];
                 let challengeMet = false;
         
-                // Main logic switch for different challenge types
                 if (condition.type === 'buy') {
                     challengeMet = player.money >= details.unlock_cost;
-                    challengeHTML = `
-                        <div class="p-4 border rounded-lg bg-indigo-50 border-indigo-200">
-                            <p class="font-semibold text-lg text-indigo-800">Recipe for Sale: ${recipeName}</p>
-                            <p class="mt-1 text-sm text-indigo-700">${condition.description}</p>
-                        </div>`;
-                    footerHTML = `<div class="mt-6 flex justify-end gap-3">
-                                    <button id="modal-leave-btn" class="btn btn-secondary">Leave</button>
-                                    <button class="btn btn-primary" onclick="buyRecipe('${locationName}', '${recipeName}', ${details.unlock_cost})" ${!challengeMet ? 'disabled' : ''}>
-                                      Buy ($${details.unlock_cost.toFixed(2)})
-                                    </button>
-                                  </div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg bg-indigo-50 border-indigo-200"><p class="font-semibold text-lg text-indigo-800">Recipe for Sale: ${recipeName}</p><p class="mt-1 text-sm text-indigo-700">${condition.description}</p></div>`;
+                    footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-primary" onclick="buyRecipe('${locationName}', '${recipeName}', ${details.unlock_cost})" ${!challengeMet ? 'disabled' : ''}>Buy ($${details.unlock_cost.toFixed(2)})</button></div>`;
                 } 
                 else if (condition.type === 'rep') {
                     const currentRep = player.reputation[locationName];
                     challengeMet = currentRep >= condition.value;
-                    challengeHTML = `
-                        <div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}">
-                            <p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Earn Reputation</p>
-                            <p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description}</p>
-                            <div class="mt-3 text-center font-bold text-lg ${challengeMet ? 'text-green-600' : 'text-yellow-600'}">
-                                ${currentRep} / ${condition.value} Reputation
-                            </div>
-                        </div>`;
-                    footerHTML = `<div class="mt-6 flex justify-end gap-3">
-                                    <button id="modal-leave-btn" class="btn btn-secondary">Leave</button>
-                                    <button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>
-                                      Claim Recipe!
-                                    </button>
-                                  </div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Earn Reputation</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description}</p><div class="mt-3 text-center font-bold text-lg ${challengeMet ? 'text-green-600' : 'text-yellow-600'}">${currentRep} / ${condition.value} Reputation</div></div>`;
+                    footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>Claim Recipe!</button></div>`;
                 }
                 else if (condition.type === 'mastery') {
                     const requiredRecipe = condition.value;
                     const masteryDetails = player.recipe_mastery[requiredRecipe];
                     challengeMet = masteryDetails && masteryDetails.level >= 3;
-                    challengeHTML = `
-                        <div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}">
-                             <p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Master a Recipe</p>
-                             <p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description}</p>
-                        </div>`;
-                    footerHTML = `<div class="mt-6 flex justify-end gap-3">
-                                    <button id="modal-leave-btn" class="btn btn-secondary">Leave</button>
-                                    <button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>
-                                      Claim Recipe!
-                                    </button>
-                                  </div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Master a Recipe</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description}</p></div>`;
+                    footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>Claim Recipe!</button></div>`;
                 }
                 else if (condition.type === 'competition') {
-                    challengeHTML = `
-                        <div class="p-4 border rounded-lg bg-red-50 border-red-200">
-                             <p class="font-semibold text-lg text-red-800">Challenge: Sales Competition!</p>
-                             <p class="mt-1 text-sm text-red-700">${condition.description}</p>
-                        </div>`;
-                    footerHTML = `<div class="mt-6 flex justify-end gap-3">
-                                    <button id="modal-leave-btn" class="btn btn-secondary">Maybe Later</button>
-                                    <button class="btn btn-yellow" id="accept-challenge-btn">
-                                      Accept Challenge!
-                                    </button>
-                                  </div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg bg-red-50 border-red-200"><p class="font-semibold text-lg text-red-800">Challenge: Sales Competition!</p><p class="mt-1 text-sm text-red-700">${condition.description}</p></div>`;
+                    footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Maybe Later</button><button class="btn btn-yellow" id="accept-challenge-btn">Accept Challenge!</button></div>`;
                 }
         
                 contentHTML += challengeHTML;
@@ -574,27 +607,14 @@
             modalContent.innerHTML = contentHTML + footerHTML;
             modal.classList.remove('hidden');
             
-            document.getElementById('modal-leave-btn').onclick = () => {
-                modal.classList.add('hidden');
-                renderAtLocation(locationName);
-            };
+            document.getElementById('modal-leave-btn').onclick = () => { modal.classList.add('hidden'); renderAtLocation(locationName); };
         
-            // Special handler for the competition button
             const acceptChallengeBtn = document.getElementById('accept-challenge-btn');
             if (acceptChallengeBtn) {
                 acceptChallengeBtn.onclick = () => {
-                    player.activeCompetition = {
-                        location: locationName,
-                        recipe: condition.value,
-                        target: condition.target
-                    };
+                    player.activeCompetition = { location: locationName, recipe: condition.value, target: condition.target };
                     modal.classList.add('hidden');
-                    showModal(
-                        'Challenge Accepted!', 
-                        `The competition is on for tomorrow! Make sure you have the <strong>${condition.value}</strong> on your menu. Good luck!`,
-                        'Let\'s do this!',
-                        () => renderAtLocation(locationName)
-                    );
+                    showModal('Challenge Accepted!', `The competition is on for tomorrow! Make sure you have the <strong>${condition.value}</strong> on your menu. Good luck!`, 'Let\'s do this!', () => renderAtLocation(locationName));
                 };
             }
         }
@@ -606,7 +626,6 @@
              Object.keys(INGREDIENT_DATA).forEach(itemName => {
                 const details = INGREDIENT_DATA[itemName];
                 const isLocallyAvailable = location.available_ingredients.includes(itemName);
-
                 let currentPrice = details.price;
                 let priceModificationHTML = '';
                 
@@ -622,18 +641,11 @@
                 }
                 
                 const isDisabled = !isLocallyAvailable || player.money < currentPrice;
-                const priceDetailsHTML = isLocallyAvailable
-                    ? `<div class="flex items-center gap-2"><p class="font-semibold text-green-600">$${currentPrice.toFixed(2)}</p>${priceModificationHTML}</div><p class="text-sm text-gray-500">+${details.servings} servings</p>`
-                    : `<p class="font-semibold text-gray-400">$${details.price.toFixed(2)}</p><p class="text-sm text-red-600 font-medium">Not sold here</p>`;
+                const priceDetailsHTML = isLocallyAvailable ? `<div class="flex items-center gap-2"><p class="font-semibold text-green-600">$${currentPrice.toFixed(2)}</p>${priceModificationHTML}</div><p class="text-sm text-gray-500">+${details.servings} servings</p>` : `<p class="font-semibold text-gray-400">$${details.price.toFixed(2)}</p><p class="text-sm text-red-600 font-medium">Not sold here</p>`;
                 
                 ingredientsHTML += `<button onclick="buyIngredient('${locationName}', '${itemName}')" ${isDisabled ? 'disabled' : ''} class="w-full text-left p-4 border-b border-gray-200 last:border-b-0 flex justify-between items-center transition-colors hover:bg-gray-50 disabled:bg-gray-50 disabled:cursor-not-allowed">
-                                        <div>
-                                            <p class="font-semibold text-lg">${details.emoji} ${itemName}</p>
-                                            <p class="text-sm text-gray-500">In Stock: ${player.inventory[itemName]}</p>
-                                        </div>
-                                        <div class="text-right">
-                                            ${priceDetailsHTML}
-                                        </div>
+                                        <div><p class="font-semibold text-lg">${details.emoji} ${itemName}</p><p class="text-sm text-gray-500">In Stock: ${player.inventory[itemName]}</p></div>
+                                        <div class="text-right">${priceDetailsHTML}</div>
                                      </button>`;
              });
              mainPanel.innerHTML = `<div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">Store at ${location.name}</h2><button class="btn btn-secondary" onclick="renderAtLocation('${locationName}')">Back</button></div><div>${ingredientsHTML}</div>`;
@@ -641,7 +653,7 @@
         
         function showModal(title, content, buttonText, callback) {
             modal.classList.remove('hidden');
-            modalContent.style.maxWidth = "500px"; // Reset to default width
+            modalContent.style.maxWidth = "500px";
             modalContent.innerHTML = `<div class="text-center"><h2 class="text-2xl font-bold mb-4">${title}</h2><div class="text-left space-y-2 mb-6">${content}</div><button id="modal-btn" class="btn btn-primary">${buttonText}</button></div>`;
             document.getElementById('modal-btn').onclick = () => { modal.classList.add('hidden'); if(callback) callback(); };
         }
@@ -657,61 +669,35 @@
         function goToLocationMenu() { renderLocations(); }
         
         function chooseLocation(locationName) {
-            if (player.currentLocation === locationName) {
-                renderAtLocation(locationName);
-                return;
-            }
+            if (player.currentLocation === locationName) { renderAtLocation(locationName); return; }
             const travelDays = getTravelDays(player.currentLocation, locationName);
             player.day += travelDays;
             player.currentDate.setDate(player.currentDate.getDate() + travelDays);
-            player.currentLocation = locationName;
-            isNewDay = true;
-            updateAllUI();
-            renderAtLocation(locationName);
+            player.currentLocation = locationName; isNewDay = true;
+            updateAllUI(); renderAtLocation(locationName);
         }
         
         function buyIngredient(locationName, itemName) { 
-            const details = INGREDIENT_DATA[itemName]; 
-            let currentPrice = details.price;
-            let isBogo = false;
-
+            const details = INGREDIENT_DATA[itemName]; let currentPrice = details.price; let isBogo = false;
             if (player.activeEvent) {
-                if (player.activeEvent.type === 'cost_increase' || player.activeEvent.type === 'cost_decrease') {
-                    currentPrice *= (1 + player.activeEvent.value);
-                } else if (player.activeEvent.type === 'bogo') {
-                    isBogo = true;
-                }
+                if (player.activeEvent.type === 'cost_increase' || player.activeEvent.type === 'cost_decrease') { currentPrice *= (1 + player.activeEvent.value); } 
+                else if (player.activeEvent.type === 'bogo') { isBogo = true; }
             }
-            
             if (player.money >= currentPrice) { 
                 player.money -= currentPrice; 
-                let servingsToAdd = details.servings;
-                if (isBogo) {
-                    servingsToAdd *= 2;
-                }
-                player.inventory[itemName] += servingsToAdd;
-                
-                updateAllUI(); 
-                renderStore(locationName); 
+                player.inventory[itemName] += isBogo ? details.servings * 2 : details.servings;
+                updateAllUI(); renderStore(locationName); 
             } 
         }
         
         function buyRecipe(locationName, recipeName, cost) {
             if (player.money >= cost) {
-                player.money -= cost;
-                player.cookbook.push(recipeName);
+                player.money -= cost; player.cookbook.push(recipeName);
                 const details = RECIPES[recipeName];
                 player.recipe_mastery[recipeName] = {"level": 1, "xp": 0, "xp_to_next_levels": details.xp_to_next_levels};
                 updateAllUI();
-                if(modal.classList.contains('hidden')) {
-                     // This case is for when buyRecipe is called from outside the modal (e.g. competition win)
-                     showModal("Recipe Learned!", `You have successfully learned how to make the <strong>${recipeName}</strong>!`, "Great!", () => {
-                        renderAtLocation(locationName);
-                     });
-                } else {
-                    // This case is for when it's called from within the seller modal
-                    showRecipeSellerModal(locationName); 
-                }
+                if(modal.classList.contains('hidden')) { showModal("Recipe Learned!", `You have successfully learned how to make the <strong>${recipeName}</strong>!`, "Great!", () => renderAtLocation(locationName)); } 
+                else { showRecipeSellerModal(locationName); }
             }
         }
 
@@ -719,61 +705,32 @@
             const location = LOCATIONS.find(l => l.name === locationName);
             const isCompetition = player.activeCompetition && player.activeCompetition.location === locationName;
             if (isCompetition) {
-                // Check if competition recipe is on the menu
                 if (!player.dailyMenu.includes(player.activeCompetition.recipe)) {
-                    showModal(
-                        'Menu Error!',
-                        `You accepted the <strong>${player.activeCompetition.recipe}</strong> challenge, but it's not on your menu today! You must feature it to compete. The challenge is forfeit for today.`,
-                        'My Bad',
-                        () => {
-                            player.activeCompetition = null; // Forfeit
-                            renderAtLocation(locationName);
-                        }
-                    );
+                    showModal('Menu Error!', `You accepted the <strong>${player.activeCompetition.recipe}</strong> challenge, but it's not on your menu today! You must feature it to compete. The challenge is forfeit for today.`, 'My Bad', () => { player.activeCompetition = null; renderAtLocation(locationName); });
                     return;
                 }
                 runSalesSimulation(locationName, player.activeCompetition);
-            } else {
-                runSalesSimulation(locationName);
-            }
+            } else { runSalesSimulation(locationName); }
         }
 
         function runSalesSimulation(locationName, competitionDetails = null) {
             const location = LOCATIONS.find(l => l.name === locationName);
-            
             let dailyPreferences = location.preferences;
             const maxPossibleCustomers = location.max_customers * 0.25;
-            let minCustomers = 0;
-            let maxCustomers = maxPossibleCustomers;
+            let minCustomers = 0; let maxCustomers = maxPossibleCustomers;
         
-            if (player.activeEvent && !competitionDetails) { // Events don't apply during competitions
-                if (player.activeEvent.type === 'customer_boost') {
-                    minCustomers = Math.ceil((maxPossibleCustomers / 3) * 2);
-                } else if (player.activeEvent.type === 'customer_slump') {
-                    maxCustomers = Math.floor(maxPossibleCustomers / 3);
-                } else if (player.activeEvent.type === 'competition' && player.dailyMenu.includes(player.activeEvent.value)) {
-                    dailyPreferences = [player.activeEvent.value];
-                }
+            if (player.activeEvent && !competitionDetails) {
+                if (player.activeEvent.type === 'customer_boost') { minCustomers = Math.ceil((maxPossibleCustomers / 3) * 2); } 
+                else if (player.activeEvent.type === 'customer_slump') { maxCustomers = Math.floor(maxPossibleCustomers / 3); } 
+                else if (player.activeEvent.type === 'competition' && player.dailyMenu.includes(player.activeEvent.value)) { dailyPreferences = [player.activeEvent.value]; }
             }
             
-            // During a competition, you get a guaranteed rush of interested customers
-            if (competitionDetails) {
-                minCustomers = maxPossibleCustomers * 0.5;
-                maxCustomers = maxPossibleCustomers;
-                // The competition recipe becomes the most popular item for the day
-                dailyPreferences = [competitionDetails.recipe];
-            }
+            if (competitionDetails) { minCustomers = maxPossibleCustomers * 0.5; maxCustomers = maxPossibleCustomers; dailyPreferences = [competitionDetails.recipe]; }
             
             let actual_customers = Math.floor(minCustomers + Math.random() * (maxCustomers - minCustomers + 1));
             
             if (actual_customers <= 0) {
-                showModal('A Quiet Day...', '<p>No customers showed up today. Better luck tomorrow!</p>', 'Continue', () => {
-                    player.day++;
-                    player.currentDate.setDate(player.currentDate.getDate() + 1);
-                    isNewDay = true;
-                    updateAllUI();
-                    renderAtLocation(locationName);
-                });
+                showModal('A Quiet Day...', '<p>No customers showed up today. Better luck tomorrow!</p>', 'Continue', () => { player.day++; player.currentDate.setDate(player.currentDate.getDate() + 1); isNewDay = true; updateAllUI(); renderAtLocation(locationName); });
                 return;
             }
         
@@ -783,108 +740,77 @@
         
             for (let i = 0; i < actual_customers; i++) {
                 let chosen_food = player.dailyMenu[Math.floor(Math.random() * player.dailyMenu.length)];
-                
-                let preferenceChance = competitionDetails ? 0.9 : 0.7; // Higher chance to sell competition item
-                if (available_prefs.length > 0 && Math.random() < preferenceChance) {
-                    chosen_food = available_prefs[Math.floor(Math.random() * available_prefs.length)];
-                }
+                let preferenceChance = competitionDetails ? 0.9 : 0.7;
+                if (available_prefs.length > 0 && Math.random() < preferenceChance) { chosen_food = available_prefs[Math.floor(Math.random() * available_prefs.length)]; }
                 
                 const recipe_details = RECIPES[chosen_food];
                 const mastery_details = player.recipe_mastery[chosen_food];
-                let can_make = true;
+                let ingredientsToConsume = { ...recipe_details.ingredients };
                 
-                for (const [ingredient, required_qty] of Object.entries(recipe_details.ingredients)) {
-                    if (tempInventory[ingredient] < required_qty) {
-                        can_make = false; break;
+                // --- PERK LOGIC: Consume Less ---
+                const perkId = player.mastery_perks[chosen_food];
+                if (perkId) {
+                    const perk = MASTERY_PERKS[chosen_food].find(p => p.id === perkId);
+                    if (perk && perk.type === 'consume_less' && Math.random() < 0.25) { // 25% chance
+                        const ingredientToSave = perk.value;
+                        if (ingredientsToConsume[ingredientToSave] > 0) {
+                            ingredientsToConsume[ingredientToSave]--;
+                        }
                     }
+                }
+
+                let can_make = true;
+                for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) {
+                    if (tempInventory[ingredient] < required_qty) { can_make = false; break; }
                 }
                 
                 if (can_make) {
-                    for (const [ingredient, required_qty] of Object.entries(recipe_details.ingredients)) {
-                        tempInventory[ingredient] -= required_qty;
-                    }
+                    for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) { tempInventory[ingredient] -= required_qty; }
         
-                    const sale = {
-                        itemName: chosen_food,
-                        price: recipe_details.selling_prices[mastery_details.level - 1],
-                        repGain: 0, xpGain: 0, levelUpInfo: null
-                    };
-        
+                    const sale = { itemName: chosen_food, price: recipe_details.selling_prices[mastery_details.level - 1], repGain: 0, xpGain: 0, levelUpInfo: null, perkActivated: null };
                     const isPreferred = dailyPreferences.includes(chosen_food);
 
-                    // XP is only gained before mastery
                     if (mastery_details.level < 3) {
-                        if (Math.random() < (isPreferred ? 0.75 : 0.30)) {
-                            sale.xpGain = 1;
-                        }
+                        if (Math.random() < (isPreferred ? 0.75 : 0.30)) { sale.xpGain = 1; }
                     }
 
-                    // Reputation can now be gained at all levels, with a bonus for mastered recipes
                     if (player.reputation[locationName] < location.max_rep) {
                         let repChance = 0;
-                        if (mastery_details.level < 3) {
-                            // Standard gain for non-mastered recipes
-                            repChance = isPreferred ? 0.75 : 0.30;
-                        } else {
-                            // Increased chance for mastered recipes
-                            repChance = 0.85;
-                        }
-
-                        if (Math.random() < repChance) {
-                            sale.repGain = isPreferred ? 2 : 1;
-                        }
+                        if (mastery_details.level < 3) { repChance = isPreferred ? 0.75 : 0.30; } 
+                        else { repChance = 0.85; }
+                        if (Math.random() < repChance) { sale.repGain = isPreferred ? 2 : 1; }
                     }
 
+                    // --- PERK LOGIC: Bonus Money & Rep ---
+                    if (perkId) {
+                        const perk = MASTERY_PERKS[chosen_food].find(p => p.id === perkId);
+                        if (perk && Math.random() < 0.25) { // 25% chance for bonus perks
+                            if (perk.type === 'bonus_money') { sale.price += perk.value; sale.perkActivated = `+ $${perk.value.toFixed(2)} Tip!`; }
+                            if (perk.type === 'bonus_rep') { sale.repGain += perk.value; sale.perkActivated = `+${perk.value} Bonus Rep!`; }
+                        }
+                    }
+                    
                     saleEvents.push(sale);
                 }
             }
-            
             showSalesVisualizer(saleEvents, locationName);
         }
 
         async function showSalesVisualizer(saleEvents, locationName) {
             let menuSalesHTML = '';
             player.dailyMenu.forEach((item, index) => {
-                menuSalesHTML += `
-                    <div class="bg-gray-50 rounded-md p-4 flex justify-between items-center text-xl">
-                        <span class="font-semibold">${item}</span>
-                        <span>Sold: <span id="menu-item-count-${index}" class="font-bold">0</span></span>
-                    </div>`;
+                menuSalesHTML += `<div class="bg-gray-50 rounded-md p-4 flex justify-between items-center text-xl"><span class="font-semibold">${item}</span><span>Sold: <span id="menu-item-count-${index}" class="font-bold">0</span></span></div>`;
             });
         
             const isCompetition = player.activeCompetition && player.activeCompetition.location === locationName;
             const modalTitle = isCompetition ? `🏆 ${player.activeCompetition.recipe} Sell-Off! 🏆` : '🚚 Selling Sandwiches...';
         
-            const modalHTML = `
-                <div id="sales-visualizer-content" class="w-full">
-                    <h2 class="text-2xl font-bold mb-2 text-center">${modalTitle}</h2>
-                    <p id="sales-status" class="text-center text-gray-500 mb-4 h-6">The day is underway!</p>
-                    <div class="grid grid-cols-3 gap-4 my-4 text-center">
-                        <div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Customers</div><div id="sales-customer-count" class="text-2xl font-bold">0</div></div>
-                        <div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Revenue</div><div id="sales-money-earned" class="text-2xl font-bold text-green-600">$0.00</div></div>
-                        <div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Reputation</div><div id="sales-rep-gained" class="text-2xl font-bold text-yellow-500">+0</div></div>
-                    </div>
-                    <div class="my-6 space-y-3">${menuSalesHTML}</div>
-                    <div id="sales-footer" class="mt-6 text-center h-12 flex flex-col justify-center items-center">
-                        <div id="progress-container" class="w-full bg-gray-200 rounded-full h-4">
-                           <div id="progress-bar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
-                        </div>
-                        <button id="sales-continue-btn" class="btn btn-primary hidden">Continue</button>
-                    </div>
-                </div>`;
-            
-            modalContent.innerHTML = modalHTML;
-            modalContent.style.maxWidth = "600px";
-            modal.classList.remove('hidden');
+            const modalHTML = `<div id="sales-visualizer-content" class="w-full"><h2 class="text-2xl font-bold mb-2 text-center">${modalTitle}</h2><p id="sales-status" class="text-center text-gray-500 mb-4 h-6">The day is underway!</p><div class="grid grid-cols-3 gap-4 my-4 text-center"><div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Customers</div><div id="sales-customer-count" class="text-2xl font-bold">0</div></div><div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Revenue</div><div id="sales-money-earned" class="text-2xl font-bold text-green-600">$0.00</div></div><div class="bg-gray-100 p-3 rounded-lg"><div class="text-sm text-gray-600">Reputation</div><div id="sales-rep-gained" class="text-2xl font-bold text-yellow-500">+0</div></div></div><div class="my-6 space-y-3">${menuSalesHTML}</div><div id="sales-footer" class="mt-6 text-center h-12 flex flex-col justify-center items-center"><div id="progress-container" class="w-full bg-gray-200 rounded-full h-4"><div id="progress-bar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div></div><button id="sales-continue-btn" class="btn btn-primary hidden">Continue</button></div></div>`;
+            modalContent.innerHTML = modalHTML; modalContent.style.maxWidth = "600px"; modal.classList.remove('hidden');
         
             const customerCountEl = document.getElementById('sales-customer-count'), moneyEarnedEl = document.getElementById('sales-money-earned'), repGainedEl = document.getElementById('sales-rep-gained'), statusEl = document.getElementById('sales-status'), progressContainer = document.getElementById('progress-container'), progressBar = document.getElementById('progress-bar'), continueBtn = document.getElementById('sales-continue-btn');
-            
-            const menuItemCounters = {};
-            const menuItemCounterEls = {};
-            player.dailyMenu.forEach((item, index) => {
-                menuItemCounters[item] = 0;
-                menuItemCounterEls[item] = document.getElementById(`menu-item-count-${index}`);
-            });
+            const menuItemCounters = {}; const menuItemCounterEls = {};
+            player.dailyMenu.forEach((item, index) => { menuItemCounters[item] = 0; menuItemCounterEls[item] = document.getElementById(`menu-item-count-${index}`); });
             
             const totalDuration = Math.min(5000, Math.max(3000, saleEvents.length * 50));
             const delay = saleEvents.length > 0 ? totalDuration / saleEvents.length : 0;
@@ -893,139 +819,108 @@
         
             for (let i = 0; i < saleEvents.length; i++) {
                 const sale = saleEvents[i];
-                statusEl.innerHTML = originalStatusText;
-                statusEl.className = "text-center text-gray-500 mb-4 h-6";
+                statusEl.innerHTML = originalStatusText; statusEl.className = "text-center text-gray-500 mb-4 h-6";
                 const recipe_details = RECIPES[sale.itemName], mastery_details = player.recipe_mastery[sale.itemName];
-                for (const [ingredient, required_qty] of Object.entries(recipe_details.ingredients)) { player.inventory[ingredient] -= required_qty; }
+                let ingredientsToConsume = { ...recipe_details.ingredients };
+                const perkId = player.mastery_perks[sale.itemName];
+                if (perkId) {
+                    const perk = MASTERY_PERKS[sale.itemName].find(p => p.id === perkId);
+                    if (perk && perk.type === 'consume_less' && Math.random() < 0.25) {
+                        const ingredientToSave = perk.value;
+                        if (ingredientsToConsume[ingredientToSave] > 0) { ingredientsToConsume[ingredientToSave]--; sale.perkActivated = "Saved an ingredient!"; }
+                    }
+                }
+                for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) { player.inventory[ingredient] -= required_qty; }
+                
                 player.money += sale.price;
                 const loc = LOCATIONS.find(l=>l.name===locationName);
                 player.reputation[locationName] = Math.min(loc.max_rep, player.reputation[locationName] + sale.repGain);
+                
                 if (sale.xpGain > 0 && mastery_details.level < 3) {
                     mastery_details.xp += sale.xpGain;
                     const xp_to_next = mastery_details.xp_to_next_levels[mastery_details.level - 1];
                     if (mastery_details.xp >= xp_to_next) {
-                        mastery_details.level += 1; mastery_details.xp = 0;
+                        mastery_details.level++; mastery_details.xp = 0;
                         sale.levelUpInfo = { name: sale.itemName, newLevel: mastery_details.level };
                     }
                 }
+                
+                updateQuestProgress("make_sandwich", sale.itemName);
+
                 totalMoney += sale.price; totalRep += sale.repGain;
-                customerCountEl.textContent = i + 1;
-                moneyEarnedEl.textContent = `$${totalMoney.toFixed(2)}`;
-                repGainedEl.textContent = `+${totalRep}`;
+                customerCountEl.textContent = i + 1; moneyEarnedEl.textContent = `$${totalMoney.toFixed(2)}`; repGainedEl.textContent = `+${totalRep}`;
                 [customerCountEl, moneyEarnedEl, repGainedEl].forEach(el => { el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 300); });
-                menuItemCounters[sale.itemName]++;
-                menuItemCounterEls[sale.itemName].textContent = menuItemCounters[sale.itemName];
+                
+                menuItemCounters[sale.itemName]++; menuItemCounterEls[sale.itemName].textContent = menuItemCounters[sale.itemName];
                 menuItemCounterEls[sale.itemName].classList.add('flash');
                 setTimeout(() => menuItemCounterEls[sale.itemName].classList.remove('flash'), 300);
-                if (sale.levelUpInfo) {
-                    statusEl.innerHTML = `⭐ <strong>${sale.levelUpInfo.name}</strong> leveled up to <strong>Lvl ${sale.levelUpInfo.newLevel}</strong>! ⭐`;
-                    statusEl.className = "text-center text-yellow-600 font-semibold mb-4 h-6 flash";
-                }
-                const progress = ((i + 1) / saleEvents.length) * 100;
-                progressBar.style.width = `${progress}%`;
+                
+                if (sale.perkActivated) { statusEl.innerHTML = `⭐ <strong>Perk!</strong> ${sale.perkActivated} ⭐`; statusEl.className = "text-center text-green-600 font-semibold mb-4 h-6 flash"; }
+                if (sale.levelUpInfo) { statusEl.innerHTML = `⭐ <strong>${sale.levelUpInfo.name}</strong> leveled up to <strong>Lvl ${sale.levelUpInfo.newLevel}</strong>! ⭐`; statusEl.className = "text-center text-yellow-600 font-semibold mb-4 h-6 flash"; }
+                
+                progressBar.style.width = `${((i + 1) / saleEvents.length) * 100}%`;
                 await new Promise(resolve => setTimeout(resolve, delay));
             }
         
-            statusEl.textContent = 'Day Finished!';
-            statusEl.className = "text-center text-gray-500 mb-4 h-6";
-        
-            setTimeout(() => {
-                progressContainer.classList.add('hidden');
-                continueBtn.classList.remove('hidden');
-            }, 500);
+            statusEl.textContent = 'Day Finished!'; statusEl.className = "text-center text-gray-500 mb-4 h-6";
+            
+            // Handle post-sales events like perk selection
+            for (const sale of saleEvents) {
+                if (sale.levelUpInfo && sale.levelUpInfo.newLevel === 3) {
+                    await startPerkSelection(sale.levelUpInfo.name);
+                }
+            }
+
+            setTimeout(() => { progressContainer.classList.add('hidden'); continueBtn.classList.remove('hidden'); }, 500);
             
             continueBtn.onclick = () => {
-                // --- COMPETITION OUTCOME LOGIC ---
                 if (isCompetition) {
-                    const compDetails = player.activeCompetition;
-                    const soldCount = menuItemCounters[compDetails.recipe] || 0;
-                    const target = compDetails.target;
+                    const compDetails = player.activeCompetition; const soldCount = menuItemCounters[compDetails.recipe] || 0; const target = compDetails.target;
                     let resultTitle, resultMessage;
-        
                     if (soldCount >= target) {
-                        resultTitle = "🏆 Challenge Won! 🏆";
-                        resultMessage = `<p>You sold <strong>${soldCount} ${compDetails.recipe}s</strong>, crushing the goal of ${target}!</p><p class="mt-2">Chad is super impressed and teaches you the <strong>Burger</strong> recipe as promised!</p>`;
-                        buyRecipe(locationName, "Burger", 0); // Unlock recipe for free
+                        resultTitle = "🏆 Challenge Won! 🏆"; resultMessage = `<p>You sold <strong>${soldCount} ${compDetails.recipe}s</strong>, crushing the goal of ${target}!</p><p class="mt-2">Chad is super impressed and teaches you the <strong>Burger</strong> recipe as promised!</p>`;
+                        buyRecipe(locationName, "Burger", 0);
                     } else {
-                        resultTitle = "😭 Challenge Lost 😭";
-                        resultMessage = `<p>You only sold <strong>${soldCount} ${compDetails.recipe}s</strong> and didn't meet the goal of ${target}.</p><p class="mt-2">Chad is a little bummed, but tells you to come back and try again another time.</p>`;
+                        resultTitle = "😭 Challenge Lost 😭"; resultMessage = `<p>You only sold <strong>${soldCount} ${compDetails.recipe}s</strong> and didn't meet the goal of ${target}.</p><p class="mt-2">Chad is a little bummed, but tells you to come back and try again another time.</p>`;
                     }
-                    player.activeCompetition = null; // End the competition
-                    showModal(resultTitle, resultMessage, 'Awesome!', () => {
-                        modal.classList.add('hidden');
-                        player.day++;
-                        player.currentDate.setDate(player.currentDate.getDate() + 1);
-                        isNewDay = true;
-                        updateAllUI();
-                        renderAtLocation(locationName);
-                    });
+                    player.activeCompetition = null;
+                    showModal(resultTitle, resultMessage, 'Awesome!', () => { modal.classList.add('hidden'); player.day++; player.currentDate.setDate(player.currentDate.getDate() + 1); isNewDay = true; updateAllUI(); renderAtLocation(locationName); });
                 } else {
-                    // Normal day-end logic
-                    modal.classList.add('hidden');
-                    modalContent.innerHTML = '';
-                    modalContent.style.maxWidth = "500px";
-                    player.day++;
-                    player.currentDate.setDate(player.currentDate.getDate() + 1);
-                    isNewDay = true;
-                    updateAllUI();
-                    renderAtLocation(locationName);
+                    modal.classList.add('hidden'); modalContent.innerHTML = ''; modalContent.style.maxWidth = "500px";
+                    player.day++; player.currentDate.setDate(player.currentDate.getDate() + 1); isNewDay = true;
+                    updateAllUI(); renderAtLocation(locationName);
                 }
             };
         }
         
         function checkLocalPaper(locationName) {
-            const location = LOCATIONS.find(l => l.name === locationName); 
-            const localRep = player.reputation[locationName]; 
-            let review = '';
-            if (localRep >= location.max_rep) { 
-                review = `"The Sandwich Hero truck is the undisputed champion of the local lunch scene! Lines form around the block daily. One has to wonder what new culinary mountains this mobile marvel will conquer next. The world is their oyster... or, perhaps, their sandwich!"`; 
-            } else if (localRep > location.max_rep / 2) { 
-                review = `"The buzz around the 'Sandwich Hero' truck is undeniable. What started as a whisper is now a roar. They're quickly becoming a beloved fixture in our town. A must-try for any sandwich aficionado!"`; 
-            } else { 
-                review = `"We're hearing good things about the new 'Sandwich Hero' food truck that rolled into town. Early reports are positive, with delicious smells and happy customers. We're watching to see if they can make a lasting impression."`; 
-            }
+            const location = LOCATIONS.find(l => l.name === locationName); const localRep = player.reputation[locationName]; let review = '';
+            if (localRep >= location.max_rep) { review = `"The Sandwich Hero truck is the undisputed champion of the local lunch scene! Lines form around the block daily. One has to wonder what new culinary mountains this mobile marvel will conquer next. The world is their oyster... or, perhaps, their sandwich!"`; } 
+            else if (localRep > location.max_rep / 2) { review = `"The buzz around the 'Sandwich Hero' truck is undeniable. What started as a whisper is now a roar. They're quickly becoming a beloved fixture in our town. A must-try for any sandwich aficionado!"`; } 
+            else { review = `"We're hearing good things about the new 'Sandwich Hero' food truck that rolled into town. Early reports are positive, with delicious smells and happy customers. We're watching to see if they can make a lasting impression."`; }
             const modalHTML = `<div class="p-4 bg-yellow-50 border-l-4 border-yellow-400"><p class="text-lg italic text-gray-700">${review}</p></div>`;
             showModal(`From the ${locationName} Gazette`, modalHTML, 'Interesting!', null);
         }
 
         function talkToLocals(locationName) {
             const location = LOCATIONS.find(l => l.name === locationName);
-            if (!player.knownPreferences.includes(locationName)) {
-                player.knownPreferences.push(locationName);
-            }
+            if (!player.knownPreferences.includes(locationName)) { player.knownPreferences.push(locationName); }
             const hint = location.preferences[Math.floor(Math.random() * location.preferences.length)];
             const dialogue = `"Psst... hey! I was just talking with my friends, and we all agreed that a really good <strong>${hint}</strong> sandwich would hit the spot right about now. Just sayin'."`;
-            const modalHTML = `<p class="text-lg italic">${dialogue}</p>`;
-            showModal('Local Gossip', modalHTML, 'Thanks for the tip!', null);
+            showModal('Local Gossip', `<p class="text-lg italic">${dialogue}</p>`, 'Thanks for the tip!', null);
         }
         
         function checkForWin() { if (player.cookbook.length === Object.keys(RECIPES).length && Object.values(player.recipe_mastery).every(r => r.level >= 3)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
-
-        function getRandomElement(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
-        }
+        function getRandomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
         function checkForDailyEvent() {
             player.activeEvent = null;
-            
-            const BASE_CHANCE = 0.05;
-            const CHANCE_INCREMENT = 0.02;
-            const MAX_CHANCE = 0.25;
-
+            const BASE_CHANCE = 0.05, CHANCE_INCREMENT = 0.02, MAX_CHANCE = 0.25;
             const currentChance = Math.min(MAX_CHANCE, BASE_CHANCE + (player.daysSinceEvent * CHANCE_INCREMENT));
             
             if (Math.random() < currentChance) {
-                // Event Triggered!
                 const eventBlueprint = getRandomElement(EVENTS);
-                const eventValue = getRandomElement(eventBlueprint.values);
-
-                const newEvent = {
-                    type: eventBlueprint.type,
-                    value: eventValue,
-                    isPositive: eventBlueprint.isPositive,
-                    shortDescription: "Daily Event!" // Default description
-                };
-                
+                const newEvent = { type: eventBlueprint.type, value: getRandomElement(eventBlueprint.values), isPositive: eventBlueprint.isPositive, shortDescription: "Daily Event!" };
                 switch(newEvent.type) {
                     case 'customer_boost': newEvent.shortDescription = "Busy Day! Expect more customers."; break;
                     case 'customer_slump': newEvent.shortDescription = "Slow Day... Expect fewer customers."; break;
@@ -1033,20 +928,138 @@
                     case 'cost_increase': newEvent.shortDescription = `Supply Shortage! ${(newEvent.value * 100)}% price increase.`; break;
                     case 'bogo': newEvent.shortDescription = "Market Sale! All ingredients are BOGO."; break;
                     case 'competition':
-                        if (player.cookbook.length === 0) return; // Can't have competition with no recipes
+                        if (player.cookbook.length === 0) return;
                         const competitionRecipe = getRandomElement(player.cookbook);
                         newEvent.value = competitionRecipe;
                         newEvent.shortDescription = `Food Competition! Theme: ${competitionRecipe}.`;
                         break;
                 }
+                player.activeEvent = newEvent; player.daysSinceEvent = 0;
+            } else { player.daysSinceEvent++; }
+            updateCalendarUI();
+        }
+
+        async function startPerkSelection(recipeName) {
+            return new Promise(resolve => {
+                const perks = MASTERY_PERKS[recipeName];
+                if (!perks || player.mastery_perks[recipeName]) { resolve(); return; }
+
+                let promptText = `You've mastered the ${recipeName}!\nChoose a permanent perk:\n`;
+                perks.forEach((p, i) => { promptText += `\n${i + 1}: ${p.description}`; });
+
+                let choice;
+                do {
+                    choice = prompt(promptText);
+                    if (choice === null) continue; // Handle cancel button
+                    choice = parseInt(choice) - 1;
+                } while (isNaN(choice) || choice < 0 || choice >= perks.length);
+
+                const chosenPerk = perks[choice];
+                player.mastery_perks[recipeName] = chosenPerk.id;
+                showModal("Perk Unlocked!", `You've chosen the "${chosenPerk.description}" perk for the ${recipeName}!`, "Awesome!", () => {
+                    updateAllUI();
+                    resolve();
+                });
+            });
+        }
+
+        function showBulletinBoard() {
+            const activeQuest = player.active_quests[0];
+            let html = `<h2 class="text-2xl font-bold mb-4 text-center">📋 Town Bulletin Board</h2>`;
+
+            if (activeQuest) {
+                const questDetails = QUEST_DATA.find(q => q.questId === activeQuest.questId);
+                const objective = questDetails.objective;
+                html += `<div class="p-4 border rounded-lg bg-yellow-50 border-yellow-300">
+                            <h3 class="font-bold text-lg text-yellow-800">${questDetails.title} (In Progress)</h3>
+                            <p class="text-sm text-yellow-700 mt-1">${questDetails.description}</p>`;
                 
-                player.activeEvent = newEvent;
-                player.daysSinceEvent = 0; // Reset the counter
+                let canComplete = false;
+                if (objective.type === 'deliver_ingredient') {
+                    const hasEnough = player.inventory[objective.target.ingredient] >= objective.target.amount;
+                    html += `<p class="mt-2 font-semibold">Objective: Deliver ${objective.target.amount} ${objective.target.ingredient}. (${player.inventory[objective.target.ingredient]}/${objective.target.amount})</p>`;
+                    if (hasEnough) canComplete = true;
+                } else if (objective.type === 'make_sandwich') {
+                    html += `<p class="mt-2 font-semibold">Objective: Make ${objective.target.amount} ${objective.target.recipe}s. (${activeQuest.progress}/${objective.target.amount})</p>`;
+                    if (activeQuest.progress >= objective.target.amount) canComplete = true;
+                } else if (objective.type === 'teach_recipe') {
+                    const isOnMenu = player.dailyMenu.includes(objective.target.recipe);
+                    html += `<p class="mt-2 font-semibold">Objective: Feature the ${objective.target.recipe} on your menu for one day.</p>`;
+                    if (isOnMenu) canComplete = true;
+                }
+                
+                html += `<div class="mt-4 flex justify-end gap-3">
+                            <button id="modal-leave-btn" class="btn btn-secondary">Close</button>
+                            <button onclick="completeQuest('${activeQuest.questId}')" class="btn btn-green" ${!canComplete ? 'disabled' : ''}>Complete Quest</button>
+                         </div></div>`;
+
             } else {
-                // No event, increment the counter
-                player.daysSinceEvent++;
+                const availableQuests = QUEST_DATA.filter(q => q.location === player.currentLocation && !player.completed_quests.includes(q.questId));
+                if (availableQuests.length > 0) {
+                    availableQuests.forEach(quest => {
+                        html += `<div class="p-3 border rounded-lg mb-3">
+                                    <h3 class="font-bold">${quest.title}</h3>
+                                    <p class="text-sm text-gray-600 my-1">${quest.description}</p>
+                                    <div class="text-right"><button onclick="startQuest('${quest.questId}')" class="btn btn-primary btn-sm py-1 px-3">Accept</button></div>
+                                 </div>`;
+                    });
+                } else {
+                    html += `<p class="text-center text-gray-500 italic p-4">The board is empty for now. Check back later!</p>`;
+                }
+                html += `<div class="mt-4 text-center"><button id="modal-leave-btn" class="btn btn-secondary">Close</button></div>`;
             }
-            updateCalendarUI(); // Update the UI with the new event info (or lack thereof)
+
+            modalContent.innerHTML = html;
+            modal.classList.remove('hidden');
+            document.getElementById('modal-leave-btn').onclick = () => modal.classList.add('hidden');
+        }
+
+        function startQuest(questId) {
+            if (player.active_quests.length > 0) {
+                showModal("Quest Limit", "You can only have one active quest at a time. Complete your current quest before accepting another.", "Okay", null);
+                return;
+            }
+            player.active_quests.push({ questId: questId, progress: 0 });
+            modal.classList.add('hidden');
+            showModal("Quest Accepted!", "You've accepted a new quest! Check the bulletin board to see your progress.", "Got it!", null);
+        }
+
+        function updateQuestProgress(triggerType, value) {
+            if (player.active_quests.length === 0) return;
+            const activeQuest = player.active_quests[0];
+            const questDetails = QUEST_DATA.find(q => q.questId === activeQuest.questId);
+            if (questDetails.objective.type === triggerType && questDetails.objective.target.recipe === value) {
+                activeQuest.progress++;
+            }
+        }
+
+        function completeQuest(questId) {
+            const questIndex = player.active_quests.findIndex(q => q.questId === questId);
+            if (questIndex === -1) return;
+
+            const questDetails = QUEST_DATA.find(q => q.questId === questId);
+            const objective = questDetails.objective;
+            const reward = questDetails.reward;
+            let rewardText = "";
+
+            if (objective.type === 'deliver_ingredient') {
+                player.inventory[objective.target.ingredient] -= objective.target.amount;
+            }
+
+            if (reward.type === 'money') {
+                player.money += reward.value;
+                rewardText = `You received $${reward.value.toFixed(2)}!`;
+            } else if (reward.type === 'ingredient') {
+                player.inventory[reward.value.name] += reward.value.amount;
+                rewardText = `You received ${reward.value.amount} ${reward.value.name}!`;
+            }
+            
+            player.active_quests.splice(questIndex, 1);
+            player.completed_quests.push(questId);
+            
+            modal.classList.add('hidden');
+            updateAllUI();
+            showModal("Quest Complete!", `You completed "${questDetails.title}"!<br>${rewardText}`, "Excellent!", null);
         }
         
         function initGame() {
