@@ -747,15 +747,12 @@
                 const mastery_details = player.recipe_mastery[chosen_food];
                 let ingredientsToConsume = { ...recipe_details.ingredients };
                 
-                // --- PERK LOGIC: Consume Less ---
                 const perkId = player.mastery_perks[chosen_food];
                 if (perkId) {
                     const perk = MASTERY_PERKS[chosen_food].find(p => p.id === perkId);
                     if (perk && perk.type === 'consume_less' && Math.random() < 0.25) { // 25% chance
                         const ingredientToSave = perk.value;
-                        if (ingredientsToConsume[ingredientToSave] > 0) {
-                            ingredientsToConsume[ingredientToSave]--;
-                        }
+                        if (ingredientsToConsume[ingredientToSave] > 0) { ingredientsToConsume[ingredientToSave]--; }
                     }
                 }
 
@@ -775,16 +772,13 @@
                     }
 
                     if (player.reputation[locationName] < location.max_rep) {
-                        let repChance = 0;
-                        if (mastery_details.level < 3) { repChance = isPreferred ? 0.75 : 0.30; } 
-                        else { repChance = 0.85; }
+                        let repChance = (mastery_details.level < 3) ? (isPreferred ? 0.75 : 0.30) : 0.85;
                         if (Math.random() < repChance) { sale.repGain = isPreferred ? 2 : 1; }
                     }
 
-                    // --- PERK LOGIC: Bonus Money & Rep ---
                     if (perkId) {
                         const perk = MASTERY_PERKS[chosen_food].find(p => p.id === perkId);
-                        if (perk && Math.random() < 0.25) { // 25% chance for bonus perks
+                        if (perk && Math.random() < 0.25) {
                             if (perk.type === 'bonus_money') { sale.price += perk.value; sale.perkActivated = `+ $${perk.value.toFixed(2)} Tip!`; }
                             if (perk.type === 'bonus_rep') { sale.repGain += perk.value; sale.perkActivated = `+${perk.value} Bonus Rep!`; }
                         }
@@ -864,10 +858,9 @@
         
             statusEl.textContent = 'Day Finished!'; statusEl.className = "text-center text-gray-500 mb-4 h-6";
             
-            // Handle post-sales events like perk selection
             for (const sale of saleEvents) {
                 if (sale.levelUpInfo && sale.levelUpInfo.newLevel === 3) {
-                    await startPerkSelection(sale.levelUpInfo.name);
+                    await showPerkSelectionModal(sale.levelUpInfo.name);
                 }
             }
 
@@ -939,26 +932,37 @@
             updateCalendarUI();
         }
 
-        async function startPerkSelection(recipeName) {
+        function showPerkSelectionModal(recipeName) {
             return new Promise(resolve => {
                 const perks = MASTERY_PERKS[recipeName];
-                if (!perks || player.mastery_perks[recipeName]) { resolve(); return; }
-
-                let promptText = `You've mastered the ${recipeName}!\nChoose a permanent perk:\n`;
-                perks.forEach((p, i) => { promptText += `\n${i + 1}: ${p.description}`; });
-
-                let choice;
-                do {
-                    choice = prompt(promptText);
-                    if (choice === null) continue; // Handle cancel button
-                    choice = parseInt(choice) - 1;
-                } while (isNaN(choice) || choice < 0 || choice >= perks.length);
-
-                const chosenPerk = perks[choice];
-                player.mastery_perks[recipeName] = chosenPerk.id;
-                showModal("Perk Unlocked!", `You've chosen the "${chosenPerk.description}" perk for the ${recipeName}!`, "Awesome!", () => {
-                    updateAllUI();
+                if (!perks || player.mastery_perks[recipeName]) {
                     resolve();
+                    return;
+                }
+
+                let buttonsHTML = perks.map((p, index) => 
+                    `<button id="perk-btn-${index}" class="btn btn-secondary w-full text-left">${p.description}</button>`
+                ).join('');
+
+                const modalHTML = `
+                    <div class="text-center">
+                        <h2 class="text-2xl font-bold mb-2">✨ ${recipeName} Mastered! ✨</h2>
+                        <p class="mb-4 text-gray-600">Your dedication has unlocked new potential. Choose a permanent perk for this recipe:</p>
+                        <div class="space-y-3">${buttonsHTML}</div>
+                    </div>`;
+                
+                modalContent.innerHTML = modalHTML;
+                modal.classList.remove('hidden');
+
+                perks.forEach((p, index) => {
+                    document.getElementById(`perk-btn-${index}`).onclick = () => {
+                        player.mastery_perks[recipeName] = p.id;
+                        modal.classList.add('hidden');
+                        showModal("Perk Unlocked!", `You've chosen the "${p.description}" perk for the ${recipeName}!`, "Awesome!", () => {
+                            updateAllUI();
+                            resolve();
+                        });
+                    };
                 });
             });
         }
@@ -976,16 +980,14 @@
                 
                 let canComplete = false;
                 if (objective.type === 'deliver_ingredient') {
-                    const hasEnough = player.inventory[objective.target.ingredient] >= objective.target.amount;
+                    canComplete = player.inventory[objective.target.ingredient] >= objective.target.amount;
                     html += `<p class="mt-2 font-semibold">Objective: Deliver ${objective.target.amount} ${objective.target.ingredient}. (${player.inventory[objective.target.ingredient]}/${objective.target.amount})</p>`;
-                    if (hasEnough) canComplete = true;
                 } else if (objective.type === 'make_sandwich') {
+                    canComplete = activeQuest.progress >= objective.target.amount;
                     html += `<p class="mt-2 font-semibold">Objective: Make ${objective.target.amount} ${objective.target.recipe}s. (${activeQuest.progress}/${objective.target.amount})</p>`;
-                    if (activeQuest.progress >= objective.target.amount) canComplete = true;
                 } else if (objective.type === 'teach_recipe') {
-                    const isOnMenu = player.dailyMenu.includes(objective.target.recipe);
+                    canComplete = player.dailyMenu.includes(objective.target.recipe);
                     html += `<p class="mt-2 font-semibold">Objective: Feature the ${objective.target.recipe} on your menu for one day.</p>`;
-                    if (isOnMenu) canComplete = true;
                 }
                 
                 html += `<div class="mt-4 flex justify-end gap-3">
