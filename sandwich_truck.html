@@ -302,28 +302,58 @@
 
         const QUEST_DATA = [
             { 
-                questId: "earls_bread_shortage", 
-                title: "Earl's Bread Shortage",
+                questId: "earls_bread_shortage", title: "Earl's Bread Shortage",
                 description: "Old Man Earl is having his family over but the store is all out of bread. He needs 50 servings of Bread and will pay handsomely for it.",
-                location: "Central City",
-                objective: { type: "deliver_ingredient", target: { ingredient: "Bread", amount: 50 } },
+                location: "Central City", objective: { type: "deliver_ingredient", target: { ingredient: "Bread", amount: 50 } },
                 reward: { type: "money", value: 75 }
             },
             { 
-                questId: "sofias_craving", 
-                title: "A Salty Craving",
+                questId: "sofias_craving", title: "A Salty Craving",
                 description: "'Salty' Sofia has a powerful craving for a proper Club sandwich after a long voyage. She wants you to make her 5 of them. She'll make it worth your while.",
-                location: "Bravoport",
-                objective: { type: "make_sandwich", target: { recipe: "Club", amount: 5 } },
+                location: "Bravoport", objective: { type: "make_sandwich", target: { recipe: "Club", amount: 5 } },
                 reward: { type: "money", value: 100 }
             },
             { 
-                questId: "forrests_lesson", 
-                title: "A Ranger's Lesson",
+                questId: "forrests_lesson", title: "A Ranger's Lesson",
                 description: "Forrest wants to teach a new park ranger how to make a simple, hearty meal. He needs you to demonstrate how to make a BLT. Put it on your menu for a day so he can watch.",
-                location: "Evergreen Pointe",
-                objective: { type: "teach_recipe", target: { recipe: "BLT" } },
+                location: "Evergreen Pointe", objective: { type: "teach_recipe", target: { recipe: "BLT" } },
                 reward: { type: "ingredient", value: { name: "Vegetables", amount: 25 } }
+            },
+            {
+                questId: "pattys_picnic_prep", title: "Patty's Picnic Prep",
+                description: "Patty is preparing for the annual Maple Heights picnic and needs your help! She needs 10 of her signature Chicken Salad sandwiches for the head table.",
+                location: "Maple Heights", objective: { type: "make_sandwich", target: { recipe: "Chicken salad", amount: 10 } },
+                reward: { type: "money", value: 150 }
+            },
+            {
+                questId: "antoines_test_kitchen", title: "Antoine's Test Kitchen",
+                description: "Chef Antoine has heard tales of your zesty Italian sub. He's a skeptic and wants to taste it for himself. Make him 5 of them to prove your skill.",
+                location: "Bourbon Creek", objective: { type: "make_sandwich", target: { recipe: "Italian", amount: 5 } },
+                reward: { type: "ingredient", value: { name: "Sauce", amount: 40 } }
+            },
+            {
+                questId: "frankies_furnace_fuel", title: "Furnace Fuel",
+                description: "Frankie and the mill crew are working a double shift and they're starving. He needs a massive delivery of Meat to feed everyone. Bring him 75 servings.",
+                location: "Steel City", objective: { type: "deliver_ingredient", target: { ingredient: "Meat", amount: 75 } },
+                reward: { type: "money", value: 125 }
+            },
+            {
+                questId: "belles_road_food", title: "Belle's Road Food",
+                description: "Belle is teaching a fellow musician a simple recipe for the road. She wants you to demonstrate how to make a classic Ham & cheese. Feature it on your menu for a day.",
+                location: "Twin River City", objective: { type: "teach_recipe", target: { recipe: "Ham & cheese" } },
+                reward: { type: "money", value: 50 }
+            },
+            {
+                questId: "chads_bacon_boost", title: "Chad's Bacon Boost",
+                description: "Chad is totally convinced that bacon is the ultimate post-shred fuel. He wants to stock up. Bring him 50 servings of Toppings.",
+                location: "Aspen Peak", objective: { type: "deliver_ingredient", target: { ingredient: "Toppings", amount: 50 } },
+                reward: { type: "money", value: 100 }
+            },
+            {
+                questId: "investors_acquisition", title: "The Investor's Acquisition",
+                description: "The Investor wants to perform a 'market analysis' on your premium product. He requires a sample of 3 of your 'The Ultimate' sandwiches for his board meeting.",
+                location: "Bay City", objective: { type: "make_sandwich", target: { recipe: "The Ultimate", amount: 3 } },
+                reward: { type: "money", value: 250 }
             }
         ];
         
