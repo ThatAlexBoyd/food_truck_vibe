@@ -8,12 +8,13 @@ Sandwich Hero is a strategic management game where every day presents new opport
 
 ### The Gameplay Loop
 
-1.  **Plan Your Day:** At the start of each day, check the calendar for special events. Use the **Cookbook** on the right to select which two sandwiches you want to feature on your daily menu.
+1.  **Plan Your Day:** At the start of each day, check for special events that might affect your strategy. Use the **Cookbook** on the right to select which two sandwiches you want to feature on your daily menu.
 2.  **Choose an Action:** From the main panel, decide what you want to do for the day:
     *   **🚚 Setup Shop & Sell:** This is your primary way to earn money. The game simulates a day of sales based on your location, menu choices, recipe levels, and any active events. Watch as customers line up and your earnings grow!
     *   **🛒 Visit Store:** Restock your ingredients. Prices and availability vary by location, and daily events can cause sales or shortages.
     *   **👨‍🍳 Talk to the Local Expert:** Every location has a resident expert with a unique recipe to teach you... sometimes for a price or a challenge.
     *   **🏘️ Talk to Locals:** Gather intel on which sandwiches are most popular in the area to maximize your reputation and sales.
+    *   **📋 Check Bulletin Board:** Discover and complete local quests for unique rewards and extra cash.
     *   **📍 Change Location:** Ready for a new scene? Travel to a new city. Be aware that travel takes time, advancing the game clock by one or more days.
 3.  **Learn & Master:** Selling sandwiches earns XP for that recipe. As a recipe levels up, its selling price increases. Selling local favorites builds your reputation, and even mastered recipes become a reliable way to impress the locals and grow your fame.
 4.  **Grow Your Empire:** Use your earnings to buy new ingredients, unlock new recipes, and travel to new locations with bigger customer bases.
@@ -29,6 +30,8 @@ The game is won when you have:
 ## ✨ Key Features
 
 *   **Recipe Mastery System:** Each recipe has 3 levels. Selling a sandwich has a chance to grant XP, and leveling up increases its selling price.
+*   **Mastery Perks:** Upon mastering a recipe, choose a permanent, powerful perk for it, such as a chance for bonus profit, reduced ingredient consumption, or extra reputation gain.
+*   **Bulletin Board Quests:** Each city has a unique quest. Check the local bulletin board to discover tasks and earn valuable rewards.
 *   **Dynamic Locations:** Travel between 9 unique locations, each with its own theme, max reputation, customer base, local recipe, and ingredient availability.
 *   **Reputation & Preferences:** Gain reputation in a city by selling sandwiches, especially local favorites. Mastering a recipe allows you to build reputation even faster, making it a key strategy for winning over a city. High reputation can lead to positive articles in the local paper.
 *   **Daily Event System:** Each day has a chance to trigger a random event, such as a supplier discount, a customer boost from a local festival, a price hike due to shortages, or a food truck competition.
