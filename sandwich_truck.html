@@ -372,6 +372,11 @@
                     <p class="text-lg"><strong>🗓️ Day:</strong> <span class="text-blue-600 font-semibold">${player.day}</span></p>
                     <p class="text-lg"><strong>💰 Money:</strong> <span class="text-green-600">$${player.money.toFixed(2)}</span></p>
                     <p class="text-lg"><strong>⭐ Reputation:</strong> <span class="text-yellow-600 font-semibold">${totalReputation}</span></p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <button onclick="showQuestJournal()" class="btn btn-secondary w-full">
+                        <span class="mr-2">📖</span> Quest Journal
+                    </button>
                 </div>`;
         }
 
@@ -998,71 +1003,97 @@
         }
 
         function showBulletinBoard() {
-            const activeQuest = player.active_quests[0];
+            const newQuests = QUEST_DATA.filter(q => 
+                q.location === player.currentLocation && 
+                !player.completed_quests.includes(q.questId) && 
+                !player.active_quests.some(aq => aq.questId === q.questId)
+            );
+            newQuests.forEach(q => player.active_quests.push({ questId: q.questId, progress: 0 }));
+            if (newQuests.length > 0) updateAllUI();
+
             let html = `<h2 class="text-2xl font-bold mb-4 text-center">📋 Town Bulletin Board</h2>`;
+            const activeQuestsHere = player.active_quests.map(aq => ({ ...QUEST_DATA.find(q => q.questId === aq.questId), progress: aq.progress })).filter(q => q.location === player.currentLocation);
 
-            if (activeQuest) {
-                const questDetails = QUEST_DATA.find(q => q.questId === activeQuest.questId);
-                const objective = questDetails.objective;
-                html += `<div class="p-4 border rounded-lg bg-yellow-50 border-yellow-300">
-                            <h3 class="font-bold text-lg text-yellow-800">${questDetails.title} (In Progress)</h3>
-                            <p class="text-sm text-yellow-700 mt-1">${questDetails.description}</p>`;
-                
-                let canComplete = false;
-                if (objective.type === 'deliver_ingredient') {
-                    canComplete = player.inventory[objective.target.ingredient] >= objective.target.amount;
-                    html += `<p class="mt-2 font-semibold">Objective: Deliver ${objective.target.amount} ${objective.target.ingredient}. (${player.inventory[objective.target.ingredient]}/${objective.target.amount})</p>`;
-                } else if (objective.type === 'make_sandwich') {
-                    canComplete = activeQuest.progress >= objective.target.amount;
-                    html += `<p class="mt-2 font-semibold">Objective: Make ${objective.target.amount} ${objective.target.recipe}s. (${activeQuest.progress}/${objective.target.amount})</p>`;
-                } else if (objective.type === 'teach_recipe') {
-                    canComplete = player.dailyMenu.includes(objective.target.recipe);
-                    html += `<p class="mt-2 font-semibold">Objective: Feature the ${objective.target.recipe} on your menu for one day.</p>`;
-                }
-                
-                html += `<div class="mt-4 flex justify-end gap-3">
-                            <button id="modal-leave-btn" class="btn btn-secondary">Close</button>
-                            <button onclick="completeQuest('${activeQuest.questId}')" class="btn btn-green" ${!canComplete ? 'disabled' : ''}>Complete Quest</button>
-                         </div></div>`;
-
+            if (activeQuestsHere.length > 0) {
+                html += `<div class="space-y-4 max-h-96 overflow-y-auto pr-2">`;
+                activeQuestsHere.forEach(quest => {
+                    const objective = quest.objective;
+                    html += `<div class="p-4 border rounded-lg bg-yellow-50 border-yellow-300">
+                                <h3 class="font-bold text-lg text-yellow-800">${quest.title}</h3>
+                                <p class="text-sm text-yellow-700 mt-1">${quest.description}</p>`;
+                    
+                    let canComplete = false;
+                    if (objective.type === 'deliver_ingredient') {
+                        canComplete = player.inventory[objective.target.ingredient] >= objective.target.amount;
+                        html += `<p class="mt-2 font-semibold">Objective: Deliver ${objective.target.amount} ${objective.target.ingredient}. (${player.inventory[objective.target.ingredient]}/${objective.target.amount})</p>`;
+                    } else if (objective.type === 'make_sandwich') {
+                        canComplete = quest.progress >= objective.target.amount;
+                        html += `<p class="mt-2 font-semibold">Objective: Make ${objective.target.amount} ${objective.target.recipe}s. (${quest.progress}/${objective.target.amount})</p>`;
+                    } else if (objective.type === 'teach_recipe') {
+                        canComplete = player.dailyMenu.includes(objective.target.recipe);
+                        html += `<p class="mt-2 font-semibold">Objective: Feature the ${objective.target.recipe} on your menu for one day.</p>`;
+                    }
+                    
+                    html += `<div class="mt-4 flex justify-end gap-3">
+                                <button onclick="completeQuest('${quest.questId}')" class="btn btn-green" ${!canComplete ? 'disabled' : ''}>Complete Quest</button>
+                             </div></div>`;
+                });
+                html += `</div>`;
             } else {
-                const availableQuests = QUEST_DATA.filter(q => q.location === player.currentLocation && !player.completed_quests.includes(q.questId));
-                if (availableQuests.length > 0) {
-                    availableQuests.forEach(quest => {
-                        html += `<div class="p-3 border rounded-lg mb-3">
-                                    <h3 class="font-bold">${quest.title}</h3>
-                                    <p class="text-sm text-gray-600 my-1">${quest.description}</p>
-                                    <div class="text-right"><button onclick="startQuest('${quest.questId}')" class="btn btn-primary btn-sm py-1 px-3">Accept</button></div>
-                                 </div>`;
-                    });
-                } else {
-                    html += `<p class="text-center text-gray-500 italic p-4">The board is empty for now. Check back later!</p>`;
-                }
-                html += `<div class="mt-4 text-center"><button id="modal-leave-btn" class="btn btn-secondary">Close</button></div>`;
+                html += `<p class="text-center text-gray-500 italic p-4">The board is empty for now. Check back later!</p>`;
             }
 
+            html += `<div class="mt-4 text-center"><button id="modal-leave-btn" class="btn btn-secondary">Close</button></div>`;
             modalContent.innerHTML = html;
             modal.classList.remove('hidden');
             document.getElementById('modal-leave-btn').onclick = () => modal.classList.add('hidden');
         }
 
-        function startQuest(questId) {
-            if (player.active_quests.length > 0) {
-                showModal("Quest Limit", "You can only have one active quest at a time. Complete your current quest before accepting another.", "Okay", null);
-                return;
+        function showQuestJournal() {
+            let html = `<h2 class="text-2xl font-bold mb-4 text-center">📖 Quest Journal</h2>`;
+
+            if (player.active_quests.length === 0) {
+                html += `<p class="text-center text-gray-500 italic p-4">You have no active quests. Check a town's bulletin board to find one!</p>`;
+            } else {
+                html += `<div class="space-y-3 max-h-96 overflow-y-auto pr-2">`;
+                player.active_quests.forEach(activeQuest => {
+                    const questDetails = QUEST_DATA.find(q => q.questId === activeQuest.questId);
+                    const objective = questDetails.objective;
+                    html += `<div class="p-4 border rounded-lg bg-gray-50">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-bold text-lg">${questDetails.title}</h3>
+                                    <span class="text-sm font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded">${questDetails.location}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1 mb-2">${questDetails.description}</p>`;
+                    
+                    let progressHTML = '';
+                    if (objective.type === 'deliver_ingredient') {
+                        progressHTML = `Deliver ${objective.target.amount} ${objective.target.ingredient}: (${player.inventory[objective.target.ingredient]}/${objective.target.amount})`;
+                    } else if (objective.type === 'make_sandwich') {
+                        progressHTML = `Make ${objective.target.amount} ${objective.target.recipe}s: (${activeQuest.progress}/${objective.target.amount})`;
+                    } else if (objective.type === 'teach_recipe') {
+                        const status = player.dailyMenu.includes(objective.target.recipe) ? "Ready to complete" : "Not on menu";
+                        progressHTML = `Feature the ${objective.target.recipe} on your menu. (${status})`;
+                    }
+                    html += `<div class="mt-2 pt-2 border-t font-semibold text-sm text-gray-700">${progressHTML}</div></div>`;
+                });
+                html += `</div>`;
             }
-            player.active_quests.push({ questId: questId, progress: 0 });
-            modal.classList.add('hidden');
-            showModal("Quest Accepted!", "You've accepted a new quest! Check the bulletin board to see your progress.", "Got it!", null);
+
+            html += `<div class="mt-6 text-center"><button id="modal-leave-btn" class="btn btn-secondary">Close</button></div>`;
+            modalContent.innerHTML = html;
+            modal.classList.remove('hidden');
+            document.getElementById('modal-leave-btn').onclick = () => modal.classList.add('hidden');
         }
 
         function updateQuestProgress(triggerType, value) {
             if (player.active_quests.length === 0) return;
-            const activeQuest = player.active_quests[0];
-            const questDetails = QUEST_DATA.find(q => q.questId === activeQuest.questId);
-            if (questDetails.objective.type === triggerType && questDetails.objective.target.recipe === value) {
-                activeQuest.progress++;
-            }
+            player.active_quests.forEach(activeQuest => {
+                const questDetails = QUEST_DATA.find(q => q.questId === activeQuest.questId);
+                if (questDetails.objective.type === triggerType && questDetails.objective.target.recipe === value) {
+                    activeQuest.progress++;
+                }
+            });
         }
 
         function completeQuest(questId) {
