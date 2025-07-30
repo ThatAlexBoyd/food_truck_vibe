@@ -121,7 +121,7 @@
             border-radius: 0.5rem;
             transition: background-color 0.2s ease-in-out;
         }
-        .location-marker:hover {
+        .location-marker.selected {
             background-color: rgba(255, 255, 255, 0.7);
         }
         .current-location-tile {
@@ -154,10 +154,6 @@
             <aside class="lg:w-1/4 flex flex-col gap-6">
                 <div id="status-panel" class="card p-6">
                     <!-- Status content will be injected here -->
-                </div>
-                <!-- Calendar Panel -->
-                <div id="calendar-panel" class="card p-6 flex-grow min-h-0">
-                    <!-- Calendar content will be injected here -->
                 </div>
                 <div id="inventory-panel" class="card p-6">
                     <!-- Inventory content will be injected here -->
@@ -359,10 +355,11 @@
         
         let player = {};
         let isNewDay = false;
+        let currentMapSelection = null;
 
-        const statusPanel = document.getElementById('status-panel'), calendarPanel = document.getElementById('calendar-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
+        const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
         
-        function updateAllUI() { updateStatusUI(); updateCalendarUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
+        function updateAllUI() { updateStatusUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
 
         function updateStatusUI() {
             const totalReputation = Object.values(player.reputation).reduce((a, b) => a + b, 0);
@@ -371,33 +368,13 @@
                 <div class="space-y-2">
                     <p class="text-lg"><strong>🗓️ Day:</strong> <span class="text-blue-600 font-semibold">${player.day}</span></p>
                     <p class="text-lg"><strong>💰 Money:</strong> <span class="text-green-600">$${player.money.toFixed(2)}</span></p>
-                    <p class="text-lg"><strong>⭐ Reputation:</strong> <span class="text-yellow-600 font-semibold">${totalReputation}</span></p>
+                    <p class="text-lg"><strong>⭐ Total Rep:</strong> <span class="text-yellow-600 font-semibold">${totalReputation}</span></p>
                 </div>
                 <div class="mt-4 pt-4 border-t border-gray-200">
                     <button onclick="showQuestJournal()" class="btn btn-secondary w-full">
                         <span class="mr-2">📖</span> Quest Journal
                     </button>
                 </div>`;
-        }
-
-        function updateCalendarUI() {
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            const formattedDate = `${months[player.currentDate.getMonth()]} ${player.currentDate.getDate()}`;
-            
-            let eventHTML = '';
-            if (player.activeEvent) {
-                const eventColor = player.activeEvent.isPositive ? 'text-green-600' : 'text-red-600';
-                eventHTML = `<div class="mt-2 text-sm"><p class="font-semibold ${eventColor}">${player.activeEvent.shortDescription}</p></div>`;
-            } else {
-                eventHTML = `<div class="mt-2 text-sm"><p class="text-gray-500 italic">No events today.</p></div>`;
-            }
-
-            calendarPanel.innerHTML = `
-                <h2 class="text-2xl font-bold mb-2 flex items-center gap-2"><span>🗓️</span> <span>${formattedDate}</span></h2>
-                <div class="border-t border-gray-200 pt-2">
-                    ${eventHTML}
-                </div>
-            `;
         }
 
         function updateInventoryUI() {
@@ -424,12 +401,6 @@
             }
         }
         
-        function generateIngredientsTooltip(recipeName) {
-            const ingredients = RECIPES[recipeName].ingredients; let ingredientsList = '';
-            for (const [ing, qty] of Object.entries(ingredients)) { if(qty > 0) { ingredientsList += `<li class="text-xs">${qty}x ${ing}</li>`; } }
-            return `<div class="group relative flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg><div class="absolute bottom-full mb-2 w-40 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-50"><p class="font-bold mb-1">Ingredients:</p><ul class="list-none">${ingredientsList}</ul><svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg></div></div>`;
-        }
-        
         function updateCookbookPanel() {
             let masteryHTML = `<div class="flex items-center gap-2 mb-3">
                                 <h2 class="text-2xl font-bold">📘 Cookbook</h2>
@@ -441,7 +412,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="space-y-3">`;
+                            <div class="space-y-3 max-h-[40rem] overflow-y-auto pr-2">`;
 
             for (const recipeName of player.cookbook.sort()) {
                 const mastery = player.recipe_mastery[recipeName];
@@ -455,42 +426,44 @@
                     ? `<span class="text-xs font-bold text-white bg-indigo-500 rounded-full px-2 py-0.5">ON MENU</span>` 
                     : '';
 
-                let xpBarHTML;
+                let ingredientsHTML = '<div class="flex items-center gap-2 mt-2">';
+                const ingredients = RECIPES[recipeName].ingredients;
+                for (const [ing, qty] of Object.entries(ingredients)) {
+                    if (qty > 0) {
+                        ingredientsHTML += `<span class="text-sm">${INGREDIENT_DATA[ing].emoji} ${qty > 1 ? `x${qty}` : ''}</span>`;
+                    }
+                }
+                ingredientsHTML += '</div>';
+
+                let topRowHTML;
                 if (mastery.level >= 3) {
-                     const perk = player.mastery_perks[recipeName];
-                     const perkBadge = perk ? `<span class="font-semibold px-2 py-0.5 bg-green-200 text-green-800 rounded-full text-xs">Perk Active</span>` : `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
-                     xpBarHTML = `
+                     const perkId = player.mastery_perks[recipeName];
+                     const perkDetails = perkId ? MASTERY_PERKS[recipeName].find(p => p.id === perkId) : null;
+                     const perkTitle = perkDetails ? `title="${perkDetails.description}"` : '';
+                     const perkBadge = perkId ? `<span ${perkTitle} class="font-semibold px-2 py-0.5 bg-green-200 text-green-800 rounded-full text-xs">Perk Active</span>` : `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
+                     topRowHTML = `
                         <div class="flex justify-between items-center text-sm mb-1">
-                            <div class="flex items-center gap-2 pr-2">
-                                <span class="truncate">${recipeName}</span>
-                                ${generateIngredientsTooltip(recipeName)}
-                            </div>
+                            <span class="font-bold truncate">${recipeName}</span>
                             <div class="flex items-center gap-2 flex-shrink-0">
                                 ${menuBadge}
                                 ${perkBadge}
                             </div>
-                        </div>
-                        <div class="w-full bg-yellow-400 rounded-full h-2.5 mt-1"></div>`;
+                        </div>`;
                 } else {
-                    const xp_to_next = mastery.xp_to_next_levels[mastery.level - 1]; 
-                    const progress = (mastery.xp / xp_to_next) * 100;
                     const levelBadge = `<span class="font-semibold">Lvl ${mastery.level}</span>`;
-                    xpBarHTML = `
+                    topRowHTML = `
                         <div class="flex justify-between items-center text-sm mb-1">
-                            <div class="flex items-center gap-2 pr-2">
-                                <span class="truncate">${recipeName}</span>
-                                ${generateIngredientsTooltip(recipeName)}
-                            </div>
+                            <span class="font-bold truncate">${recipeName}</span>
                             <div class="flex items-center gap-2 flex-shrink-0">
                                 ${menuBadge}
                                 ${levelBadge}
                             </div>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-indigo-600 h-2.5 rounded-full" style="width: ${progress}%"></div></div>`;
+                        </div>`;
                 }
                 
                 masteryHTML += `<button onclick="toggleMenuItem('${recipeName}')" class="w-full text-left p-3 rounded-lg border-2 transition-all duration-150 ${selectionClasses}">
-                                    ${xpBarHTML}
+                                    ${topRowHTML}
+                                    ${ingredientsHTML}
                                </button>`;
             }
             
@@ -506,16 +479,34 @@
         }
 
         function updateMapInfoPanel(locationName) {
+            currentMapSelection = locationName;
+            document.querySelectorAll('.location-marker').forEach(el => el.classList.remove('selected'));
+            
             const infoPanel = document.getElementById('map-info-panel');
-            if (!locationName) { infoPanel.innerHTML = `<p class="text-gray-500 italic">Hover over a location to see details.</p>`; return; }
-            const loc = LOCATIONS.find(l => l.name === locationName); const travelDays = getTravelDays(player.currentLocation, locationName);
-            infoPanel.innerHTML = `<div class="flex justify-between items-start"><h3 class="font-bold text-xl">${loc.name}</h3>${travelDays > 0 ? `<span class="text-sm font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded">Travel: ${travelDays} Day(s)</span>` : ''}</div><p class="text-sm italic my-1">"${loc.lore}"</p>${renderLocationMastery(loc)}`;
+            if (!locationName) { 
+                infoPanel.innerHTML = `<p class="text-gray-500 italic text-center">Click a location to see details.</p>`; 
+                return; 
+            }
+
+            document.getElementById(`marker-${locationName.replace(/\s+/g, '-')}`).classList.add('selected');
+            const loc = LOCATIONS.find(l => l.name === locationName); 
+            const travelDays = getTravelDays(player.currentLocation, locationName);
+            
+            let travelButtonHTML = '';
+            if (loc.name !== player.currentLocation) {
+                travelButtonHTML = `<div class="mt-3"><button onclick="chooseLocation('${loc.name}')" class="btn btn-primary w-full">Travel Here (${travelDays} Day${travelDays > 1 ? 's' : ''})</button></div>`;
+            } else {
+                 travelButtonHTML = `<div class="mt-3"><button onclick="renderAtLocation('${loc.name}')" class="btn btn-secondary w-full">Return to Actions</button></div>`;
+            }
+
+            infoPanel.innerHTML = `<div class="flex justify-between items-start"><h3 class="font-bold text-xl">${loc.name}</h3><span class="text-sm font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded">Travel: ${travelDays} Day${travelDays > 1 ? 's' : ''}</span></div><p class="text-sm italic my-1">"${loc.lore}"</p>${renderLocationMastery(loc)}${travelButtonHTML}`;
         }
 
         function renderLocations() {
+            currentMapSelection = null;
             let html = `
                 <h2 class="text-2xl font-bold mb-4 text-center">📍 Choose a Location</h2>
-                <div class="map-container" onmouseout="updateMapInfoPanel(null)">
+                <div class="map-container" onclick="updateMapInfoPanel(null)">
                     <svg class="map-svg" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="2.5" stroke-dasharray="5 5">
                         <polyline points="50%,50% 25%,50%"/>
                         <polyline points="25%,50% 25%,20%"/>
@@ -529,12 +520,13 @@
                     </svg>`;
             LOCATIONS.forEach(loc => {
                 const isCurrent = loc.name === player.currentLocation;
-                html += `<div class="location-marker ${isCurrent ? 'current-location-tile' : ''}" style="${loc.coords}" onmouseover="updateMapInfoPanel('${loc.name}')">
-                            <button onclick="chooseLocation('${loc.name}')" class="map-pin text-4xl">${loc.emoji}</button>
+                const markerId = `marker-${loc.name.replace(/\s+/g, '-')}`;
+                html += `<div id="${markerId}" class="location-marker ${isCurrent ? 'current-location-tile' : ''}" style="${loc.coords}">
+                            <button onclick="event.stopPropagation(); updateMapInfoPanel('${loc.name}')" class="map-pin text-4xl">${loc.emoji}</button>
                             <p class="text-xs font-semibold text-gray-700 mt-1">${loc.name}</p>
                         </div>`;
             });
-            html += `</div><div id="map-info-panel" class="mt-4 p-4 border rounded-lg bg-gray-50 min-h-[120px]"><p class="text-gray-500 italic">Hover over a location to see details.</p></div>`;
+            html += `</div><div id="map-info-panel" class="mt-4 p-4 border rounded-lg bg-gray-50 min-h-[140px]"><p class="text-gray-500 italic text-center">Click a location to see details.</p></div>`;
             mainPanel.innerHTML = html;
         }
         
@@ -559,32 +551,46 @@
             
             const otherActionsDisabled = isCompetitionDay ? 'disabled' : '';
             const otherActionsTitle = isCompetitionDay ? `title="You must complete the competition today!"` : '';
+
+            let preferencesHTML = '';
+            if (player.knownPreferences.includes(locationName)) {
+                preferencesHTML = `<div class="mt-2 p-2 bg-blue-50 rounded-lg text-center text-sm text-blue-800"><strong>Local Favorites:</strong> ${location.preferences.join(', ')}</div>`;
+            }
+
+            const repPercent = (player.reputation[locationName] / location.max_rep) * 100;
+            const repBarHTML = `<div class="mt-2">
+                                    <div class="flex justify-between mb-1"><span class="text-sm font-medium text-gray-700">City Reputation</span><span class="text-sm font-medium text-gray-700">${player.reputation[locationName]} / ${location.max_rep}</span></div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-yellow-400 h-2.5 rounded-full" style="width: ${repPercent}%"></div></div>
+                                </div>`;
         
             mainPanel.innerHTML = `
-                <div id="main-panel-content" class="flex flex-col h-full">
-                    <header class="text-center mb-4">
+                <div id="main-panel-content" class="flex flex-col gap-y-6">
+                    <header class="text-center">
                         <h2 class="text-3xl font-bold flex items-center justify-center gap-3">${location.emoji} Welcome to ${location.name}</h2>
                         <p class="text-md text-gray-500 italic mt-1">"${location.lore}"</p>
+                        ${repBarHTML}
+                        ${preferencesHTML}
                     </header>
-                    <div class="flex-grow flex flex-col justify-between py-4">
-                        <div class="text-center">
-                            <button class="btn btn-green w-full text-xl shadow-lg hover:shadow-xl py-5" onclick="sellFoodAt('${locationName}')" ${!isMenuValid ? 'disabled' : ''} ${sellButtonTitle}>
-                                <span class="mr-2"></span> ${sellButtonText}
-                            </button>
-                            ${sellButtonHelperText}
+                    
+                    <div class="text-center">
+                        <button class="btn btn-green w-full text-xl shadow-lg hover:shadow-xl py-5" onclick="sellFoodAt('${locationName}')" ${!isMenuValid ? 'disabled' : ''} ${sellButtonTitle}>
+                            <span class="mr-2"></span> ${sellButtonText}
+                        </button>
+                        ${sellButtonHelperText}
+                    </div>
+
+                    <div class="border-t border-gray-200 pt-6">
+                        <h3 class="text-xl font-bold text-center text-gray-700 mb-5">Town Activities</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <button class="btn btn-light-blue py-4" onclick="renderStore('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🛒</span> Visit Store</button>
+                            <button class="btn btn-light-blue py-4" onclick="showRecipeSellerModal('${locationName}')" ${otherActionsDisabled || recipesToBuy.length === 0 ? 'disabled' : ''} ${otherActionsTitle}><span class="mr-2">${location.recipe_seller.emoji}</span> Talk to ${location.recipe_seller.name}</button>
+                            <button class="btn btn-light-blue py-4" onclick="talkToLocals('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🏘️</span> Talk to Locals</button>
+                            <button class="btn btn-light-blue py-4" onclick="showBulletinBoard()" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📋</span> Check Bulletin Board</button>
                         </div>
-                        <div class="py-6 border-y border-gray-200">
-                            <h3 class="text-xl font-bold text-center text-gray-700 mb-5">Town Activities</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <button class="btn btn-light-blue py-4" onclick="renderStore('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🛒</span> Visit Store</button>
-                                <button class="btn btn-light-blue py-4" onclick="showRecipeSellerModal('${locationName}')" ${otherActionsDisabled || recipesToBuy.length === 0 ? 'disabled' : ''} ${otherActionsTitle}><span class="mr-2">${location.recipe_seller.emoji}</span> Talk to ${location.recipe_seller.name}</button>
-                                <button class="btn btn-light-blue py-4" onclick="talkToLocals('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🏘️</span> Talk to Locals</button>
-                                <button class="btn btn-light-blue py-4" onclick="showBulletinBoard()" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📋</span> Check Bulletin Board</button>
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-secondary w-full py-3" onclick="goToLocationMenu()" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📍</span> Change Location</button>
-                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 pt-6 text-center">
+                        <button class="btn btn-secondary w-full py-3" onclick="goToLocationMenu()" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📍</span> Change Location</button>
                     </div>
                 </div>
             `;
@@ -707,7 +713,6 @@
             if (player.currentLocation === locationName) { renderAtLocation(locationName); return; }
             const travelDays = getTravelDays(player.currentLocation, locationName);
             player.day += travelDays;
-            player.currentDate.setDate(player.currentDate.getDate() + travelDays);
             player.currentLocation = locationName; isNewDay = true;
             updateAllUI(); renderAtLocation(locationName);
         }
@@ -765,7 +770,7 @@
             let actual_customers = Math.floor(minCustomers + Math.random() * (maxCustomers - minCustomers + 1));
             
             if (actual_customers <= 0) {
-                showModal('A Quiet Day...', '<p>No customers showed up today. Better luck tomorrow!</p>', 'Continue', () => { player.day++; player.currentDate.setDate(player.currentDate.getDate() + 1); isNewDay = true; updateAllUI(); renderAtLocation(locationName); });
+                showModal('A Quiet Day...', '<p>No customers showed up today. Better luck tomorrow!</p>', 'Continue', () => { player.day++; isNewDay = true; updateAllUI(); renderAtLocation(locationName); });
                 return;
             }
         
@@ -912,10 +917,10 @@
                         resultTitle = "😭 Challenge Lost 😭"; resultMessage = `<p>You only sold <strong>${soldCount} ${compDetails.recipe}s</strong> and didn't meet the goal of ${target}.</p><p class="mt-2">Chad is a little bummed, but tells you to come back and try again another time.</p>`;
                     }
                     player.activeCompetition = null;
-                    showModal(resultTitle, resultMessage, 'Awesome!', () => { modal.classList.add('hidden'); player.day++; player.currentDate.setDate(player.currentDate.getDate() + 1); isNewDay = true; updateAllUI(); renderAtLocation(locationName); });
+                    showModal(resultTitle, resultMessage, 'Awesome!', () => { modal.classList.add('hidden'); player.day++; isNewDay = true; updateAllUI(); renderAtLocation(locationName); });
                 } else {
                     modal.classList.add('hidden'); modalContent.innerHTML = ''; modalContent.style.maxWidth = "500px";
-                    player.day++; player.currentDate.setDate(player.currentDate.getDate() + 1); isNewDay = true;
+                    player.day++; isNewDay = true;
                     updateAllUI(); renderAtLocation(locationName);
                 }
             };
@@ -932,7 +937,11 @@
 
         function talkToLocals(locationName) {
             const location = LOCATIONS.find(l => l.name === locationName);
-            if (!player.knownPreferences.includes(locationName)) { player.knownPreferences.push(locationName); }
+            if (!player.knownPreferences.includes(locationName)) { 
+                player.knownPreferences.push(locationName);
+                updateAllUI();
+                renderAtLocation(locationName);
+            }
             const hint = location.preferences[Math.floor(Math.random() * location.preferences.length)];
             const dialogue = `"Psst... hey! I was just talking with my friends, and we all agreed that a really good <strong>${hint}</strong> sandwich would hit the spot right about now. Just sayin'."`;
             showModal('Local Gossip', `<p class="text-lg italic">${dialogue}</p>`, 'Thanks for the tip!', null);
@@ -964,7 +973,6 @@
                 }
                 player.activeEvent = newEvent; player.daysSinceEvent = 0;
             } else { player.daysSinceEvent++; }
-            updateCalendarUI();
         }
 
         function showPerkSelectionModal(recipeName) {
@@ -1133,7 +1141,6 @@
 
             player = { 
                 day: 1, 
-                currentDate: startDate,
                 money: 100.00, 
                 inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, 
                 cookbook: ["Ham & cheese", "BLT"], 
