@@ -214,35 +214,35 @@
         };
         
         const LOCATIONS = [
-            {"name": "Central City", "emoji": "🛣️", "max_rep": 75, "max_customers": 100, "lore": "A quiet crossroads where your journey begins.", "preferences": ["Ham & cheese", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Toppings", "Vegetables", "Spread"], "available_recipes": ["Club"], 
+            {"name": "Central City", "emoji": "🛣️", "max_rep": 75, "max_customers": 100, "lore": "A quiet crossroads where your journey begins.", "preferred_class": "Classic", "preferences": ["Ham & cheese", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Toppings", "Vegetables", "Spread"], "available_recipes": ["Club"], 
              "recipe_seller": {
                 "name": "Old Man Earl", "emoji": "👴", 
                 "description": "<p>Earl has been sitting on this porch since the highway was just a dirt track. He's watched the world change from the comfort of his rocking chair.</p><p class='mt-2'>'A good sandwich is a simple one,' he'll tell you. He's willing to teach you how to make a proper <strong>Club</strong> sandwich—a true classic that's a step up from the basics.</p>",
                 "unlock_condition": { "type": "buy", "description": "He's happy to teach you for a small fee." }
              }, "coords": "top: 50%; left: 50%;"},
-            {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city with international flavors.", "preferences": ["Italian", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>As the captain of a fishing vessel, Sofia has spent more time on the water than on land. She'll tell you that a proper sandwich needs to be robust enough to survive the spray of the sea.</p><p class='mt-2'>She'll share her recipe for a zesty <strong>Italian</strong> sub, a taste of distant ports that never fails to satisfy a hungry crew.</p>", "unlock_condition": { "type": "buy", "description": "She'll trade her knowledge for some coin for her next voyage."}}, "coords": "top: 50%; left: 90%;"},
-            {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "Nestled between mountains, a haven for health nuts.", "preferences": ["West Coast", "Salad"], "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>Forrest isn't just a park ranger; he's part of the forest itself. He believes the best meals are the ones you can pack in and enjoy with a mountain view.</p><p class='mt-2'>He's perfected the <strong>West Coast</strong> sandwich, a tribute to the fresh, vibrant flavors of the region, perfect for fueling a long hike.</p>", "unlock_condition": { "type": "buy", "description": "He'll teach you in exchange for a contribution to the park preservation fund." }}, "coords": "top: 20%; left: 25%;"},
-            {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town, lovely for a picnic.", "preferences": ["Chicken salad", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>Patty is the unofficial mayor of Maple Heights, famous for her legendary town picnics. Her secret? It's all in the sandwich.</p><p class='mt-2'>She believes the magic is in the details, and she's willing to share her prized <strong>Chicken Salad</strong> recipe, but only if you promise to uphold the sacred art of the picnic.</p>", "unlock_condition": { "type": "buy", "description": "A donation for the next town picnic is all she asks." }}, "coords": "top: 25%; left: 75%;"},
-            {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors, and smooth jazz.", "preferences": ["Patty melt", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], 
+            {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city with international flavors.", "preferred_class": "Sub", "preferences": ["Italian", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>As the captain of a fishing vessel, Sofia has spent more time on the water than on land. She'll tell you that a proper sandwich needs to be robust enough to survive the spray of the sea.</p><p class='mt-2'>She'll share her recipe for a zesty <strong>Italian</strong> sub, a taste of distant ports that never fails to satisfy a hungry crew.</p>", "unlock_condition": { "type": "buy", "description": "She'll trade her knowledge for some coin for her next voyage."}}, "coords": "top: 50%; left: 90%;"},
+            {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "Nestled between mountains, a haven for health nuts.", "preferred_class": "Wrap", "preferences": ["West Coast", "Salad"], "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>Forrest isn't just a park ranger; he's part of the forest itself. He believes the best meals are the ones you can pack in and enjoy with a mountain view.</p><p class='mt-2'>He's perfected the <strong>West Coast</strong> sandwich, a tribute to the fresh, vibrant flavors of the region, perfect for fueling a long hike.</p>", "unlock_condition": { "type": "buy", "description": "He'll teach you in exchange for a contribution to the park preservation fund." }}, "coords": "top: 20%; left: 25%;"},
+            {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town, lovely for a picnic.", "preferred_class": "Wrap", "preferences": ["Chicken salad", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>Patty is the unofficial mayor of Maple Heights, famous for her legendary town picnics. Her secret? It's all in the sandwich.</p><p class='mt-2'>She believes the magic is in the details, and she's willing to share her prized <strong>Chicken Salad</strong> recipe, but only if you promise to uphold the sacred art of the picnic.</p>", "unlock_condition": { "type": "buy", "description": "A donation for the next town picnic is all she asks." }}, "coords": "top: 25%; left: 75%;"},
+            {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors, and smooth jazz.", "preferred_class": "Special", "preferences": ["Patty melt", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], 
              "recipe_seller": {
                 "name": "Chef Antoine", "emoji": "👨‍🍳",
                 "description": "<p>Down at 'Antoine's Eatery', the jazz is as smooth as the butter on the grill. 'Good food, like good music, takes time,' he'll tell you.</p><p class='mt-2'>His <strong>Patty Melt</strong> is a local legend—a rich, cheesy, and savory masterpiece that embodies the slow-cooked, big-flavor spirit of Bourbon Creek.</p>",
                 "unlock_condition": { "type": "mastery", "value": "Club", "description": "Chef Antoine believes in fundamentals. He wants to see that you've truly mastered a classic like the <strong>Club</strong> sandwich before he'll teach you his specialty." }
              }, "coords": "top: 85%; left: 70%;"},
-            {"name": "Steel City", "emoji": "🏢", "max_rep": 225, "max_customers": 1000, "lore": "The heart of industry where hard workers need hearty meals.", "preferences": ["Reuben", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce"], "available_recipes": ["Reuben"], 
+            {"name": "Steel City", "emoji": "🏢", "max_rep": 225, "max_customers": 1000, "lore": "The heart of industry where hard workers need hearty meals.", "preferred_class": "Sub", "preferences": ["Reuben", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce"], "available_recipes": ["Reuben"], 
              "recipe_seller": {
                 "name": "Frankie 'The Furnace'", "emoji": "👨‍🏭",
                 "description": "<p>Frankie's worked the steel mills for thirty years. 'You can't get by on a flimsy salad,' he says, wiping grease from his hands. 'You need something that sticks to your ribs.'</p><p class='mt-2'>His answer is the <strong>Reuben</strong>: a hefty, hot, and tangy stack of meat and cheese grilled to perfection. It’s the kind of sandwich that feels like a reward.</p>",
                 "unlock_condition": { "type": "rep", "value": 50, "description": "Frankie only shares his secrets with those who've earned the respect of the city. He wants to see you build a solid reputation first." }
              }, "coords": "top: 20%; left: 90%;"},
-            {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A major travel hub on the river, full of artists.", "preferences": ["Salad", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>Belle's a traveling musician who learned to eat light and healthy on the road. 'You can't sing your heart out on a heavy stomach,' she says.</p><p class='mt-2'>In her travels, she pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl. It's fresh, satisfying, and full of flavor—a traveler's best friend.</p>", "unlock_condition": { "type": "buy", "description": "She'll teach you her recipe for the price of a new guitar string." }}, "coords": "top: 80%; left: 50%;"},
-            {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks after a day on the slopes.", "preferences": ["Burger", "Reuben"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], 
+            {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A major travel hub on the river, full of artists.", "preferred_class": "Special", "preferences": ["Salad", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>Belle's a traveling musician who learned to eat light and healthy on the road. 'You can't sing your heart out on a heavy stomach,' she says.</p><p class='mt-2'>In her travels, she pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl. It's fresh, satisfying, and full of flavor—a traveler's best friend.</p>", "unlock_condition": { "type": "buy", "description": "She'll teach you her recipe for the price of a new guitar string." }}, "coords": "top: 80%; left: 50%;"},
+            {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks after a day on the slopes.", "preferred_class": "Special", "preferences": ["Burger", "Reuben"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], 
              "recipe_seller": {
                 "name": "Chad", "emoji": "🏂",
                 "description": "<p>Chad lives for the thrill of shredding fresh powder. But his true passion? The 'après-ski' refuel. 'After a full day of sending it, you need a burger that's, like, totally epic,' he explains.</p><p class='mt-2'>He spent an entire off-season engineering the perfect <strong>Burger</strong>. He'll share the recipe, but first, you've got to prove you can handle the heat in a friendly competition.</p>",
                 "unlock_condition": { "type": "competition", "value": "Reuben", "target": 15, "description": "Chad challenges you to a <strong>Reuben</strong> sell-off! If you can sell <strong>15 Reubens</strong> in a single day, he'll be so stoked he'll teach you his Burger recipe for free." }
              }, "coords": "top: 55%; left: 20%;"},
-            {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferences": ["The Ultimate", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy", "description": "His time is money, and so is his intellectual property." }}, "coords": "top: 20%; left: 10%;"},
+            {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferred_class": "Sub", "preferences": ["The Ultimate", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy", "description": "His time is money, and so is his intellectual property." }}, "coords": "top: 20%; left: 10%;"},
         ];
         
         const EVENTS = [
@@ -448,7 +448,7 @@
                     'Sub': 'label-sub',
                     'Special': 'label-special'
                 };
-                const classLabelHTML = `<span class="text-xs font-semibold px-2 py-0.5 rounded-full ${classLabelColors[recipeClass]}">${recipeClass}</span>`;
+                const classLabelHTML = `<span class="text-xs font-semibold px-2 py-0.5 rounded-full ${classLabelColors[recipeClass] || ''}">${recipeClass}</span>`;
 
                 let topRowHTML;
                 const leftSideHTML = `<div class="flex items-center gap-2">
@@ -574,7 +574,10 @@
 
             let preferencesHTML = '';
             if (player.knownPreferences.includes(locationName)) {
-                preferencesHTML = `<div class="mt-2 p-2 bg-blue-50 rounded-lg text-center text-sm text-blue-800"><strong>Local Favorites:</strong> ${location.preferences.join(', ')}</div>`;
+                preferencesHTML = `<div class="mt-2 p-2 bg-blue-50 rounded-lg text-center text-sm text-blue-800">
+                                    <p><strong>Local Favorites:</strong> ${location.preferences.join(', ')}</p>
+                                    <p><strong>They generally prefer:</strong> <span class="font-bold">${location.preferred_class}</span> sandwiches</p>
+                                   </div>`;
             }
 
             const repPercent = (player.reputation[locationName] / location.max_rep) * 100;
@@ -775,17 +778,14 @@
 
         function runSalesSimulation(locationName, competitionDetails = null) {
             const location = LOCATIONS.find(l => l.name === locationName);
-            let dailyPreferences = location.preferences;
             const maxPossibleCustomers = location.max_customers * 0.25;
             let minCustomers = 0; let maxCustomers = maxPossibleCustomers;
         
             if (player.activeEvent && !competitionDetails) {
                 if (player.activeEvent.type === 'customer_boost') { minCustomers = Math.ceil((maxPossibleCustomers / 3) * 2); } 
                 else if (player.activeEvent.type === 'customer_slump') { maxCustomers = Math.floor(maxPossibleCustomers / 3); } 
-                else if (player.activeEvent.type === 'competition' && player.dailyMenu.includes(player.activeEvent.value)) { dailyPreferences = [player.activeEvent.value]; }
             }
-            
-            if (competitionDetails) { minCustomers = maxPossibleCustomers * 0.5; maxCustomers = maxPossibleCustomers; dailyPreferences = [competitionDetails.recipe]; }
+            if (competitionDetails) { minCustomers = maxPossibleCustomers * 0.5; maxCustomers = maxPossibleCustomers; }
             
             let actual_customers = Math.floor(minCustomers + Math.random() * (maxCustomers - minCustomers + 1));
             
@@ -796,12 +796,33 @@
         
             const saleEvents = [];
             const tempInventory = JSON.parse(JSON.stringify(player.inventory));
-            const available_prefs = dailyPreferences.filter(p => player.dailyMenu.includes(p));
+            const preferredClass = location.preferred_class;
+            const localFavorites = location.preferences;
         
             for (let i = 0; i < actual_customers; i++) {
-                let chosen_food = player.dailyMenu[Math.floor(Math.random() * player.dailyMenu.length)];
-                let preferenceChance = competitionDetails ? 0.9 : 0.7;
-                if (available_prefs.length > 0 && Math.random() < preferenceChance) { chosen_food = available_prefs[Math.floor(Math.random() * available_prefs.length)]; }
+                let chosen_food = null;
+
+                if (competitionDetails) { // Competition logic overrides normal preferences
+                    chosen_food = competitionDetails.recipe;
+                } else {
+                    const menuItemsOfPreferredClass = player.dailyMenu.filter(item => RECIPES[item].class === preferredClass);
+                    
+                    if (menuItemsOfPreferredClass.length > 0 && Math.random() < 0.75) {
+                        const classFavoritesOnMenu = menuItemsOfPreferredClass.filter(item => localFavorites.includes(item));
+                        if (classFavoritesOnMenu.length > 0 && Math.random() < 0.80) {
+                            chosen_food = getRandomElement(classFavoritesOnMenu);
+                        } else {
+                            chosen_food = getRandomElement(menuItemsOfPreferredClass);
+                        }
+                    } else {
+                        const favoritesOnMenu = player.dailyMenu.filter(item => localFavorites.includes(item));
+                        if (favoritesOnMenu.length > 0 && Math.random() < 0.50) {
+                            chosen_food = getRandomElement(favoritesOnMenu);
+                        } else {
+                            chosen_food = getRandomElement(player.dailyMenu);
+                        }
+                    }
+                }
                 
                 const recipe_details = RECIPES[chosen_food];
                 const mastery_details = player.recipe_mastery[chosen_food];
@@ -810,7 +831,7 @@
                 const perkId = player.mastery_perks[chosen_food];
                 if (perkId) {
                     const perk = MASTERY_PERKS[chosen_food].find(p => p.id === perkId);
-                    if (perk && perk.type === 'consume_less' && Math.random() < 0.25) { // 25% chance
+                    if (perk && perk.type === 'consume_less' && Math.random() < 0.25) {
                         const ingredientToSave = perk.value;
                         if (ingredientsToConsume[ingredientToSave] > 0) { ingredientsToConsume[ingredientToSave]--; }
                     }
@@ -825,17 +846,34 @@
                     for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) { tempInventory[ingredient] -= required_qty; }
         
                     const sale = { itemName: chosen_food, price: recipe_details.selling_prices[mastery_details.level - 1], repGain: 0, xpGain: 0, levelUpInfo: null, perkActivated: null };
-                    const isPreferred = dailyPreferences.includes(chosen_food);
-
+                    
+                    const isPreferredClass = RECIPES[chosen_food].class === preferredClass;
+                    const isLocalFavorite = localFavorites.includes(chosen_food);
+                    
+                    // XP Gain Logic
                     if (mastery_details.level < 3) {
-                        if (Math.random() < (isPreferred ? 0.75 : 0.30)) { sale.xpGain = 1; }
+                        let xpChance = 0.30;
+                        if(isPreferredClass) xpChance = 0.60;
+                        if(isLocalFavorite) xpChance = 0.75;
+                        if (Math.random() < xpChance) { sale.xpGain = 1; }
                     }
 
+                    // Reputation Gain Logic
                     if (player.reputation[locationName] < location.max_rep) {
-                        let repChance = (mastery_details.level < 3) ? (isPreferred ? 0.75 : 0.30) : 0.85;
-                        if (Math.random() < repChance) { sale.repGain = isPreferred ? 2 : 1; }
+                        let repAmount = 0;
+                        if (isLocalFavorite) repAmount = 2;
+                        else if (isPreferredClass) repAmount = 1;
+
+                        if (repAmount > 0) {
+                            let repChance = isLocalFavorite ? 0.85 : 0.60;
+                            if (mastery_details.level >= 3) repChance = Math.max(repChance, 0.85); // Mastered items are reliable for rep
+                            if (Math.random() < repChance) {
+                                sale.repGain = repAmount;
+                            }
+                        }
                     }
 
+                    // Perk Logic
                     if (perkId) {
                         const perk = MASTERY_PERKS[chosen_food].find(p => p.id === perkId);
                         if (perk && Math.random() < 0.25) {
@@ -962,9 +1000,14 @@
                 updateAllUI();
                 renderAtLocation(locationName);
             }
-            const hint = location.preferences[Math.floor(Math.random() * location.preferences.length)];
-            const dialogue = `"Psst... hey! I was just talking with my friends, and we all agreed that a really good <strong>${hint}</strong> sandwich would hit the spot right about now. Just sayin'."`;
-            showModal('Local Gossip', `<p class="text-lg italic">${dialogue}</p>`, 'Thanks for the tip!', null);
+            const hintRecipe = location.preferences[Math.floor(Math.random() * location.preferences.length)];
+            const hintClass = location.preferred_class;
+            const dialogues = [
+                `"Psst... hey! I was just talking with my friends, and we all agreed that a really good <strong>${hintRecipe}</strong> would hit the spot right about now. Just sayin'."`,
+                `"You know, folks around here really go for a good <strong>${hintClass}</strong> sandwich. If you had one of those on the menu, you'd probably do great business!"`,
+                `"If you want to make a name for yourself in ${locationName}, you gotta master the art of the <strong>${hintClass}</strong>. That's what people expect here."`
+            ];
+            showModal('Local Gossip', `<p class="text-lg italic">${getRandomElement(dialogues)}</p>`, 'Thanks for the tip!', null);
         }
         
         function checkForWin() { if (player.cookbook.length === Object.keys(RECIPES).length && Object.values(player.recipe_mastery).every(r => r.level >= 3)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
