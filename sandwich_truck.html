@@ -139,6 +139,11 @@
         #progress-bar {
             transition: width 0.2s ease-out;
         }
+        /* Styles for Class Labels */
+        .label-classic { background-color: #e5e7eb; color: #374151; } /* bg-gray-200 text-gray-700 */
+        .label-wrap { background-color: #d1fae5; color: #065f46; } /* bg-green-200 text-green-800 */
+        .label-sub { background-color: #dbeafe; color: #1e40af; } /* bg-blue-200 text-blue-800 */
+        .label-special { background-color: #fef3c7; color: #92400e; } /* bg-amber-100 text-amber-800 */
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -195,17 +200,17 @@
             "Vegetables": { "price": 10, "servings": 40,  "emoji": "🥬" },
         };
         const RECIPES = {
-            "Ham & cheese": {"unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25, 60]},
-            "Italian": {"unlock_cost": 75, "selling_prices": [6.00, 7.00, 8.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 110]},
-            "Club": {"unlock_cost": 50, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
-            "Patty melt": {"unlock_cost": 40, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35, 80]},
-            "BLT": {"unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25, 60]},
-            "West Coast": {"unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
-            "Salad": {"unlock_cost": 30, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40, 90]},
-            "Burger": {"unlock_cost": 150, "selling_prices": [7.00, 8.00, 9.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150]},
-            "Chicken salad": {"unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100]},
-            "Reuben": {"unlock_cost": 90, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100]},
-            "The Ultimate": {"unlock_cost": 250, "selling_prices": [9.00, 11.00, 13.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150]},
+            "Ham & cheese": {"class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25, 60]},
+            "Italian": {"class": "Sub", "unlock_cost": 75, "selling_prices": [6.00, 7.00, 8.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 110]},
+            "Club": {"class": "Classic", "unlock_cost": 50, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
+            "Patty melt": {"class": "Special", "unlock_cost": 40, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35, 80]},
+            "BLT": {"class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25, 60]},
+            "West Coast": {"class": "Wrap", "unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
+            "Salad": {"class": "Special", "unlock_cost": 30, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40, 90]},
+            "Burger": {"class": "Special", "unlock_cost": 150, "selling_prices": [7.00, 8.00, 9.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150]},
+            "Chicken salad": {"class": "Wrap", "unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100]},
+            "Reuben": {"class": "Sub", "unlock_cost": 90, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100]},
+            "The Ultimate": {"class": "Sub", "unlock_cost": 250, "selling_prices": [9.00, 11.00, 13.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150]},
         };
         
         const LOCATIONS = [
@@ -416,6 +421,7 @@
 
             for (const recipeName of player.cookbook.sort()) {
                 const mastery = player.recipe_mastery[recipeName];
+                const recipeDetails = RECIPES[recipeName];
                 const isSelected = player.dailyMenu.includes(recipeName);
                 
                 const selectionClasses = isSelected 
@@ -427,7 +433,7 @@
                     : '';
 
                 let ingredientsHTML = '<div class="flex items-center gap-2 mt-2">';
-                const ingredients = RECIPES[recipeName].ingredients;
+                const ingredients = recipeDetails.ingredients;
                 for (const [ing, qty] of Object.entries(ingredients)) {
                     if (qty > 0) {
                         ingredientsHTML += `<span class="text-sm">${INGREDIENT_DATA[ing].emoji} ${qty > 1 ? `x${qty}` : ''}</span>`;
@@ -435,7 +441,21 @@
                 }
                 ingredientsHTML += '</div>';
 
+                const recipeClass = recipeDetails.class;
+                const classLabelColors = {
+                    'Classic': 'label-classic',
+                    'Wrap': 'label-wrap',
+                    'Sub': 'label-sub',
+                    'Special': 'label-special'
+                };
+                const classLabelHTML = `<span class="text-xs font-semibold px-2 py-0.5 rounded-full ${classLabelColors[recipeClass]}">${recipeClass}</span>`;
+
                 let topRowHTML;
+                const leftSideHTML = `<div class="flex items-center gap-2">
+                                        <span class="font-bold truncate">${recipeName}</span>
+                                        ${classLabelHTML}
+                                      </div>`;
+                
                 if (mastery.level >= 3) {
                      const perkId = player.mastery_perks[recipeName];
                      const perkDetails = perkId ? MASTERY_PERKS[recipeName].find(p => p.id === perkId) : null;
@@ -443,7 +463,7 @@
                      const perkBadge = perkId ? `<span ${perkTitle} class="font-semibold px-2 py-0.5 bg-green-200 text-green-800 rounded-full text-xs">Perk Active</span>` : `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
                      topRowHTML = `
                         <div class="flex justify-between items-center text-sm mb-1">
-                            <span class="font-bold truncate">${recipeName}</span>
+                            ${leftSideHTML}
                             <div class="flex items-center gap-2 flex-shrink-0">
                                 ${menuBadge}
                                 ${perkBadge}
@@ -453,7 +473,7 @@
                     const levelBadge = `<span class="font-semibold">Lvl ${mastery.level}</span>`;
                     topRowHTML = `
                         <div class="flex justify-between items-center text-sm mb-1">
-                            <span class="font-bold truncate">${recipeName}</span>
+                            ${leftSideHTML}
                             <div class="flex items-center gap-2 flex-shrink-0">
                                 ${menuBadge}
                                 ${levelBadge}
