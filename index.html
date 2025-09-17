@@ -189,7 +189,6 @@
 
     <script>
         // --- Game Data ---
-        const DAILY_MENU_SLOTS = 2;
         const INGREDIENT_DATA = {
             "Bread":      { "price": 10, "servings": 100, "emoji": "🍞" },
             "Meat":       { "price": 15, "servings": 75,  "emoji": "🥩" },
@@ -200,17 +199,83 @@
             "Vegetables": { "price": 10, "servings": 40,  "emoji": "🥬" },
         };
         const RECIPES = {
-            "Ham & cheese": {"class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25, 60]},
-            "Italian": {"class": "Sub", "unlock_cost": 75, "selling_prices": [6.00, 7.00, 8.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 110]},
-            "Club": {"class": "Classic", "unlock_cost": 50, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
-            "Patty melt": {"class": "Special", "unlock_cost": 40, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35, 80]},
-            "BLT": {"class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25, 60]},
-            "West Coast": {"class": "Wrap", "unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100]},
-            "Salad": {"class": "Special", "unlock_cost": 30, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40, 90]},
-            "Burger": {"class": "Special", "unlock_cost": 150, "selling_prices": [7.00, 8.00, 9.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150]},
-            "Chicken salad": {"class": "Wrap", "unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100]},
-            "Reuben": {"class": "Sub", "unlock_cost": 90, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100]},
-            "The Ultimate": {"class": "Sub", "unlock_cost": 250, "selling_prices": [9.00, 11.00, 13.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150]},
+            "Ham & cheese": {
+                "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25, 60],
+                "masteryPerks": [
+                    { id: "ham_cheese_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 },
+                    { id: "ham_cheese_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
+                ]
+            },
+            "Italian": {
+                "class": "Sub", "unlock_cost": 75, "selling_prices": [6.00, 7.00, 8.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 110],
+                "masteryPerks": [
+                    { id: "italian_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 },
+                    { id: "italian_save", description: "Extra Lean: Chance to use one less Meat.", type: "consume_less", value: "Meat" }
+                ]
+            },
+            "Club": {
+                "class": "Classic", "unlock_cost": 50, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50, 100],
+                "masteryPerks": [
+                    { id: "club_save", description: "Modified Order: Chance to use one less Topping.", type: "consume_less", value: "Toppings" },
+                    { id: "club_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
+                ]
+            },
+            "Patty melt": {
+                "class": "Special", "unlock_cost": 40, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35, 80],
+                "masteryPerks": [
+                    { id: "patty_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 },
+                    { id: "patty_save", description: "Lighter Sauce: Chance to use one less Sauce.", type: "consume_less", value: "Sauce" }
+                ]
+            },
+            "BLT": {
+                "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25, 60],
+                "masteryPerks": [
+                    { id: "blt_save", description: "Vegetable Swap: Chance to use one less Vegetable.", type: "consume_less", value: "Vegetables" },
+                    { id: "blt_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
+                ]
+            },
+            "West Coast": {
+                "class": "Wrap", "unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100],
+                "masteryPerks": [
+                    { id: "west_coast_save", description: "Avocado Shortage: Chance to use one less Spread.", type: "consume_less", value: "Spread" },
+                    { id: "west_coast_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
+                ]
+            },
+            "Salad": {
+                "class": "Special", "unlock_cost": 30, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40, 90],
+                "masteryPerks": [
+                    { id: "salad_save", description: "Light Dressing: Chance to use one less Sauce.", type: "consume_less", value: "Sauce" },
+                    { id: "salad_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
+                ]
+            },
+            "Burger": {
+                "class": "Special", "unlock_cost": 150, "selling_prices": [7.00, 8.00, 9.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150],
+                "masteryPerks": [
+                    { id: "burger_profit", description: "Generous Tipper: Chance to get a $2 tip.", type: "bonus_money", value: 2.00 },
+                    { id: "burger_save", description: "No Toppings: Chance to use one less Topping.", type: "consume_less", value: "Toppings" }
+                ]
+            },
+            "Chicken salad": {
+                "class": "Wrap", "unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100],
+                "masteryPerks": [
+                    { id: "chicken_salad_save", description: "Secret Ingredient: Chance to use one less Spread.", type: "consume_less", value: "Spread" },
+                    { id: "chicken_salad_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
+                ]
+            },
+            "Reuben": {
+                "class": "Sub", "unlock_cost": 90, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100],
+                "masteryPerks": [
+                    { id: "reuben_profit", description: "Generous Tipper: Chance to get a $2 tip.", type: "bonus_money", value: 2.00 },
+                    { id: "reuben_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
+                ]
+            },
+            "The Ultimate": {
+                "class": "Sub", "unlock_cost": 250, "selling_prices": [9.00, 11.00, 13.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150],
+                "masteryPerks": [
+                    { id: "ultimate_rep", description: "Food Critic Favorite: Chance for +3 bonus reputation.", type: "bonus_rep", value: 3 },
+                    { id: "ultimate_profit", description: "Generous Tipper: Chance to get a $3 tip.", type: "bonus_money", value: 3.00 }
+                ]
+            },
         };
         
         const LOCATIONS = [
@@ -253,53 +318,6 @@
             { type: 'customer_slump', values: [true], flavor: "A sudden downpour has everyone running for cover, not for sandwiches. / A rival food truck set up shop just across the street, stealing business.", isPositive: false },
             { type: 'cost_increase', values: [0.05, 0.1, 0.2], flavor: "Bad weather has ruined a large crop, causing ingredient shortages. / Gas prices have skyrocketed, and your suppliers are adding a fuel surcharge.", isPositive: false }
         ];
-
-        const MASTERY_PERKS = {
-            "Ham & cheese": [
-                { id: "ham_cheese_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 },
-                { id: "ham_cheese_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
-            ],
-            "BLT": [
-                { id: "blt_save", description: "Vegetable Swap: Chance to use one less Vegetable.", type: "consume_less", value: "Vegetables" },
-                { id: "blt_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
-            ],
-            "Club": [
-                { id: "club_save", description: "Modified Order: Chance to use one less Topping.", type: "consume_less", value: "Toppings" },
-                { id: "club_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
-            ],
-            "Patty melt": [
-                { id: "patty_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 },
-                { id: "patty_save", description: "Lighter Sauce: Chance to use one less Sauce.", type: "consume_less", value: "Sauce" }
-            ],
-            "Italian": [
-                { id: "italian_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 },
-                { id: "italian_save", description: "Extra Lean: Chance to use one less Meat.", type: "consume_less", value: "Meat" }
-            ],
-            "West Coast": [
-                { id: "west_coast_save", description: "Avocado Shortage: Chance to use one less Spread.", type: "consume_less", value: "Spread" },
-                { id: "west_coast_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
-            ],
-            "Reuben": [
-                { id: "reuben_profit", description: "Generous Tipper: Chance to get a $2 tip.", type: "bonus_money", value: 2.00 },
-                { id: "reuben_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
-            ],
-            "Chicken salad": [
-                { id: "chicken_salad_save", description: "Secret Ingredient: Chance to use one less Spread.", type: "consume_less", value: "Spread" },
-                { id: "chicken_salad_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
-            ],
-            "Salad": [
-                { id: "salad_save", description: "Light Dressing: Chance to use one less Sauce.", type: "consume_less", value: "Sauce" },
-                { id: "salad_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
-            ],
-            "Burger": [
-                { id: "burger_profit", description: "Generous Tipper: Chance to get a $2 tip.", type: "bonus_money", value: 2.00 },
-                { id: "burger_save", description: "No Toppings: Chance to use one less Topping.", type: "consume_less", value: "Toppings" }
-            ],
-            "The Ultimate": [
-                { id: "ultimate_rep", description: "Food Critic Favorite: Chance for +3 bonus reputation.", type: "bonus_rep", value: 3 },
-                { id: "ultimate_profit", description: "Generous Tipper: Chance to get a $3 tip.", type: "bonus_money", value: 3.00 }
-            ],
-        };
 
         const QUEST_DATA = [
             { 
@@ -365,15 +383,24 @@
         const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
         
         function updateAllUI() { updateStatusUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
+        
+        function updateTruckCapacity() {
+            player.truck.currentCapacity = Object.values(player.inventory).reduce((sum, current) => sum + current, 0);
+        }
 
         function updateStatusUI() {
-            const totalReputation = Object.values(player.reputation).reduce((a, b) => a + b, 0);
+            const truckXpPercent = (player.truck.xp / player.truck.xpToNextLevel) * 100;
             statusPanel.innerHTML = `
                 <h2 class="text-2xl font-bold mb-4">📈 Status</h2>
-                <div class="space-y-2">
+                <div class="space-y-3">
                     <p class="text-lg"><strong>🗓️ Day:</strong> <span class="text-blue-600 font-semibold">${player.day}</span></p>
                     <p class="text-lg"><strong>💰 Money:</strong> <span class="text-green-600">$${player.money.toFixed(2)}</span></p>
-                    <p class="text-lg"><strong>⭐ Total Rep:</strong> <span class="text-yellow-600 font-semibold">${totalReputation}</span></p>
+                    <div>
+                        <p class="text-lg"><strong>🚚 Truck Lvl:</strong> <span class="text-yellow-600 font-semibold">${player.truck.level}</span></p>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                            <div class="bg-yellow-400 h-2.5 rounded-full" style="width: ${truckXpPercent}%" title="${player.truck.xp} / ${player.truck.xpToNextLevel} XP"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="mt-4 pt-4 border-t border-gray-200">
                     <button onclick="showQuestJournal()" class="btn btn-secondary w-full">
@@ -383,7 +410,11 @@
         }
 
         function updateInventoryUI() {
-            let inventoryHTML = `<h2 class="text-2xl font-bold mb-4">📦 Inventory</h2><div class="space-y-2">`;
+            let inventoryHTML = `<h2 class="text-2xl font-bold mb-4">📦 Inventory</h2>
+                                <div class="mb-3 text-center bg-gray-100 p-2 rounded-md">
+                                    <span class="font-semibold">${player.truck.currentCapacity} / ${player.truck.capacity}</span> ingredients stored
+                                </div>
+                                <div class="space-y-2">`;
             for (const [item, quantity] of Object.entries(player.inventory)) { 
                 inventoryHTML += `<div class="flex items-baseline"><span>${INGREDIENT_DATA[item].emoji} ${item}</span><span class="flex-grow border-b border-dotted border-gray-300 mx-2"></span><span class="font-semibold">${quantity}</span></div>`; 
             }
@@ -391,13 +422,13 @@
         }
         
         function toggleMenuItem(recipeName) {
-            const index = player.dailyMenu.indexOf(recipeName);
+            const index = player.menu.indexOf(recipeName);
             if (index > -1) {
-                player.dailyMenu.splice(index, 1);
+                player.menu.splice(index, 1);
             } else {
-                player.dailyMenu.push(recipeName);
-                if (player.dailyMenu.length > DAILY_MENU_SLOTS) {
-                    player.dailyMenu.shift();
+                player.menu.push(recipeName);
+                if (player.menu.length > player.maxMenu) {
+                    player.menu.shift();
                 }
             }
             updateAllUI(); 
@@ -412,17 +443,17 @@
                                 <div class="group relative flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
                                     <div class="absolute bottom-full mb-2 w-64 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-50">
-                                        Click a recipe to add it to your daily menu (max ${DAILY_MENU_SLOTS}). The oldest selection will be replaced if the menu is full.
+                                        Click a recipe to add it to your daily menu (max ${player.maxMenu}). The oldest selection will be replaced if the menu is full.
                                         <svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
                                     </div>
                                 </div>
                             </div>
                             <div class="space-y-3 max-h-[40rem] overflow-y-auto pr-2">`;
 
-            for (const recipeName of player.cookbook.sort()) {
-                const mastery = player.recipe_mastery[recipeName];
+            for (const recipeName of Object.keys(player.cookbook).sort()) {
+                const mastery = player.cookbook[recipeName];
                 const recipeDetails = RECIPES[recipeName];
-                const isSelected = player.dailyMenu.includes(recipeName);
+                const isSelected = player.menu.includes(recipeName);
                 
                 const selectionClasses = isSelected 
                     ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-300' 
@@ -457,8 +488,8 @@
                                       </div>`;
                 
                 if (mastery.level >= 3) {
-                     const perkId = player.mastery_perks[recipeName];
-                     const perkDetails = perkId ? MASTERY_PERKS[recipeName].find(p => p.id === perkId) : null;
+                     const perkId = mastery.activePerk;
+                     const perkDetails = perkId && recipeDetails.masteryPerks ? recipeDetails.masteryPerks.find(p => p.id === perkId) : null;
                      const perkTitle = perkDetails ? `title="${perkDetails.description}"` : '';
                      const perkBadge = perkId ? `<span ${perkTitle} class="font-semibold px-2 py-0.5 bg-green-200 text-green-800 rounded-full text-xs">Perk Active</span>` : `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
                      topRowHTML = `
@@ -492,7 +523,7 @@
         }
 
         function renderLocationMastery(location) {
-            const recipeDone = location.available_recipes.length === 0 || location.available_recipes.every(r => player.cookbook.includes(r));
+            const recipeDone = location.available_recipes.length === 0 || location.available_recipes.every(r => r in player.cookbook);
             const repDone = player.reputation[location.name] >= location.max_rep;
             const favsDone = player.knownPreferences.includes(location.name);
             return `<div class="mt-2 pt-2 border-t"><h4 class="font-semibold text-sm mb-1 text-gray-600">Location Goals</h4><div class="flex justify-around text-xs"><span title="Purchase all local recipes">${recipeDone ? '📗' : '⬜️'} Recipe</span><span title="Earn maximum reputation here">${repDone ? '⭐' : '⬜️'} Reputation</span><span title="Learn the local favorites">${favsDone ? '🏅' : '⬜️'} Favorites</span></div></div>`;
@@ -557,16 +588,16 @@
             }
         
             const location = LOCATIONS.find(l => l.name === locationName);
-            const recipesToBuy = location.available_recipes.filter(r => !player.cookbook.includes(r));
-            const isMenuValid = player.dailyMenu.length === DAILY_MENU_SLOTS;
+            const recipesToBuy = location.available_recipes.filter(r => !(r in player.cookbook));
+            const isMenuValid = player.menu.length === player.maxMenu;
             
             const isCompetitionDay = player.activeCompetition && player.activeCompetition.location === locationName;
             const sellButtonText = isCompetitionDay ? `🏆 Start ${player.activeCompetition.recipe} Challenge!` : '🚚 Setup Shop & Sell';
-            const sellButtonTitle = !isMenuValid ? `title="You must select ${DAILY_MENU_SLOTS} items for your daily menu before setting up shop."` : `title="Start the day and sell your sandwiches!"`;
+            const sellButtonTitle = !isMenuValid ? `title="You must select ${player.maxMenu} items for your daily menu before setting up shop."` : `title="Start the day and sell your sandwiches!"`;
             
             let sellButtonHelperText = '';
             if (!isMenuValid) {
-                sellButtonHelperText = `<p class="text-sm text-gray-500 mt-2">Select ${DAILY_MENU_SLOTS} items in the Cookbook panel to enable selling.</p>`;
+                sellButtonHelperText = `<p class="text-sm text-gray-500 mt-2">Select ${player.maxMenu} items in the Cookbook panel to enable selling.</p>`;
             }
             
             const otherActionsDisabled = isCompetitionDay ? 'disabled' : '';
@@ -623,7 +654,7 @@
             const location = LOCATIONS.find(l => l.name === locationName);
             const seller = location.recipe_seller;
             const condition = seller.unlock_condition;
-            const recipesToBuy = location.available_recipes.filter(r => !player.cookbook.includes(r));
+            const recipesToBuy = location.available_recipes.filter(r => !(r in player.cookbook));
         
             let contentHTML = `<div class="text-center">
                                  <h2 class="text-2xl font-bold mb-2 flex items-center justify-center gap-2">${seller.emoji} ${seller.name}</h2>
@@ -651,7 +682,7 @@
                 }
                 else if (condition.type === 'mastery') {
                     const requiredRecipe = condition.value;
-                    const masteryDetails = player.recipe_mastery[requiredRecipe];
+                    const masteryDetails = player.cookbook[requiredRecipe];
                     challengeMet = masteryDetails && masteryDetails.level >= 3;
                     challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Master a Recipe</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description}</p></div>`;
                     footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>Claim Recipe!</button></div>`;
@@ -741,26 +772,43 @@
         }
         
         function buyIngredient(locationName, itemName) { 
-            const details = INGREDIENT_DATA[itemName]; let currentPrice = details.price; let isBogo = false;
+            const details = INGREDIENT_DATA[itemName]; 
+            let currentPrice = details.price; 
+            let isBogo = false;
+
             if (player.activeEvent) {
-                if (player.activeEvent.type === 'cost_increase' || player.activeEvent.type === 'cost_decrease') { currentPrice *= (1 + player.activeEvent.value); } 
-                else if (player.activeEvent.type === 'bogo') { isBogo = true; }
+                if (player.activeEvent.type === 'cost_increase' || player.activeEvent.type === 'cost_decrease') { 
+                    currentPrice *= (1 + player.activeEvent.value); 
+                } else if (player.activeEvent.type === 'bogo') { 
+                    isBogo = true; 
+                }
             }
+            
+            const servingsToAdd = isBogo ? details.servings * 2 : details.servings;
+            if (player.truck.currentCapacity + servingsToAdd > player.truck.capacity) {
+                showModal("Inventory Full", `You don't have enough space in your truck. You need ${servingsToAdd} space, but only have ${player.truck.capacity - player.truck.currentCapacity} available.`, "Okay", null);
+                return;
+            }
+
             if (player.money >= currentPrice) { 
                 player.money -= currentPrice; 
-                player.inventory[itemName] += isBogo ? details.servings * 2 : details.servings;
-                updateAllUI(); renderStore(locationName); 
+                player.inventory[itemName] += servingsToAdd;
+                updateTruckCapacity();
+                updateAllUI(); 
+                renderStore(locationName); 
             } 
         }
         
         function buyRecipe(locationName, recipeName, cost) {
             if (player.money >= cost) {
-                player.money -= cost; player.cookbook.push(recipeName);
-                const details = RECIPES[recipeName];
-                player.recipe_mastery[recipeName] = {"level": 1, "xp": 0, "xp_to_next_levels": details.xp_to_next_levels};
+                player.money -= cost; 
+                player.cookbook[recipeName] = { level: 1, xp: 0, modifier: null, activePerk: null };
                 updateAllUI();
-                if(modal.classList.contains('hidden')) { showModal("Recipe Learned!", `You have successfully learned how to make the <strong>${recipeName}</strong>!`, "Great!", () => renderAtLocation(locationName)); } 
-                else { showRecipeSellerModal(locationName); }
+                if(modal.classList.contains('hidden')) { 
+                    showModal("Recipe Learned!", `You have successfully learned how to make the <strong>${recipeName}</strong>!`, "Great!", () => renderAtLocation(locationName)); 
+                } else { 
+                    showRecipeSellerModal(locationName); 
+                }
             }
         }
 
@@ -768,7 +816,7 @@
             const location = LOCATIONS.find(l => l.name === locationName);
             const isCompetition = player.activeCompetition && player.activeCompetition.location === locationName;
             if (isCompetition) {
-                if (!player.dailyMenu.includes(player.activeCompetition.recipe)) {
+                if (!player.menu.includes(player.activeCompetition.recipe)) {
                     showModal('Menu Error!', `You accepted the <strong>${player.activeCompetition.recipe}</strong> challenge, but it's not on your menu today! You must feature it to compete. The challenge is forfeit for today.`, 'My Bad', () => { player.activeCompetition = null; renderAtLocation(locationName); });
                     return;
                 }
@@ -805,7 +853,7 @@
                 if (competitionDetails) { // Competition logic overrides normal preferences
                     chosen_food = competitionDetails.recipe;
                 } else {
-                    const menuItemsOfPreferredClass = player.dailyMenu.filter(item => RECIPES[item].class === preferredClass);
+                    const menuItemsOfPreferredClass = player.menu.filter(item => RECIPES[item].class === preferredClass);
                     
                     if (menuItemsOfPreferredClass.length > 0 && Math.random() < 0.75) {
                         const classFavoritesOnMenu = menuItemsOfPreferredClass.filter(item => localFavorites.includes(item));
@@ -815,22 +863,22 @@
                             chosen_food = getRandomElement(menuItemsOfPreferredClass);
                         }
                     } else {
-                        const favoritesOnMenu = player.dailyMenu.filter(item => localFavorites.includes(item));
+                        const favoritesOnMenu = player.menu.filter(item => localFavorites.includes(item));
                         if (favoritesOnMenu.length > 0 && Math.random() < 0.50) {
                             chosen_food = getRandomElement(favoritesOnMenu);
                         } else {
-                            chosen_food = getRandomElement(player.dailyMenu);
+                            chosen_food = getRandomElement(player.menu);
                         }
                     }
                 }
                 
                 const recipe_details = RECIPES[chosen_food];
-                const mastery_details = player.recipe_mastery[chosen_food];
+                const mastery_details = player.cookbook[chosen_food];
                 let ingredientsToConsume = { ...recipe_details.ingredients };
                 
-                const perkId = player.mastery_perks[chosen_food];
-                if (perkId) {
-                    const perk = MASTERY_PERKS[chosen_food].find(p => p.id === perkId);
+                const perkId = mastery_details.activePerk;
+                if (perkId && recipe_details.masteryPerks) {
+                    const perk = recipe_details.masteryPerks.find(p => p.id === perkId);
                     if (perk && perk.type === 'consume_less' && Math.random() < 0.25) {
                         const ingredientToSave = perk.value;
                         if (ingredientsToConsume[ingredientToSave] > 0) { ingredientsToConsume[ingredientToSave]--; }
@@ -845,7 +893,7 @@
                 if (can_make) {
                     for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) { tempInventory[ingredient] -= required_qty; }
         
-                    const sale = { itemName: chosen_food, price: recipe_details.selling_prices[mastery_details.level - 1], repGain: 0, xpGain: 0, levelUpInfo: null, perkActivated: null };
+                    const sale = { itemName: chosen_food, price: recipe_details.selling_prices[mastery_details.level - 1], repGain: 0, xpGain: 0, levelUpInfo: null, perkActivated: null, ingredientsUsed: ingredientsToConsume };
                     
                     const isPreferredClass = RECIPES[chosen_food].class === preferredClass;
                     const isLocalFavorite = localFavorites.includes(chosen_food);
@@ -874,8 +922,8 @@
                     }
 
                     // Perk Logic
-                    if (perkId) {
-                        const perk = MASTERY_PERKS[chosen_food].find(p => p.id === perkId);
+                    if (perkId && recipe_details.masteryPerks) {
+                        const perk = recipe_details.masteryPerks.find(p => p.id === perkId);
                         if (perk && Math.random() < 0.25) {
                             if (perk.type === 'bonus_money') { sale.price += perk.value; sale.perkActivated = `+ $${perk.value.toFixed(2)} Tip!`; }
                             if (perk.type === 'bonus_rep') { sale.repGain += perk.value; sale.perkActivated = `+${perk.value} Bonus Rep!`; }
@@ -890,7 +938,7 @@
 
         async function showSalesVisualizer(saleEvents, locationName) {
             let menuSalesHTML = '';
-            player.dailyMenu.forEach((item, index) => {
+            player.menu.forEach((item, index) => {
                 menuSalesHTML += `<div class="bg-gray-50 rounded-md p-4 flex justify-between items-center text-xl"><span class="font-semibold">${item}</span><span>Sold: <span id="menu-item-count-${index}" class="font-bold">0</span></span></div>`;
             });
         
@@ -902,7 +950,7 @@
         
             const customerCountEl = document.getElementById('sales-customer-count'), moneyEarnedEl = document.getElementById('sales-money-earned'), repGainedEl = document.getElementById('sales-rep-gained'), statusEl = document.getElementById('sales-status'), progressContainer = document.getElementById('progress-container'), progressBar = document.getElementById('progress-bar'), continueBtn = document.getElementById('sales-continue-btn');
             const menuItemCounters = {}; const menuItemCounterEls = {};
-            player.dailyMenu.forEach((item, index) => { menuItemCounters[item] = 0; menuItemCounterEls[item] = document.getElementById(`menu-item-count-${index}`); });
+            player.menu.forEach((item, index) => { menuItemCounters[item] = 0; menuItemCounterEls[item] = document.getElementById(`menu-item-count-${index}`); });
             
             const totalDuration = Math.min(5000, Math.max(3000, saleEvents.length * 50));
             const delay = saleEvents.length > 0 ? totalDuration / saleEvents.length : 0;
@@ -912,17 +960,11 @@
             for (let i = 0; i < saleEvents.length; i++) {
                 const sale = saleEvents[i];
                 statusEl.innerHTML = originalStatusText; statusEl.className = "text-center text-gray-500 mb-4 h-6";
-                const recipe_details = RECIPES[sale.itemName], mastery_details = player.recipe_mastery[sale.itemName];
-                let ingredientsToConsume = { ...recipe_details.ingredients };
-                const perkId = player.mastery_perks[sale.itemName];
-                if (perkId) {
-                    const perk = MASTERY_PERKS[sale.itemName].find(p => p.id === perkId);
-                    if (perk && perk.type === 'consume_less' && Math.random() < 0.25) {
-                        const ingredientToSave = perk.value;
-                        if (ingredientsToConsume[ingredientToSave] > 0) { ingredientsToConsume[ingredientToSave]--; sale.perkActivated = "Saved an ingredient!"; }
-                    }
+                const mastery_details = player.cookbook[sale.itemName];
+                
+                for (const [ingredient, required_qty] of Object.entries(sale.ingredientsUsed)) { 
+                    player.inventory[ingredient] -= required_qty; 
                 }
-                for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) { player.inventory[ingredient] -= required_qty; }
                 
                 player.money += sale.price;
                 const loc = LOCATIONS.find(l=>l.name===locationName);
@@ -930,7 +972,7 @@
                 
                 if (sale.xpGain > 0 && mastery_details.level < 3) {
                     mastery_details.xp += sale.xpGain;
-                    const xp_to_next = mastery_details.xp_to_next_levels[mastery_details.level - 1];
+                    const xp_to_next = RECIPES[sale.itemName].xp_to_next_levels[mastery_details.level - 1];
                     if (mastery_details.xp >= xp_to_next) {
                         mastery_details.level++; mastery_details.xp = 0;
                         sale.levelUpInfo = { name: sale.itemName, newLevel: mastery_details.level };
@@ -938,6 +980,15 @@
                 }
                 
                 updateQuestProgress("make_sandwich", sale.itemName);
+
+                player.truck.xp += 1; // Grant 1 XP per sandwich sold
+                if (player.truck.xp >= player.truck.xpToNextLevel) {
+                    player.truck.level++;
+                    player.truck.xp -= player.truck.xpToNextLevel;
+                    player.truck.xpToNextLevel = Math.floor(player.truck.xpToNextLevel * 1.5);
+                    player.truck.capacity += 100; // Reward: Increase inventory capacity
+                    sale.truckLevelUpInfo = { newLevel: player.truck.level };
+                }
 
                 totalMoney += sale.price; totalRep += sale.repGain;
                 customerCountEl.textContent = i + 1; moneyEarnedEl.textContent = `$${totalMoney.toFixed(2)}`; repGainedEl.textContent = `+${totalRep}`;
@@ -949,11 +1000,13 @@
                 
                 if (sale.perkActivated) { statusEl.innerHTML = `⭐ <strong>Perk!</strong> ${sale.perkActivated} ⭐`; statusEl.className = "text-center text-green-600 font-semibold mb-4 h-6 flash"; }
                 if (sale.levelUpInfo) { statusEl.innerHTML = `⭐ <strong>${sale.levelUpInfo.name}</strong> leveled up to <strong>Lvl ${sale.levelUpInfo.newLevel}</strong>! ⭐`; statusEl.className = "text-center text-yellow-600 font-semibold mb-4 h-6 flash"; }
-                
+                if (sale.truckLevelUpInfo) { statusEl.innerHTML = `🚚 <strong>Truck Leveled Up to Lvl ${sale.truckLevelUpInfo.newLevel}!</strong> (Capacity Increased!) ⭐`; statusEl.className = "text-center text-blue-600 font-semibold mb-4 h-6 flash"; }
+
                 progressBar.style.width = `${((i + 1) / saleEvents.length) * 100}%`;
                 await new Promise(resolve => setTimeout(resolve, delay));
             }
         
+            updateTruckCapacity();
             statusEl.textContent = 'Day Finished!'; statusEl.className = "text-center text-gray-500 mb-4 h-6";
             
             for (const sale of saleEvents) {
@@ -1010,7 +1063,7 @@
             showModal('Local Gossip', `<p class="text-lg italic">${getRandomElement(dialogues)}</p>`, 'Thanks for the tip!', null);
         }
         
-        function checkForWin() { if (player.cookbook.length === Object.keys(RECIPES).length && Object.values(player.recipe_mastery).every(r => r.level >= 3)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
+        function checkForWin() { if (Object.keys(player.cookbook).length === Object.keys(RECIPES).length && Object.values(player.cookbook).every(r => r.level >= 3)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
         function getRandomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
         function checkForDailyEvent() {
@@ -1028,8 +1081,8 @@
                     case 'cost_increase': newEvent.shortDescription = `Supply Shortage! ${(newEvent.value * 100)}% price increase.`; break;
                     case 'bogo': newEvent.shortDescription = "Market Sale! All ingredients are BOGO."; break;
                     case 'competition':
-                        if (player.cookbook.length === 0) return;
-                        const competitionRecipe = getRandomElement(player.cookbook);
+                        if (Object.keys(player.cookbook).length === 0) return;
+                        const competitionRecipe = getRandomElement(Object.keys(player.cookbook));
                         newEvent.value = competitionRecipe;
                         newEvent.shortDescription = `Food Competition! Theme: ${competitionRecipe}.`;
                         break;
@@ -1040,8 +1093,8 @@
 
         function showPerkSelectionModal(recipeName) {
             return new Promise(resolve => {
-                const perks = MASTERY_PERKS[recipeName];
-                if (!perks || player.mastery_perks[recipeName]) {
+                const perks = RECIPES[recipeName].masteryPerks;
+                if (!perks || player.cookbook[recipeName].activePerk) {
                     resolve();
                     return;
                 }
@@ -1062,7 +1115,7 @@
 
                 perks.forEach((p, index) => {
                     document.getElementById(`perk-btn-${index}`).onclick = () => {
-                        player.mastery_perks[recipeName] = p.id;
+                        player.cookbook[recipeName].activePerk = p.id;
                         modal.classList.add('hidden');
                         showModal("Perk Unlocked!", `You've chosen the "${p.description}" perk for the ${recipeName}!`, "Awesome!", () => {
                             updateAllUI();
@@ -1076,14 +1129,14 @@
         function showBulletinBoard() {
             const newQuests = QUEST_DATA.filter(q => 
                 q.location === player.currentLocation && 
-                !player.completed_quests.includes(q.questId) && 
-                !player.active_quests.some(aq => aq.questId === q.questId)
+                !player.completedQuests.includes(q.questId) && 
+                !player.activeQuests.some(aq => aq.questId === q.questId)
             );
-            newQuests.forEach(q => player.active_quests.push({ questId: q.questId, progress: 0 }));
+            newQuests.forEach(q => player.activeQuests.push({ questId: q.questId, progress: 0 }));
             if (newQuests.length > 0) updateAllUI();
 
             let html = `<h2 class="text-2xl font-bold mb-4 text-center">📋 Town Bulletin Board</h2>`;
-            const activeQuestsHere = player.active_quests.map(aq => ({ ...QUEST_DATA.find(q => q.questId === aq.questId), progress: aq.progress })).filter(q => q.location === player.currentLocation);
+            const activeQuestsHere = player.activeQuests.map(aq => ({ ...QUEST_DATA.find(q => q.questId === aq.questId), progress: aq.progress })).filter(q => q.location === player.currentLocation);
 
             if (activeQuestsHere.length > 0) {
                 html += `<div class="space-y-4 max-h-96 overflow-y-auto pr-2">`;
@@ -1101,7 +1154,7 @@
                         canComplete = quest.progress >= objective.target.amount;
                         html += `<p class="mt-2 font-semibold">Objective: Make ${objective.target.amount} ${objective.target.recipe}s. (${quest.progress}/${objective.target.amount})</p>`;
                     } else if (objective.type === 'teach_recipe') {
-                        canComplete = player.dailyMenu.includes(objective.target.recipe);
+                        canComplete = player.menu.includes(objective.target.recipe);
                         html += `<p class="mt-2 font-semibold">Objective: Feature the ${objective.target.recipe} on your menu for one day.</p>`;
                     }
                     
@@ -1123,11 +1176,11 @@
         function showQuestJournal() {
             let html = `<h2 class="text-2xl font-bold mb-4 text-center">📖 Quest Journal</h2>`;
 
-            if (player.active_quests.length === 0) {
+            if (player.activeQuests.length === 0) {
                 html += `<p class="text-center text-gray-500 italic p-4">You have no active quests. Check a town's bulletin board to find one!</p>`;
             } else {
                 html += `<div class="space-y-3 max-h-96 overflow-y-auto pr-2">`;
-                player.active_quests.forEach(activeQuest => {
+                player.activeQuests.forEach(activeQuest => {
                     const questDetails = QUEST_DATA.find(q => q.questId === activeQuest.questId);
                     const objective = questDetails.objective;
                     html += `<div class="p-4 border rounded-lg bg-gray-50">
@@ -1143,7 +1196,7 @@
                     } else if (objective.type === 'make_sandwich') {
                         progressHTML = `Make ${objective.target.amount} ${objective.target.recipe}s: (${activeQuest.progress}/${objective.target.amount})`;
                     } else if (objective.type === 'teach_recipe') {
-                        const status = player.dailyMenu.includes(objective.target.recipe) ? "Ready to complete" : "Not on menu";
+                        const status = player.menu.includes(objective.target.recipe) ? "Ready to complete" : "Not on menu";
                         progressHTML = `Feature the ${objective.target.recipe} on your menu. (${status})`;
                     }
                     html += `<div class="mt-2 pt-2 border-t font-semibold text-sm text-gray-700">${progressHTML}</div></div>`;
@@ -1158,8 +1211,8 @@
         }
 
         function updateQuestProgress(triggerType, value) {
-            if (player.active_quests.length === 0) return;
-            player.active_quests.forEach(activeQuest => {
+            if (player.activeQuests.length === 0) return;
+            player.activeQuests.forEach(activeQuest => {
                 const questDetails = QUEST_DATA.find(q => q.questId === activeQuest.questId);
                 if (questDetails.objective.type === triggerType && questDetails.objective.target.recipe === value) {
                     activeQuest.progress++;
@@ -1168,7 +1221,7 @@
         }
 
         function completeQuest(questId) {
-            const questIndex = player.active_quests.findIndex(q => q.questId === questId);
+            const questIndex = player.activeQuests.findIndex(q => q.questId === questId);
             if (questIndex === -1) return;
 
             const questDetails = QUEST_DATA.find(q => q.questId === questId);
@@ -1178,6 +1231,7 @@
 
             if (objective.type === 'deliver_ingredient') {
                 player.inventory[objective.target.ingredient] -= objective.target.amount;
+                updateTruckCapacity();
             }
 
             if (reward.type === 'money') {
@@ -1186,10 +1240,11 @@
             } else if (reward.type === 'ingredient') {
                 player.inventory[reward.value.name] += reward.value.amount;
                 rewardText = `You received ${reward.value.amount} ${reward.value.name}!`;
+                updateTruckCapacity();
             }
             
-            player.active_quests.splice(questIndex, 1);
-            player.completed_quests.push(questId);
+            player.activeQuests.splice(questIndex, 1);
+            player.completedQuests.push(questId);
             
             modal.classList.add('hidden');
             updateAllUI();
@@ -1197,28 +1252,36 @@
         }
         
         function initGame() {
-            const startYear = new Date().getFullYear();
-            const randomDayOfYear = Math.floor(Math.random() * 365);
-            const startDate = new Date(startYear, 0, 1);
-            startDate.setDate(startDate.getDate() + randomDayOfYear);
-
             player = { 
                 day: 1, 
                 money: 100.00, 
                 inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, 
-                cookbook: ["Ham & cheese", "BLT"], 
-                recipe_mastery: { "Ham & cheese": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["Ham & cheese"].xp_to_next_levels}, "BLT": {"level": 1, "xp": 0, "xp_to_next_levels": RECIPES["BLT"].xp_to_next_levels}, }, 
+                cookbook: {
+                    "Ham & cheese": { level: 1, xp: 0, modifier: null, activePerk: null },
+                    "BLT": { level: 1, xp: 0, modifier: null, activePerk: null }
+                },
+                truck: {
+                    level: 1,
+                    xp: 0,
+                    xpToNextLevel: 100,
+                    capacity: 500,
+                    currentCapacity: 0,
+                    currentFuel: 100,
+                    maxFuel: 100,
+                },
+                menu: ["Ham & cheese", "BLT"],
+                maxMenu: 2,
+                activeQuests: [],
+                completedQuests: [],
                 reputation: LOCATIONS.reduce((acc, loc) => ({ ...acc, [loc.name]: 0 }), {}), 
                 currentLocation: "Central City", 
                 knownPreferences: [], 
                 activeEvent: null, 
                 daysSinceEvent: 0,
                 activeCompetition: null,
-                mastery_perks: {},
-                active_quests: [],
-                completed_quests: [],
             };
-            player.dailyMenu = player.cookbook.slice(0, DAILY_MENU_SLOTS);
+            
+            updateTruckCapacity();
             player.reputation["Central City"] = 1; 
             isNewDay = true;
             updateAllUI(); 
