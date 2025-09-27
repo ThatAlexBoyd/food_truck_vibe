@@ -198,79 +198,79 @@
             "Sauce":      { "price": 10, "servings": 40,  "emoji": "🥫" },
             "Vegetables": { "price": 10, "servings": 40,  "emoji": "🥬" },
         };
-        const RECIPES = {
+        const SANDWICH_DATA = {
             "Ham & cheese": {
-                "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25, 60],
+                "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25, 60],
                 "masteryPerks": [
                     { id: "ham_cheese_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 },
                     { id: "ham_cheese_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
                 ]
             },
             "Italian": {
-                "class": "Sub", "unlock_cost": 75, "selling_prices": [6.00, 7.00, 8.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 110],
+                "class": "Sub", "unlock_cost": 75, "selling_prices": [6.00, 7.00, 8.00], "recipe": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 110],
                 "masteryPerks": [
                     { id: "italian_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 },
                     { id: "italian_save", description: "Extra Lean: Chance to use one less Meat.", type: "consume_less", value: "Meat" }
                 ]
             },
             "Club": {
-                "class": "Classic", "unlock_cost": 50, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50, 100],
+                "class": "Classic", "unlock_cost": 50, "selling_prices": [5.00, 6.00, 7.00], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50, 100],
                 "masteryPerks": [
                     { id: "club_save", description: "Modified Order: Chance to use one less Topping.", type: "consume_less", value: "Toppings" },
                     { id: "club_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
                 ]
             },
             "Patty melt": {
-                "class": "Special", "unlock_cost": 40, "selling_prices": [4.00, 5.00, 6.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35, 80],
+                "class": "Special", "unlock_cost": 40, "selling_prices": [4.00, 5.00, 6.00], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35, 80],
                 "masteryPerks": [
                     { id: "patty_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 },
                     { id: "patty_save", description: "Lighter Sauce: Chance to use one less Sauce.", type: "consume_less", value: "Sauce" }
                 ]
             },
             "BLT": {
-                "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "ingredients": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25, 60],
+                "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.00, 4.00], "recipe": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25, 60],
                 "masteryPerks": [
                     { id: "blt_save", description: "Vegetable Swap: Chance to use one less Vegetable.", type: "consume_less", value: "Vegetables" },
                     { id: "blt_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
                 ]
             },
             "West Coast": {
-                "class": "Wrap", "unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100],
+                "class": "Wrap", "unlock_cost": 80, "selling_prices": [3.00, 4.00, 5.00], "recipe": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50, 100],
                 "masteryPerks": [
                     { id: "west_coast_save", description: "Avocado Shortage: Chance to use one less Spread.", type: "consume_less", value: "Spread" },
                     { id: "west_coast_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
                 ]
             },
             "Salad": {
-                "class": "Special", "unlock_cost": 30, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40, 90],
+                "class": "Special", "unlock_cost": 30, "selling_prices": [3.00, 4.00, 5.00], "recipe": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40, 90],
                 "masteryPerks": [
                     { id: "salad_save", description: "Light Dressing: Chance to use one less Sauce.", type: "consume_less", value: "Sauce" },
                     { id: "salad_profit", description: "Generous Tipper: Chance to get a $1 tip.", type: "bonus_money", value: 1.00 }
                 ]
             },
             "Burger": {
-                "class": "Special", "unlock_cost": 150, "selling_prices": [7.00, 8.00, 9.00], "ingredients": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150],
+                "class": "Special", "unlock_cost": 150, "selling_prices": [7.00, 8.00, 9.00], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75, 150],
                 "masteryPerks": [
                     { id: "burger_profit", description: "Generous Tipper: Chance to get a $2 tip.", type: "bonus_money", value: 2.00 },
                     { id: "burger_save", description: "No Toppings: Chance to use one less Topping.", type: "consume_less", value: "Toppings" }
                 ]
             },
             "Chicken salad": {
-                "class": "Wrap", "unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "ingredients": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100],
+                "class": "Wrap", "unlock_cost": 100, "selling_prices": [3.00, 4.00, 5.00], "recipe": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50, 100],
                 "masteryPerks": [
                     { id: "chicken_salad_save", description: "Secret Ingredient: Chance to use one less Spread.", type: "consume_less", value: "Spread" },
                     { id: "chicken_salad_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
                 ]
             },
             "Reuben": {
-                "class": "Sub", "unlock_cost": 90, "selling_prices": [5.00, 6.00, 7.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100],
+                "class": "Sub", "unlock_cost": 90, "selling_prices": [5.00, 6.00, 7.00], "recipe": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50, 100],
                 "masteryPerks": [
                     { id: "reuben_profit", description: "Generous Tipper: Chance to get a $2 tip.", type: "bonus_money", value: 2.00 },
                     { id: "reuben_rep", description: "Food Critic Favorite: Chance for +2 bonus reputation.", type: "bonus_rep", value: 2 }
                 ]
             },
             "The Ultimate": {
-                "class": "Sub", "unlock_cost": 250, "selling_prices": [9.00, 11.00, 13.00], "ingredients": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150],
+                "class": "Sub", "unlock_cost": 250, "selling_prices": [9.00, 11.00, 13.00], "recipe": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75, 150],
                 "masteryPerks": [
                     { id: "ultimate_rep", description: "Food Critic Favorite: Chance for +3 bonus reputation.", type: "bonus_rep", value: 3 },
                     { id: "ultimate_profit", description: "Generous Tipper: Chance to get a $3 tip.", type: "bonus_money", value: 3.00 }
@@ -443,7 +443,7 @@
                                 <div class="group relative flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
                                     <div class="absolute bottom-full mb-2 w-64 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-50">
-                                        Click a recipe to add it to your daily menu (max ${player.maxMenu}). The oldest selection will be replaced if the menu is full.
+                                        Click a sandwich to add it to your daily menu (max ${player.maxMenu}). The oldest selection will be replaced if the menu is full.
                                         <svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
                                     </div>
                                 </div>
@@ -452,7 +452,7 @@
 
             for (const recipeName of Object.keys(player.cookbook).sort()) {
                 const mastery = player.cookbook[recipeName];
-                const recipeDetails = RECIPES[recipeName];
+                const sandwichDetails = SANDWICH_DATA[recipeName];
                 const isSelected = player.menu.includes(recipeName);
                 
                 const selectionClasses = isSelected 
@@ -464,7 +464,7 @@
                     : '';
 
                 let ingredientsHTML = '<div class="flex items-center gap-2 mt-2">';
-                const ingredients = recipeDetails.ingredients;
+                const ingredients = sandwichDetails.recipe;
                 for (const [ing, qty] of Object.entries(ingredients)) {
                     if (qty > 0) {
                         ingredientsHTML += `<span class="text-sm">${INGREDIENT_DATA[ing].emoji} ${qty > 1 ? `x${qty}` : ''}</span>`;
@@ -472,7 +472,7 @@
                 }
                 ingredientsHTML += '</div>';
 
-                const recipeClass = recipeDetails.class;
+                const recipeClass = sandwichDetails.class;
                 const classLabelColors = {
                     'Classic': 'label-classic',
                     'Wrap': 'label-wrap',
@@ -489,7 +489,7 @@
                 
                 if (mastery.level >= 3) {
                      const perkId = mastery.activePerk;
-                     const perkDetails = perkId && recipeDetails.masteryPerks ? recipeDetails.masteryPerks.find(p => p.id === perkId) : null;
+                     const perkDetails = perkId && sandwichDetails.masteryPerks ? sandwichDetails.masteryPerks.find(p => p.id === perkId) : null;
                      const perkTitle = perkDetails ? `title="${perkDetails.description}"` : '';
                      const perkBadge = perkId ? `<span ${perkTitle} class="font-semibold px-2 py-0.5 bg-green-200 text-green-800 rounded-full text-xs">Perk Active</span>` : `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
                      topRowHTML = `
@@ -666,7 +666,7 @@
         
             if (recipesToBuy.length > 0) {
                 const recipeName = recipesToBuy[0];
-                const details = RECIPES[recipeName];
+                const details = SANDWICH_DATA[recipeName];
                 let challengeMet = false;
         
                 if (condition.type === 'buy') {
@@ -853,7 +853,7 @@
                 if (competitionDetails) { // Competition logic overrides normal preferences
                     chosen_food = competitionDetails.recipe;
                 } else {
-                    const menuItemsOfPreferredClass = player.menu.filter(item => RECIPES[item].class === preferredClass);
+                    const menuItemsOfPreferredClass = player.menu.filter(item => SANDWICH_DATA[item].class === preferredClass);
                     
                     if (menuItemsOfPreferredClass.length > 0 && Math.random() < 0.75) {
                         const classFavoritesOnMenu = menuItemsOfPreferredClass.filter(item => localFavorites.includes(item));
@@ -872,13 +872,13 @@
                     }
                 }
                 
-                const recipe_details = RECIPES[chosen_food];
+                const sandwich_details = SANDWICH_DATA[chosen_food];
                 const mastery_details = player.cookbook[chosen_food];
-                let ingredientsToConsume = { ...recipe_details.ingredients };
+                let ingredientsToConsume = { ...sandwich_details.recipe };
                 
                 const perkId = mastery_details.activePerk;
-                if (perkId && recipe_details.masteryPerks) {
-                    const perk = recipe_details.masteryPerks.find(p => p.id === perkId);
+                if (perkId && sandwich_details.masteryPerks) {
+                    const perk = sandwich_details.masteryPerks.find(p => p.id === perkId);
                     if (perk && perk.type === 'consume_less' && Math.random() < 0.25) {
                         const ingredientToSave = perk.value;
                         if (ingredientsToConsume[ingredientToSave] > 0) { ingredientsToConsume[ingredientToSave]--; }
@@ -893,9 +893,9 @@
                 if (can_make) {
                     for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) { tempInventory[ingredient] -= required_qty; }
         
-                    const sale = { itemName: chosen_food, price: recipe_details.selling_prices[mastery_details.level - 1], repGain: 0, xpGain: 0, levelUpInfo: null, perkActivated: null, ingredientsUsed: ingredientsToConsume };
+                    const sale = { itemName: chosen_food, price: sandwich_details.selling_prices[mastery_details.level - 1], repGain: 0, xpGain: 0, levelUpInfo: null, perkActivated: null, ingredientsUsed: ingredientsToConsume };
                     
-                    const isPreferredClass = RECIPES[chosen_food].class === preferredClass;
+                    const isPreferredClass = SANDWICH_DATA[chosen_food].class === preferredClass;
                     const isLocalFavorite = localFavorites.includes(chosen_food);
                     
                     // XP Gain Logic
@@ -922,8 +922,8 @@
                     }
 
                     // Perk Logic
-                    if (perkId && recipe_details.masteryPerks) {
-                        const perk = recipe_details.masteryPerks.find(p => p.id === perkId);
+                    if (perkId && sandwich_details.masteryPerks) {
+                        const perk = sandwich_details.masteryPerks.find(p => p.id === perkId);
                         if (perk && Math.random() < 0.25) {
                             if (perk.type === 'bonus_money') { sale.price += perk.value; sale.perkActivated = `+ $${perk.value.toFixed(2)} Tip!`; }
                             if (perk.type === 'bonus_rep') { sale.repGain += perk.value; sale.perkActivated = `+${perk.value} Bonus Rep!`; }
@@ -972,7 +972,7 @@
                 
                 if (sale.xpGain > 0 && mastery_details.level < 3) {
                     mastery_details.xp += sale.xpGain;
-                    const xp_to_next = RECIPES[sale.itemName].xp_to_next_levels[mastery_details.level - 1];
+                    const xp_to_next = SANDWICH_DATA[sale.itemName].xp_to_next_levels[mastery_details.level - 1];
                     if (mastery_details.xp >= xp_to_next) {
                         mastery_details.level++; mastery_details.xp = 0;
                         sale.levelUpInfo = { name: sale.itemName, newLevel: mastery_details.level };
@@ -1063,7 +1063,7 @@
             showModal('Local Gossip', `<p class="text-lg italic">${getRandomElement(dialogues)}</p>`, 'Thanks for the tip!', null);
         }
         
-        function checkForWin() { if (Object.keys(player.cookbook).length === Object.keys(RECIPES).length && Object.values(player.cookbook).every(r => r.level >= 3)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
+        function checkForWin() { if (Object.keys(player.cookbook).length === Object.keys(SANDWICH_DATA).length && Object.values(player.cookbook).every(r => r.level >= 3)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
         function getRandomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
         function checkForDailyEvent() {
@@ -1093,7 +1093,7 @@
 
         function showPerkSelectionModal(recipeName) {
             return new Promise(resolve => {
-                const perks = RECIPES[recipeName].masteryPerks;
+                const perks = SANDWICH_DATA[recipeName].masteryPerks;
                 if (!perks || player.cookbook[recipeName].activePerk) {
                     resolve();
                     return;
@@ -1106,7 +1106,7 @@
                 const modalHTML = `
                     <div class="text-center">
                         <h2 class="text-2xl font-bold mb-2">✨ ${recipeName} Mastered! ✨</h2>
-                        <p class="mb-4 text-gray-600">Your dedication has unlocked new potential. Choose a permanent perk for this recipe:</p>
+                        <p class="mb-4 text-gray-600">Your dedication has unlocked new potential. Choose a permanent perk for this sandwich:</p>
                         <div class="space-y-3">${buttonsHTML}</div>
                     </div>`;
                 
