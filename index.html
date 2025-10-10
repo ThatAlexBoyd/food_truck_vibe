@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Sandwich Hero</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
@@ -172,8 +172,8 @@
 
             <!-- Right Column -->
             <aside class="lg:w-1/3">
-                <div id="cookbook-panel" class="card p-6 h-full">
-                    <!-- Cookbook/Menu content will be injected here -->
+                <div id="menu-panel" class="card p-6 h-full">
+                    <!-- Menu content will be injected here -->
                 </div>
             </aside>
         </div>
@@ -199,39 +199,32 @@
             "Vegetables": { "price": 10, "servings": 40,  "emoji": "🥬" },
         };
         const SANDWICH_DATA = {
-            "Ham & cheese": {
-                "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.25, 3.50, 3.75, 4.00, 4.25, 4.50, 4.75, 5.00, 5.50], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25]
-            },
-            "Italian": {
-                "class": "Sub", "unlock_cost": 75, "selling_prices": [6.00, 6.25, 6.50, 7.00, 7.50, 8.00, 8.50, 9.00, 9.50, 10.00], "recipe": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50]
-            },
-            "Club": {
-                "class": "Classic", "unlock_cost": 50, "selling_prices": [5.00, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75, 8.25, 8.75, 9.50], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50]
-            },
-            "Patty melt": {
-                "class": "Special", "unlock_cost": 40, "selling_prices": [4.00, 4.25, 4.50, 5.00, 5.50, 6.00, 6.50, 7.00, 7.50, 8.00], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35]
-            },
-            "BLT": {
-                "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.25, 3.50, 3.75, 4.00, 4.25, 4.50, 4.75, 5.00, 5.50], "recipe": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25]
-            },
-            "West Coast": {
-                "class": "Wrap", "unlock_cost": 80, "selling_prices": [3.00, 3.50, 4.00, 4.50, 5.00, 5.50, 6.00, 6.50, 7.00, 7.50], "recipe": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50]
-            },
-            "Salad": {
-                "class": "Special", "unlock_cost": 30, "selling_prices": [3.00, 3.50, 4.00, 4.50, 5.00, 5.50, 6.00, 6.50, 7.00, 7.50], "recipe": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40]
-            },
-            "Burger": {
-                "class": "Special", "unlock_cost": 150, "selling_prices": [7.00, 7.50, 8.00, 8.50, 9.00, 9.50, 10.00, 10.50, 11.00, 12.00], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75]
-            },
-            "Chicken salad": {
-                "class": "Wrap", "unlock_cost": 100, "selling_prices": [3.00, 3.50, 4.00, 4.50, 5.00, 5.50, 6.00, 6.50, 7.00, 7.50], "recipe": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50]
-            },
-            "Reuben": {
-                "class": "Sub", "unlock_cost": 90, "selling_prices": [5.00, 5.50, 6.00, 6.50, 7.00, 7.50, 8.00, 8.50, 9.00, 10.00], "recipe": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50]
-            },
-            "The Ultimate": {
-                "class": "Sub", "unlock_cost": 250, "selling_prices": [9.00, 9.50, 10.00, 10.75, 11.50, 12.25, 13.00, 13.75, 14.50, 16.00], "recipe": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75]
-            },
+            "Ham & cheese": { "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.25, 3.50, 3.75, 4.00, 4.25, 4.50, 4.75, 5.00, 5.50], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1}, "xp_to_next_levels": [25] },
+            "Italian": { "class": "Sub", "unlock_cost": 75, "selling_prices": [6.00, 6.25, 6.50, 7.00, 7.50, 8.00, 8.50, 9.00, 9.50, 10.00], "recipe": {"Bread": 1, "Meat": 2, "Cheese": 2, "Toppings": 1, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [50] },
+            "Club": { "class": "Classic", "unlock_cost": 50, "selling_prices": [5.00, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75, 8.25, 8.75, 9.50], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 0, "Vegetables": 1}, "xp_to_next_levels": [50] },
+            "Patty melt": { "class": "Special", "unlock_cost": 40, "selling_prices": [4.00, 4.25, 4.50, 5.00, 5.50, 6.00, 6.50, 7.00, 7.50, 8.00], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1, "Sauce": 1, "Vegetables": 0}, "xp_to_next_levels": [35] },
+            "BLT": { "class": "Classic", "unlock_cost": 0, "selling_prices": [3.00, 3.25, 3.50, 3.75, 4.00, 4.25, 4.50, 4.75, 5.00, 5.50], "recipe": {"Bread": 1, "Toppings": 1, "Vegetables": 2}, "xp_to_next_levels": [25] },
+            "West Coast": { "class": "Wrap", "unlock_cost": 80, "selling_prices": [3.00, 3.50, 4.00, 4.50, 5.00, 5.50, 6.00, 6.50, 7.00, 7.50], "recipe": {"Bread": 1, "Meat": 1, "Spread": 1, "Vegetables": 1}, "xp_to_next_levels": [50] },
+            "Salad": { "class": "Special", "unlock_cost": 30, "selling_prices": [3.00, 3.50, 4.00, 4.50, 5.00, 5.50, 6.00, 6.50, 7.00, 7.50], "recipe": {"Meat": 1, "Spread": 1, "Sauce": 1, "Vegetables": 2}, "xp_to_next_levels": [40] },
+            "Burger": { "class": "Special", "unlock_cost": 150, "selling_prices": [7.00, 7.50, 8.00, 8.50, 9.00, 9.50, 10.00, 10.50, 11.00, 12.00], "recipe": {"Bread": 1, "Meat": 1, "Cheese": 1, "Spread": 1, "Toppings": 1, "Sauce": 2, "Vegetables": 2}, "xp_to_next_levels": [75] },
+            "Chicken salad": { "class": "Wrap", "unlock_cost": 100, "selling_prices": [3.00, 3.50, 4.00, 4.50, 5.00, 5.50, 6.00, 6.50, 7.00, 7.50], "recipe": {"Bread": 1, "Meat": 1, "Spread": 2, "Toppings": 1}, "xp_to_next_levels": [50] },
+            "Reuben": { "class": "Sub", "unlock_cost": 90, "selling_prices": [5.00, 5.50, 6.00, 6.50, 7.00, 7.50, 8.00, 8.50, 9.00, 10.00], "recipe": {"Bread": 1, "Meat": 2, "Cheese": 1, "Sauce": 1}, "xp_to_next_levels": [50] },
+            "The Ultimate": { "class": "Sub", "unlock_cost": 250, "selling_prices": [9.00, 9.50, 10.00, 10.75, 11.50, 12.25, 13.00, 13.75, 14.50, 16.00], "recipe": {"Bread": 1, "Meat": 2, "Cheese": 2, "Spread": 1, "Toppings": 2, "Sauce": 1, "Vegetables": 1}, "xp_to_next_levels": [75] },
+        };
+
+        const MODS = ["Pressed", "Toasted", "Double", "Open", "Spicy", "Tangy"];
+        const SANDWICH_MOD_DATA = {
+            "Ham & cheese": { "Pressed": 1, "Toasted": 1, "Double": 0, "Open": -1, "Spicy": -1, "Tangy": -1 },
+            "BLT": { "Pressed": -1, "Toasted": 1, "Double": 1, "Open": -1, "Spicy": 0, "Tangy": -1 },
+            "Club": { "Pressed": 0, "Toasted": 1, "Double": 0, "Open": 0, "Spicy": 0, "Tangy": -1 },
+            "Chicken salad": { "Pressed": -1, "Toasted": 1, "Double": 0, "Open": 0, "Spicy": -1, "Tangy": -1 },
+            "West Coast": { "Pressed": -1, "Toasted": 0, "Double": 1, "Open": 1, "Spicy": 0, "Tangy": 0 },
+            "Italian": { "Pressed": -1, "Toasted": -1, "Double": 1, "Open": 0, "Spicy": 1, "Tangy": 0 },
+            "Reuben": { "Pressed": 1, "Toasted": 0, "Double": 0, "Open": 0, "Spicy": -1, "Tangy": 0 },
+            "The Ultimate": { "Pressed": -1, "Toasted": -1, "Double": -1, "Open": -1, "Spicy": 1, "Tangy": 1 },
+            "Patty Melt": { "Pressed": 1, "Toasted": 1, "Double": 0, "Open": -1, "Spicy": -1, "Tangy": 0 },
+            "Salad": { "Pressed": -1, "Toasted": -1, "Double": 0, "Open": 1, "Spicy": -1, "Tangy": 1 },
+            "Burger": { "Pressed": -1, "Toasted": 0, "Double": 1, "Open": -1, "Spicy": 1, "Tangy": 1 }
         };
         
         const LOCATIONS = [
@@ -336,9 +329,9 @@
         let isNewDay = false;
         let currentMapSelection = null;
 
-        const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), cookbookPanel = document.getElementById('cookbook-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
+        const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), menuPanel = document.getElementById('menu-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
         
-        function updateAllUI() { updateStatusUI(); updateInventoryUI(); updateCookbookPanel(); checkForWin(); }
+        function updateAllUI() { updateStatusUI(); updateInventoryUI(); updateMenuPanel(); checkForWin(); }
         
         function updateTruckCapacity() {
             player.truck.currentCapacity = Object.values(player.inventory).reduce((sum, current) => sum + current, 0);
@@ -377,96 +370,63 @@
             inventoryHTML += `</div>`; inventoryPanel.innerHTML = inventoryHTML;
         }
         
-        function toggleMenuItem(recipeName) {
-            const index = player.menu.indexOf(recipeName);
-            if (index > -1) {
-                player.menu.splice(index, 1);
-            } else {
-                player.menu.push(recipeName);
-                if (player.menu.length > player.maxMenu) {
-                    player.menu.shift();
-                }
-            }
-            updateAllUI(); 
-            if (document.getElementById('main-panel-content')) {
-                 renderAtLocation(player.currentLocation);
-            }
-        }
-        
-        function updateCookbookPanel() {
-            let masteryHTML = `<div class="flex items-center gap-2 mb-3">
-                                <h2 class="text-2xl font-bold">📘 Cookbook</h2>
-                                <div class="group relative flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
-                                    <div class="absolute bottom-full mb-2 w-64 bg-gray-800 text-white text-xs rounded-lg py-2 px-3 transform scale-0 group-hover:scale-100 transition-transform duration-150 origin-bottom z-50">
-                                        Click a sandwich to add it to your daily menu (max ${player.maxMenu}). The oldest selection will be replaced if the menu is full.
-                                        <svg class="absolute text-gray-800 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
-                                    </div>
-                                </div>
+        function updateMenuPanel() {
+            let menuHTML = `<div class="flex items-center justify-between mb-3">
+                                <h2 class="text-2xl font-bold">Menu</h2>
+                                <button onclick="showCookbookModal()" class="btn btn-secondary py-1 px-3">Cookbook</button>
                             </div>
                             <div class="space-y-3 max-h-[40rem] overflow-y-auto pr-2">`;
 
-            for (const recipeName of Object.keys(player.cookbook).sort()) {
-                const mastery = player.cookbook[recipeName];
-                const sandwichDetails = SANDWICH_DATA[recipeName];
-                const isSelected = player.menu.includes(recipeName);
-                
-                const selectionClasses = isSelected 
-                    ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-300' 
-                    : 'border-gray-200 bg-white hover:bg-gray-50';
-
-                let ingredientsHTML = '<div class="flex items-center gap-2 mt-2">';
-                const ingredients = sandwichDetails.recipe;
-                for (const [ing, qty] of Object.entries(ingredients)) {
-                    if (qty > 0) {
-                        ingredientsHTML += `<span class="text-sm">${INGREDIENT_DATA[ing].emoji} ${qty > 1 ? `x${qty}` : ''}</span>`;
+            if (player.menu.length === 0) {
+                menuHTML += `<p class="text-center text-gray-500 italic p-4">Your menu is empty. Open the Cookbook to add sandwiches.</p>`;
+            } else {
+                for (const recipeName of player.menu) {
+                    const mastery = player.cookbook[recipeName];
+                    const sandwichDetails = SANDWICH_DATA[recipeName];
+                    
+                    let ingredientsHTML = '<div class="flex items-center gap-2 mt-2">';
+                    const ingredients = sandwichDetails.recipe;
+                    for (const [ing, qty] of Object.entries(ingredients)) {
+                        if (qty > 0) ingredientsHTML += `<span class="text-sm">${INGREDIENT_DATA[ing].emoji} ${qty > 1 ? `<span class="text-xs font-semibold">${qty}</span>` : ''}</span>`;
                     }
-                }
-                ingredientsHTML += '</div>';
+                    ingredientsHTML += '</div>';
 
-                const recipeClass = sandwichDetails.class;
-                const classLabelColors = {
-                    'Classic': 'label-classic',
-                    'Wrap': 'label-wrap',
-                    'Sub': 'label-sub',
-                    'Special': 'label-special'
-                };
-                const classLabelHTML = `<span class="text-xs font-semibold px-2 py-0.5 rounded-full ${classLabelColors[recipeClass] || ''}">${recipeClass}</span>`;
+                    const recipeClass = sandwichDetails.class;
+                    const classLabelColors = { 'Classic': 'label-classic', 'Wrap': 'label-wrap', 'Sub': 'label-sub', 'Special': 'label-special' };
+                    const classLabelHTML = `<span class="text-xs font-semibold px-2 py-0.5 rounded-full ${classLabelColors[recipeClass] || ''}">${recipeClass}</span>`;
 
-                let topRowHTML;
-                const leftSideHTML = `<div class="flex items-center gap-2">
-                                        <span class="font-bold truncate">${recipeName}</span>
-                                        ${classLabelHTML}
-                                      </div>`;
-                
-                if (mastery.level >= 10) {
-                     const masteredBadge = `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
-                     topRowHTML = `
+                    const leftSideHTML = `<div class="flex items-center gap-2"><span class="font-bold truncate">${recipeName}</span>${classLabelHTML}</div>`;
+                    
+                    let levelDisplay;
+                    if (mastery.level >= 10) {
+                        levelDisplay = `<span class="font-semibold px-2 py-0.5 bg-yellow-400 text-yellow-800 rounded-full">Mastered!</span>`;
+                    } else {
+                        levelDisplay = `<span class="font-semibold">Lvl ${mastery.level}</span>`;
+                    }
+                    
+                    let modHTML = '';
+                    if (mastery.currentMod) {
+                        modHTML = `<span class="text-xs font-semibold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">${mastery.currentMod}</span>`;
+                    }
+
+                    const topRowHTML = `
                         <div class="flex justify-between items-center text-sm mb-1">
                             ${leftSideHTML}
                             <div class="flex items-center gap-2 flex-shrink-0">
-                                ${masteredBadge}
+                                ${modHTML}
+                                ${levelDisplay}
                             </div>
                         </div>`;
-                } else {
-                    const levelBadge = `<span class="font-semibold">Lvl ${mastery.level}</span>`;
-                    topRowHTML = `
-                        <div class="flex justify-between items-center text-sm mb-1">
-                            ${leftSideHTML}
-                            <div class="flex items-center gap-2 flex-shrink-0">
-                                ${levelBadge}
-                            </div>
-                        </div>`;
+                    
+                    menuHTML += `<div class="w-full text-left p-4 rounded-lg border bg-gray-50">
+                                        ${topRowHTML}
+                                        ${ingredientsHTML}
+                                   </div>`;
                 }
-                
-                masteryHTML += `<button onclick="toggleMenuItem('${recipeName}')" class="w-full text-left p-3 rounded-lg border-2 transition-all duration-150 ${selectionClasses}">
-                                    ${topRowHTML}
-                                    ${ingredientsHTML}
-                               </button>`;
             }
             
-            masteryHTML += `</div>`; 
-            cookbookPanel.innerHTML = masteryHTML;
+            menuHTML += `</div>`; 
+            menuPanel.innerHTML = menuHTML;
         }
 
         function renderLocationMastery(location) {
@@ -536,15 +496,15 @@
         
             const location = LOCATIONS.find(l => l.name === locationName);
             const recipesToBuy = location.available_recipes.filter(r => !(r in player.cookbook));
-            const isMenuValid = player.menu.length === player.maxMenu;
+            const isMenuValid = player.menu.length > 0 && player.menu.length <= player.maxMenu;
             
             const isCompetitionDay = player.activeCompetition && player.activeCompetition.location === locationName;
             const sellButtonText = isCompetitionDay ? `🏆 Start ${player.activeCompetition.recipe} Challenge!` : '🚚 Setup Shop & Sell';
-            const sellButtonTitle = !isMenuValid ? `title="You must select ${player.maxMenu} items for your daily menu before setting up shop."` : `title="Start the day and sell your sandwiches!"`;
+            const sellButtonTitle = !isMenuValid ? `title="You must have at least one item on your menu to sell."` : `title="Start the day and sell your sandwiches!"`;
             
             let sellButtonHelperText = '';
             if (!isMenuValid) {
-                sellButtonHelperText = `<p class="text-sm text-gray-500 mt-2">Select ${player.maxMenu} items in the Cookbook panel to enable selling.</p>`;
+                sellButtonHelperText = `<p class="text-sm text-gray-500 mt-2">Add items to your menu from the Cookbook to enable selling.</p>`;
             }
             
             const otherActionsDisabled = isCompetitionDay ? 'disabled' : '';
@@ -749,7 +709,7 @@
         function buyRecipe(locationName, recipeName, cost) {
             if (player.money >= cost) {
                 player.money -= cost; 
-                player.cookbook[recipeName] = { level: 1, xp: 0, modifier: null };
+                player.cookbook[recipeName] = { level: 1, xp: 0, currentMod: null };
                 updateAllUI();
                 if(modal.classList.contains('hidden')) { 
                     showModal("Recipe Learned!", `You have successfully learned how to make the <strong>${recipeName}</strong>!`, "Great!", () => renderAtLocation(locationName)); 
@@ -1144,18 +1104,11 @@
                 const baseXP = sandwich.xp_to_next_levels[0]; // Use the first value as the base for scaling
                 const newXpCurve = [];
 
-                // Generate 9 values for levels 2 through 10
                 for (let level = 1; level < 10; level++) {
-                    const progress = (level - 1) / 8.0; // A value from 0.0 to 1.0 representing progression to max level
-                    
-                    // Ease-in-out curve using cosine. Starts slow, accelerates, then slows again.
+                    const progress = (level - 1) / 8.0;
                     const sineFactor = 0.5 * (1 - Math.cos(progress * Math.PI)); 
-                    
-                    // The XP needed increases from a base amount up to a scaled max amount
-                    const maxIncrement = baseXP * 4; // Max XP for a single level is 5x the base
+                    const maxIncrement = baseXP * 4;
                     const xpNeeded = baseXP + maxIncrement * sineFactor;
-                    
-                    // Round to the nearest 5 for cleaner numbers
                     newXpCurve.push(Math.round(xpNeeded / 5) * 5);
                 }
                 sandwich.xp_to_next_levels = newXpCurve;
@@ -1168,8 +1121,8 @@
                 money: 100.00, 
                 inventory: { "Bread": 50, "Meat": 25, "Spread": 10, "Cheese": 10, "Toppings": 25, "Sauce": 15, "Vegetables": 10 }, 
                 cookbook: {
-                    "Ham & cheese": { level: 1, xp: 0, modifier: null },
-                    "BLT": { level: 1, xp: 0, modifier: null }
+                    "Ham & cheese": { level: 1, xp: 0, currentMod: null },
+                    "BLT": { level: 1, xp: 0, currentMod: null }
                 },
                 truck: {
                     level: 1,
@@ -1197,6 +1150,119 @@
             isNewDay = true;
             updateAllUI(); 
             renderAtLocation(player.currentLocation);
+        }
+
+        // --- Sandwich Mod Functions ---
+        function showCookbookModal() {
+            modal.classList.remove('hidden');
+            modalContent.style.maxWidth = "700px";
+
+            let cookbookHTML = `<div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-2xl font-bold">📘 Cookbook</h2>
+                                    <button onclick="closeCookbookModal()" class="btn btn-secondary">Close</button>
+                                </div>
+                                <div id="cookbook-list" class="space-y-3 max-h-[70vh] overflow-y-auto pr-2">`;
+
+            for (const recipeName of Object.keys(player.cookbook).sort()) {
+                const mastery = player.cookbook[recipeName];
+                const sandwichDetails = SANDWICH_DATA[recipeName];
+                const isOnMenu = player.menu.includes(recipeName);
+
+                // Ingredients
+                let ingredientsHTML = '';
+                for (const [ing, qty] of Object.entries(sandwichDetails.recipe)) {
+                    if (qty > 0) ingredientsHTML += `<span>${INGREDIENT_DATA[ing].emoji}${qty > 1 ? `<span class="text-xs font-semibold">${qty}</span>` : ''}</span> `;
+                }
+
+                // Mods Dropdown
+                let modOptions = `<option value="">None</option>`;
+                MODS.forEach(mod => {
+                    const isSelected = mastery.currentMod === mod ? 'selected' : '';
+                    modOptions += `<option value="${mod}" ${isSelected}>${mod}</option>`;
+                });
+
+                // Checkbox
+                const isMenuFull = player.menu.length >= player.maxMenu && !isOnMenu;
+                
+                cookbookHTML += `
+                    <div class="p-4 border rounded-lg flex flex-col md:flex-row md:items-center gap-4">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <h3 id="mod-name-${recipeName.replace(/\s+/g, '-')}" class="text-xl font-bold transition-colors">${recipeName}</h3>
+                                <span class="text-sm font-semibold text-gray-600">(Lvl ${mastery.level})</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">${ingredientsHTML.trim()}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <select onchange="applyMod('${recipeName}', this.value)" class="p-2 border rounded-md bg-gray-50">
+                                ${modOptions}
+                            </select>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" onchange="toggleMenuItemFromModal('${recipeName}', this)" ${isOnMenu ? 'checked' : ''} ${isMenuFull ? 'disabled' : ''} class="h-5 w-5 rounded text-indigo-600 focus:ring-indigo-500">
+                                <span class="font-semibold">On Menu</span>
+                            </label>
+                        </div>
+                    </div>`;
+            }
+            cookbookHTML += `</div>`;
+            modalContent.innerHTML = cookbookHTML;
+
+            // Apply initial colors
+            for (const recipeName of Object.keys(player.cookbook)) {
+                applyMod(recipeName, player.cookbook[recipeName].currentMod, false);
+            }
+        }
+
+        function closeCookbookModal() {
+            modal.classList.add('hidden');
+            updateAllUI(); // Refreshes the menu panel
+            if (document.getElementById('main-panel-content')) {
+                renderAtLocation(player.currentLocation); // Refreshes the main panel and sell button state
+            }
+        }
+
+        function applyMod(recipeName, mod) {
+            player.cookbook[recipeName].currentMod = mod || null;
+            const nameEl = document.getElementById(`mod-name-${recipeName.replace(/\s+/g, '-')}`);
+            if (!nameEl) return;
+            
+            nameEl.classList.remove('text-green-600', 'text-red-600', 'text-gray-800');
+            
+            let modValue = 0;
+            if (mod && SANDWICH_MOD_DATA[recipeName]) {
+                 modValue = SANDWICH_MOD_DATA[recipeName][mod] ?? 0;
+            }
+
+            if (modValue === 1) {
+                nameEl.classList.add('text-green-600');
+            } else if (modValue === -1) {
+                nameEl.classList.add('text-red-600');
+            } else {
+                nameEl.classList.add('text-gray-800');
+            }
+        }
+
+        function toggleMenuItemFromModal(recipeName, checkbox) {
+            const index = player.menu.indexOf(recipeName);
+            if (index > -1) {
+                player.menu.splice(index, 1);
+            } else {
+                if (player.menu.length >= player.maxMenu) {
+                    checkbox.checked = false; // Revert checkbox if menu is full
+                    return; 
+                }
+                player.menu.push(recipeName);
+            }
+            updateMenuPanel();
+
+            // Update disabled state of all checkboxes in the modal
+            const isMenuNowFull = player.menu.length >= player.maxMenu;
+            const allCheckboxes = modalContent.querySelectorAll('input[type="checkbox"]');
+            allCheckboxes.forEach(cb => {
+                if (!cb.checked) {
+                    cb.disabled = isMenuNowFull;
+                }
+            });
         }
         
         generateXpCurves();
