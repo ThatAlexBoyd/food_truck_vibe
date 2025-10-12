@@ -222,50 +222,75 @@
             "Italian": { "Pressed": -1, "Toasted": -1, "Double": 1, "Open": 0, "Spicy": 1, "Tangy": 0 },
             "Reuben": { "Pressed": 1, "Toasted": 0, "Double": 0, "Open": 0, "Spicy": -1, "Tangy": 0 },
             "The Ultimate": { "Pressed": -1, "Toasted": -1, "Double": -1, "Open": -1, "Spicy": 1, "Tangy": 1 },
-            "Patty Melt": { "Pressed": 1, "Toasted": 1, "Double": 0, "Open": -1, "Spicy": -1, "Tangy": 0 },
+            "Patty melt": { "Pressed": 1, "Toasted": 1, "Double": 0, "Open": -1, "Spicy": -1, "Tangy": 0 },
             "Salad": { "Pressed": -1, "Toasted": -1, "Double": 0, "Open": 1, "Spicy": -1, "Tangy": 1 },
             "Burger": { "Pressed": -1, "Toasted": 0, "Double": 1, "Open": -1, "Spicy": 1, "Tangy": 1 }
         };
         
         const LOCATIONS = [
-            {"name": "Central City", "emoji": "🛣️", "max_rep": 75, "max_customers": 100, "lore": "A quiet crossroads where your journey begins.", "preferred_class": "Classic", "preferences": ["Ham & cheese", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Toppings", "Vegetables", "Spread"], "available_recipes": ["Club"], 
-             "recipe_seller": {
-                "name": "Old Man Earl", "emoji": "👴", 
-                "description": "<p>Earl has been sitting on this porch since the highway was just a dirt track. He's watched the world change from the comfort of his rocking chair.</p><p class='mt-2'>'A good sandwich is a simple one,' he'll tell you. He's willing to teach you how to make a proper <strong>Club</strong> sandwich—a true classic that's a step up from the basics.</p>",
-                "unlock_condition": { "type": "buy", "description": "He's happy to teach you for a small fee." }
-             }, "coords": "top: 50%; left: 50%;"},
-            {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city with international flavors.", "preferred_class": "Sub", "preferences": ["Italian", "Club"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>As the captain of a fishing vessel, Sofia has spent more time on the water than on land. She'll tell you that a proper sandwich needs to be robust enough to survive the spray of the sea.</p><p class='mt-2'>She'll share her recipe for a zesty <strong>Italian</strong> sub, a taste of distant ports that never fails to satisfy a hungry crew.</p>", "unlock_condition": { "type": "buy", "description": "She'll trade her knowledge for some coin for her next voyage."}}, "coords": "top: 50%; left: 90%;"},
-            {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "Nestled between mountains, a haven for health nuts.", "preferred_class": "Wrap", "preferences": ["West Coast", "Salad"], "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>Forrest isn't just a park ranger; he's part of the forest itself. He believes the best meals are the ones you can pack in and enjoy with a mountain view.</p><p class='mt-2'>He's perfected the <strong>West Coast</strong> sandwich, a tribute to the fresh, vibrant flavors of the region, perfect for fueling a long hike.</p>", "unlock_condition": { "type": "buy", "description": "He'll teach you in exchange for a contribution to the park preservation fund." }}, "coords": "top: 20%; left: 25%;"},
-            {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town, lovely for a picnic.", "preferred_class": "Wrap", "preferences": ["Chicken salad", "West Coast"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>Patty is the unofficial mayor of Maple Heights, famous for her legendary town picnics. Her secret? It's all in the sandwich.</p><p class='mt-2'>She believes the magic is in the details, and she's willing to share her prized <strong>Chicken Salad</strong> recipe, but only if you promise to uphold the sacred art of the picnic.</p>", "unlock_condition": { "type": "buy", "description": "A donation for the next town picnic is all she asks." }}, "coords": "top: 25%; left: 75%;"},
-            {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors, and smooth jazz.", "preferred_class": "Special", "preferences": ["Patty melt", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], 
-             "recipe_seller": {
-                "name": "Chef Antoine", "emoji": "👨‍🍳",
-                "description": "<p>Down at 'Antoine's Eatery', the jazz is as smooth as the butter on the grill. 'Good food, like good music, takes time,' he'll tell you.</p><p class='mt-2'>His <strong>Patty Melt</strong> is a local legend—a rich, cheesy, and savory masterpiece that embodies the slow-cooked, big-flavor spirit of Bourbon Creek.</p>",
-                "unlock_condition": { "type": "mastery", "value": "Club", "description": "Chef Antoine believes in fundamentals. He wants to see that you've truly mastered a classic like the <strong>Club</strong> sandwich before he'll teach you his specialty." }
-             }, "coords": "top: 85%; left: 70%;"},
-            {"name": "Steel City", "emoji": "🏢", "max_rep": 225, "max_customers": 1000, "lore": "The heart of industry where hard workers need hearty meals.", "preferred_class": "Sub", "preferences": ["Reuben", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce"], "available_recipes": ["Reuben"], 
-             "recipe_seller": {
-                "name": "Frankie 'The Furnace'", "emoji": "👨‍🏭",
-                "description": "<p>Frankie's worked the steel mills for thirty years. 'You can't get by on a flimsy salad,' he says, wiping grease from his hands. 'You need something that sticks to your ribs.'</p><p class='mt-2'>His answer is the <strong>Reuben</strong>: a hefty, hot, and tangy stack of meat and cheese grilled to perfection. It’s the kind of sandwich that feels like a reward.</p>",
-                "unlock_condition": { "type": "rep", "value": 50, "description": "Frankie only shares his secrets with those who've earned the respect of the city. He wants to see you build a solid reputation first." }
-             }, "coords": "top: 20%; left: 90%;"},
-            {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A major travel hub on the river, full of artists.", "preferred_class": "Special", "preferences": ["Salad", "Italian"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>Belle's a traveling musician who learned to eat light and healthy on the road. 'You can't sing your heart out on a heavy stomach,' she says.</p><p class='mt-2'>In her travels, she pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl. It's fresh, satisfying, and full of flavor—a traveler's best friend.</p>", "unlock_condition": { "type": "buy", "description": "She'll teach you her recipe for the price of a new guitar string." }}, "coords": "top: 80%; left: 50%;"},
-            {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks after a day on the slopes.", "preferred_class": "Special", "preferences": ["Burger", "Reuben"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], 
-             "recipe_seller": {
-                "name": "Chad", "emoji": "🏂",
-                "description": "<p>Chad lives for the thrill of shredding fresh powder. But his true passion? The 'après-ski' refuel. 'After a full day of sending it, you need a burger that's, like, totally epic,' he explains.</p><p class='mt-2'>He spent an entire off-season engineering the perfect <strong>Burger</strong>. He'll share the recipe, but first, you've got to prove you can handle the heat in a friendly competition.</p>",
-                "unlock_condition": { "type": "competition", "value": "Reuben", "target": 15, "description": "Chad challenges you to a <strong>Reuben</strong> sell-off! If you can sell <strong>15 Reubens</strong> in a single day, he'll be so stoked he'll teach you his Burger recipe for free." }
-             }, "coords": "top: 55%; left: 20%;"},
-            {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of tech gurus, tourists, and big money.", "preferred_class": "Sub", "preferences": ["The Ultimate", "Burger"], "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>Known only as 'The Investor,' this sharp-suited man sees everything in terms of returns. 'A meal should be a high-yield investment,' he states.</p><p class='mt-2'>His creation, <strong>'The Ultimate,'</strong> is the result of market analysis and ruthless optimization—a blue-chip sandwich with a diversified portfolio of premium ingredients, guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy", "description": "His time is money, and so is his intellectual property." }}, "coords": "top: 20%; left: 10%;"},
+            {"name": "Central City", "emoji": "🛣️", "max_rep": 75, "max_customers": 100, "lore": "A quiet crossroads.", "available_ingredients": ["Bread", "Meat", "Cheese", "Toppings", "Vegetables", "Spread"], "available_recipes": ["Club"], "coords": "top: 50%; left: 50%;",
+                "local_ratio": 0.9,
+                "local_preferences": { "preferredSandwiches": ["Ham & cheese", "Club"], "preferredClasses": ["Classic"], "preferredMods": ["Toasted"] },
+                "tourist_preferences": ["West Coast", "Salad", "Chicken salad"], // From Evergreen & Maple Heights
+                "recipe_seller": { "name": "Old Man Earl", "emoji": "👴", "description": "<p>He'll teach you how to make a proper <strong>Club</strong> sandwich.</p>", "unlock_condition": { "type": "buy" } }
+            },
+            {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "coords": "top: 50%; left: 90%;",
+                "local_ratio": 0.75,
+                "local_preferences": { "preferredSandwiches": ["Italian", "Club"], "preferredClasses": ["Sub"], "preferredMods": ["Spicy", "Double"] },
+                "tourist_preferences": ["Reuben", "Burger", "Chicken salad"], // From Steel City & Maple Heights
+                "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>She'll share her recipe for a zesty <strong>Italian</strong> sub.</p>", "unlock_condition": { "type": "buy" }}
+            },
+            {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "A haven for health nuts.", "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "coords": "top: 20%; left: 25%;",
+                "local_ratio": 0.9,
+                "local_preferences": { "preferredSandwiches": ["West Coast", "Salad"], "preferredClasses": ["Wrap", "Special"], "preferredMods": ["Open"] },
+                "tourist_preferences": ["The Ultimate", "Burger", "Ham & cheese"], // From Bay City & Central City
+                "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>He's perfected the <strong>West Coast</strong> sandwich, perfect for a long hike.</p>", "unlock_condition": { "type": "buy" }}
+            },
+            {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town for picnics.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "coords": "top: 25%; left: 75%;",
+                "local_ratio": 0.85,
+                "local_preferences": { "preferredSandwiches": ["Chicken salad", "West Coast"], "preferredClasses": ["Wrap"], "preferredMods": ["Toasted"] },
+                "tourist_preferences": ["Italian", "Reuben", "Club"], // From Bravoport & Steel City
+                "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>She's willing to share her prized <strong>Chicken Salad</strong> recipe.</p>", "unlock_condition": { "type": "buy" }}
+            },
+            {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], "coords": "top: 85%; left: 70%;",
+                "local_ratio": 0.8,
+                "local_preferences": { "preferredSandwiches": ["Patty melt", "Italian"], "preferredClasses": ["Special"], "preferredMods": ["Spicy", "Tangy"] },
+                "tourist_preferences": ["Salad", "Reuben"], // From Twin River & Steel City
+                "recipe_seller": { "name": "Chef Antoine", "emoji": "👨‍🍳", "description": "<p>His <strong>Patty Melt</strong> is a local legend.</p>", "unlock_condition": { "type": "mastery", "value": "Club" } }
+            },
+            {"name": "Steel City", "emoji": "🏢", "max_rep": 225, "max_customers": 1000, "lore": "Hard workers need hearty meals.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce"], "available_recipes": ["Reuben"], "coords": "top: 20%; left: 90%;",
+                "local_ratio": 0.8,
+                "local_preferences": { "preferredSandwiches": ["Reuben", "Burger"], "preferredClasses": ["Sub", "Special"], "preferredMods": ["Pressed", "Double"] },
+                "tourist_preferences": ["Italian", "Chicken salad"], // From Bravoport & Maple Heights
+                "recipe_seller": { "name": "Frankie 'The Furnace'", "emoji": "👨‍🏭", "description": "<p>He'll teach you the <strong>Reuben</strong>: a hefty, hot, and tangy sandwich.</p>", "unlock_condition": { "type": "rep", "value": 50 } }
+            },
+            {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A travel hub full of artists.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "coords": "top: 80%; left: 50%;",
+                "local_ratio": 0.7,
+                "local_preferences": { "preferredSandwiches": ["Salad", "Italian"], "preferredClasses": ["Special"], "preferredMods": ["Tangy"] },
+                "tourist_preferences": ["Patty melt", "Club"], // From Bourbon Creek & Central City
+                "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>She pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl.</p>", "unlock_condition": { "type": "buy" }}
+            },
+            {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], "coords": "top: 55%; left: 20%;",
+                "local_ratio": 0.7,
+                "local_preferences": { "preferredSandwiches": ["Burger", "Reuben"], "preferredClasses": ["Special"], "preferredMods": ["Double", "Spicy"] },
+                "tourist_preferences": ["West Coast", "The Ultimate"], // From Evergreen Pointe & Bay City
+                "recipe_seller": { "name": "Chad", "emoji": "🏂", "description": "<p>He spent an entire off-season engineering the perfect <strong>Burger</strong>.</p>", "unlock_condition": { "type": "competition", "value": "Reuben", "target": 15 } }
+            },
+            {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of big money.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "coords": "top: 20%; left: 10%;",
+                "local_ratio": 0.7,
+                "local_preferences": { "preferredSandwiches": ["The Ultimate", "Burger"], "preferredClasses": ["Sub"], "preferredMods": ["Tangy", "Double"] },
+                "tourist_preferences": ["West Coast", "Burger"], // From Evergreen Pointe & Aspen Peak
+                "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>His creation, <strong>'The Ultimate,'</strong> is a blue-chip sandwich guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy" }}
+            },
         ];
         
         const EVENTS = [
-            { type: 'customer_boost', values: [true], flavor: "It's a beautiful day! A local festival is in town, bringing in hungry crowds! / A glowing review in the local paper has people lining up for a taste!", isPositive: true },
-            { type: 'cost_decrease', values: [-0.05, -0.1], flavor: "Your supplier found a surplus of fresh ingredients and is passing the savings on to you! / You found a coupon book under the driver's seat. Score!", isPositive: true },
-            { type: 'bogo', values: [true], flavor: "The local wholesale market is having a massive 'Buy One, Get One Free' sale to clear out inventory! It's your lucky day!", isPositive: true },
-            { type: 'competition', values: [], flavor: "A traveling Food Truck Competition has rolled into town! Today's theme is {recipe}. Impress the judges and the crowd!", isPositive: true },
-            { type: 'customer_slump', values: [true], flavor: "A sudden downpour has everyone running for cover, not for sandwiches. / A rival food truck set up shop just across the street, stealing business.", isPositive: false },
-            { type: 'cost_increase', values: [0.05, 0.1, 0.2], flavor: "Bad weather has ruined a large crop, causing ingredient shortages. / Gas prices have skyrocketed, and your suppliers are adding a fuel surcharge.", isPositive: false }
+            { type: 'customer_boost', values: [true], flavor: "A local festival is in town, bringing in hungry crowds!", isPositive: true },
+            { type: 'cost_decrease', values: [-0.05, -0.1], flavor: "Your supplier found a surplus of fresh ingredients.", isPositive: true },
+            { type: 'bogo', values: [true], flavor: "The local wholesale market is having a massive 'Buy One, Get One Free' sale!", isPositive: true },
+            { type: 'competition', values: [], flavor: "A traveling Food Truck Competition has rolled into town! Today's theme is {recipe}.", isPositive: true },
+            { type: 'customer_slump', values: [true], flavor: "A sudden downpour has everyone running for cover.", isPositive: false },
+            { type: 'cost_increase', values: [0.05, 0.1, 0.2], flavor: "Bad weather has ruined a large crop, causing ingredient shortages.", isPositive: false }
         ];
 
         const QUEST_DATA = [
@@ -387,7 +412,7 @@
                     let ingredientsHTML = '<div class="flex items-center gap-2 mt-2">';
                     const ingredients = sandwichDetails.recipe;
                     for (const [ing, qty] of Object.entries(ingredients)) {
-                        if (qty > 0) ingredientsHTML += `<span class="text-sm">${INGREDIENT_DATA[ing].emoji} ${qty > 1 ? `<span class="text-xs font-semibold">${qty}</span>` : ''}</span>`;
+                        if (qty > 0) ingredientsHTML += `<span class="text-sm">${INGREDIENT_DATA[ing].emoji}${qty > 1 ? `<span class="text-xs font-semibold">${qty}</span>` : ''}</span>`;
                     }
                     ingredientsHTML += '</div>';
 
@@ -496,7 +521,7 @@
         
             const location = LOCATIONS.find(l => l.name === locationName);
             const recipesToBuy = location.available_recipes.filter(r => !(r in player.cookbook));
-            const isMenuValid = player.menu.length > 0 && player.menu.length <= player.maxMenu;
+            const isMenuValid = player.menu.length > 0;
             
             const isCompetitionDay = player.activeCompetition && player.activeCompetition.location === locationName;
             const sellButtonText = isCompetitionDay ? `🏆 Start ${player.activeCompetition.recipe} Challenge!` : '🚚 Setup Shop & Sell';
@@ -513,8 +538,8 @@
             let preferencesHTML = '';
             if (player.knownPreferences.includes(locationName)) {
                 preferencesHTML = `<div class="mt-2 p-2 bg-blue-50 rounded-lg text-center text-sm text-blue-800">
-                                    <p><strong>Local Favorites:</strong> ${location.preferences.join(', ')}</p>
-                                    <p><strong>They generally prefer:</strong> <span class="font-bold">${location.preferred_class}</span> sandwiches</p>
+                                    <p><strong>Local Favorites:</strong> ${location.local_preferences.preferredSandwiches.join(', ')}</p>
+                                    <p><strong>They generally prefer:</strong> <span class="font-bold">${location.local_preferences.preferredClasses.join(', ')}</span> sandwiches</p>
                                    </div>`;
             }
 
@@ -578,24 +603,24 @@
         
                 if (condition.type === 'buy') {
                     challengeMet = player.money >= details.unlock_cost;
-                    challengeHTML = `<div class="p-4 border rounded-lg bg-indigo-50 border-indigo-200"><p class="font-semibold text-lg text-indigo-800">Recipe for Sale: ${recipeName}</p><p class="mt-1 text-sm text-indigo-700">${condition.description}</p></div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg bg-indigo-50 border-indigo-200"><p class="font-semibold text-lg text-indigo-800">Recipe for Sale: ${recipeName}</p><p class="mt-1 text-sm text-indigo-700">${condition.description || 'Happy to teach you for a small fee.'}</p></div>`;
                     footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-primary" onclick="buyRecipe('${locationName}', '${recipeName}', ${details.unlock_cost})" ${!challengeMet ? 'disabled' : ''}>Buy ($${details.unlock_cost.toFixed(2)})</button></div>`;
                 } 
                 else if (condition.type === 'rep') {
                     const currentRep = player.reputation[locationName];
                     challengeMet = currentRep >= condition.value;
-                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Earn Reputation</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description}</p><div class="mt-3 text-center font-bold text-lg ${challengeMet ? 'text-green-600' : 'text-yellow-600'}">${currentRep} / ${condition.value} Reputation</div></div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Earn Reputation</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description || `Earn ${condition.value} reputation in this city.`}</p><div class="mt-3 text-center font-bold text-lg ${challengeMet ? 'text-green-600' : 'text-yellow-600'}">${currentRep} / ${condition.value} Reputation</div></div>`;
                     footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>Claim Recipe!</button></div>`;
                 }
                 else if (condition.type === 'mastery') {
                     const requiredRecipe = condition.value;
                     const masteryDetails = player.cookbook[requiredRecipe];
                     challengeMet = masteryDetails && masteryDetails.level >= 10;
-                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Master a Recipe</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description}</p></div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Master a Recipe</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description || `Master the ${condition.value} sandwich.`}</p></div>`;
                     footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>Claim Recipe!</button></div>`;
                 }
                 else if (condition.type === 'competition') {
-                    challengeHTML = `<div class="p-4 border rounded-lg bg-red-50 border-red-200"><p class="font-semibold text-lg text-red-800">Challenge: Sales Competition!</p><p class="mt-1 text-sm text-red-700">${condition.description}</p></div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg bg-red-50 border-red-200"><p class="font-semibold text-lg text-red-800">Challenge: Sales Competition!</p><p class="mt-1 text-sm text-red-700">${condition.description || `Win a sales competition.`}</p></div>`;
                     footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Maybe Later</button><button class="btn btn-yellow" id="accept-challenge-btn">Accept Challenge!</button></div>`;
                 }
         
@@ -727,101 +752,71 @@
                     showModal('Menu Error!', `You accepted the <strong>${player.activeCompetition.recipe}</strong> challenge, but it's not on your menu today! You must feature it to compete. The challenge is forfeit for today.`, 'My Bad', () => { player.activeCompetition = null; renderAtLocation(locationName); });
                     return;
                 }
-                runSalesSimulation(locationName, player.activeCompetition);
-            } else { runSalesSimulation(locationName); }
+            }
+            runSalesSimulation(locationName, isCompetition ? player.activeCompetition : null);
         }
 
         function runSalesSimulation(locationName, competitionDetails = null) {
             const location = LOCATIONS.find(l => l.name === locationName);
-            const maxPossibleCustomers = location.max_customers * 0.25;
-            let minCustomers = 0; let maxCustomers = maxPossibleCustomers;
-        
-            if (player.activeEvent && !competitionDetails) {
-                if (player.activeEvent.type === 'customer_boost') { minCustomers = Math.ceil((maxPossibleCustomers / 3) * 2); } 
-                else if (player.activeEvent.type === 'customer_slump') { maxCustomers = Math.floor(maxPossibleCustomers / 3); } 
-            }
-            if (competitionDetails) { minCustomers = maxPossibleCustomers * 0.5; maxCustomers = maxPossibleCustomers; }
-            
-            let actual_customers = Math.floor(minCustomers + Math.random() * (maxCustomers - minCustomers + 1));
-            
-            if (actual_customers <= 0) {
-                showModal('A Quiet Day...', '<p>No customers showed up today. Better luck tomorrow!</p>', 'Continue', () => { player.day++; isNewDay = true; updateAllUI(); renderAtLocation(locationName); });
-                return;
-            }
-        
+            let customerPool = generateCustomerPool(location);
             const saleEvents = [];
             const tempInventory = JSON.parse(JSON.stringify(player.inventory));
-            const preferredClass = location.preferred_class;
-            const localFavorites = location.preferences;
-        
-            for (let i = 0; i < actual_customers; i++) {
-                let chosen_food = null;
 
-                if (competitionDetails) { // Competition logic overrides normal preferences
-                    chosen_food = competitionDetails.recipe;
-                } else {
-                    const menuItemsOfPreferredClass = player.menu.filter(item => SANDWICH_DATA[item].class === preferredClass);
-                    
-                    if (menuItemsOfPreferredClass.length > 0 && Math.random() < 0.75) {
-                        const classFavoritesOnMenu = menuItemsOfPreferredClass.filter(item => localFavorites.includes(item));
-                        if (classFavoritesOnMenu.length > 0 && Math.random() < 0.80) {
-                            chosen_food = getRandomElement(classFavoritesOnMenu);
-                        } else {
-                            chosen_food = getRandomElement(menuItemsOfPreferredClass);
-                        }
-                    } else {
-                        const favoritesOnMenu = player.menu.filter(item => localFavorites.includes(item));
-                        if (favoritesOnMenu.length > 0 && Math.random() < 0.50) {
-                            chosen_food = getRandomElement(favoritesOnMenu);
-                        } else {
-                            chosen_food = getRandomElement(player.menu);
-                        }
+            for (const customer of customerPool) {
+                let bestSandwich = null;
+                let highestScore = 0;
+
+                const menuToEvaluate = competitionDetails ? [competitionDetails.recipe] : player.menu;
+
+                for (const sandwichName of menuToEvaluate) {
+                    const score = calculatePurchaseScore(customer, sandwichName, locationName);
+                    if (score > highestScore) {
+                        highestScore = score;
+                        bestSandwich = sandwichName;
                     }
                 }
-                
-                const sandwich_details = SANDWICH_DATA[chosen_food];
-                const mastery_details = player.cookbook[chosen_food];
-                const ingredientsToConsume = { ...sandwich_details.recipe };
-                
-                let can_make = true;
-                for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) {
-                    if (tempInventory[ingredient] < required_qty) { can_make = false; break; }
-                }
-                
-                if (can_make) {
-                    for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) { tempInventory[ingredient] -= required_qty; }
-        
-                    const sale = { itemName: chosen_food, price: sandwich_details.selling_prices[mastery_details.level - 1], repGain: 0, xpGain: 0, levelUpInfo: null, ingredientsUsed: ingredientsToConsume };
-                    
-                    const isPreferredClass = SANDWICH_DATA[chosen_food].class === preferredClass;
-                    const isLocalFavorite = localFavorites.includes(chosen_food);
-                    
-                    // XP Gain Logic
-                    if (mastery_details.level < 10) {
-                        let xpChance = 0.30;
-                        if(isPreferredClass) xpChance = 0.60;
-                        if(isLocalFavorite) xpChance = 0.75;
-                        if (Math.random() < xpChance) { sale.xpGain = 1; }
-                    }
 
-                    // Reputation Gain Logic
-                    if (player.reputation[locationName] < location.max_rep) {
-                        let repAmount = 0;
-                        if (isLocalFavorite) repAmount = 2;
-                        else if (isPreferredClass) repAmount = 1;
+                if (bestSandwich) {
+                    const purchased = Math.random() < highestScore;
+                    console.log(`Customer (${customer.type}) evaluating ${bestSandwich}. Score: ${highestScore.toFixed(2)}. Purchased: ${purchased}`);
 
-                        if (repAmount > 0) {
-                            let repChance = isLocalFavorite ? 0.85 : 0.60;
-                            if (mastery_details.level >= 10) repChance = Math.max(repChance, 0.85); // Mastered items are reliable for rep
-                            if (Math.random() < repChance) {
-                                sale.repGain = repAmount;
+                    if (purchased) {
+                        const sandwich_details = SANDWICH_DATA[bestSandwich];
+                        const ingredientsToConsume = { ...sandwich_details.recipe };
+                        
+                        let can_make = true;
+                        for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) {
+                            if (tempInventory[ingredient] < required_qty) {
+                                can_make = false;
+                                break;
                             }
                         }
+                        
+                        if (can_make) {
+                            for (const [ingredient, required_qty] of Object.entries(ingredientsToConsume)) {
+                                tempInventory[ingredient] -= required_qty;
+                            }
+
+                            const mastery_details = player.cookbook[bestSandwich];
+                            const sale = { 
+                                itemName: bestSandwich, 
+                                price: sandwich_details.selling_prices[mastery_details.level - 1], 
+                                repGain: 0, 
+                                xpGain: 1, // Grant 1 XP for every sale now
+                                levelUpInfo: null, 
+                                ingredientsUsed: ingredientsToConsume 
+                            };
+                            saleEvents.push(sale);
+                        }
                     }
-                    
-                    saleEvents.push(sale);
                 }
             }
+
+            if (saleEvents.length === 0) {
+                 showModal('A Quiet Day...', '<p>Seems like no one was interested in your menu today. Better luck tomorrow!</p>', 'Continue', () => { player.day++; isNewDay = true; updateAllUI(); renderAtLocation(locationName); });
+                return;
+            }
+
             showSalesVisualizer(saleEvents, locationName);
         }
 
@@ -935,12 +930,16 @@
                 updateAllUI();
                 renderAtLocation(locationName);
             }
-            const hintRecipe = location.preferences[Math.floor(Math.random() * location.preferences.length)];
-            const hintClass = location.preferred_class;
+            const hintRecipe = getRandomElement(location.local_preferences.preferredSandwiches);
+            const hintClass = getRandomElement(location.local_preferences.preferredClasses);
+            const hintMod = getRandomElement(location.local_preferences.preferredMods);
+            const hintTourist = getRandomElement(location.tourist_preferences);
+            
             const dialogues = [
                 `"Psst... hey! I was just talking with my friends, and we all agreed that a really good <strong>${hintRecipe}</strong> would hit the spot right about now. Just sayin'."`,
                 `"You know, folks around here really go for a good <strong>${hintClass}</strong> sandwich. If you had one of those on the menu, you'd probably do great business!"`,
-                `"If you want to make a name for yourself in ${locationName}, you gotta master the art of the <strong>${hintClass}</strong>. That's what people expect here."`
+                `"I've seen a lot of travelers asking about a <strong>${hintTourist}</strong>. Might be worth looking into if you want their business."`,
+                `"The secret to a great sandwich here? Make it <strong>${hintMod}</strong>. That's how we like 'em."`
             ];
             showModal('Local Gossip', `<p class="text-lg italic">${getRandomElement(dialogues)}</p>`, 'Thanks for the tip!', null);
         }
@@ -1101,9 +1100,8 @@
         function generateXpCurves() {
             for (const sandwichName in SANDWICH_DATA) {
                 const sandwich = SANDWICH_DATA[sandwichName];
-                const baseXP = sandwich.xp_to_next_levels[0]; // Use the first value as the base for scaling
+                const baseXP = sandwich.xp_to_next_levels[0];
                 const newXpCurve = [];
-
                 for (let level = 1; level < 10; level++) {
                     const progress = (level - 1) / 8.0;
                     const sineFactor = 0.5 * (1 - Math.cos(progress * Math.PI)); 
@@ -1152,6 +1150,68 @@
             renderAtLocation(player.currentLocation);
         }
 
+        // --- New Customer Logic Functions ---
+
+        function createLocalCustomer(location) {
+            return {
+                type: 'local',
+                preferences: {
+                    favoriteSandwich: getRandomElement(location.local_preferences.preferredSandwiches),
+                    preferredClass: getRandomElement(location.local_preferences.preferredClasses),
+                    preferredMod: getRandomElement(location.local_preferences.preferredMods)
+                }
+            };
+        }
+
+        function createTouristCustomer(location) {
+            return {
+                type: 'tourist',
+                preferences: {
+                    favoriteSandwich: getRandomElement(location.tourist_preferences),
+                    preferredClass: getRandomElement(['Classic', 'Sub', 'Wrap', 'Special']),
+                    preferredMod: getRandomElement(MODS)
+                }
+            };
+        }
+
+        function generateCustomerPool(location) {
+            const totalCustomers = Math.floor(location.max_customers * 0.25);
+            const numLocals = Math.floor(totalCustomers * location.local_ratio);
+            const numTourists = totalCustomers - numLocals;
+            const pool = [];
+
+            for (let i = 0; i < numLocals; i++) pool.push(createLocalCustomer(location));
+            for (let i = 0; i < numTourists; i++) pool.push(createTouristCustomer(location));
+            
+            return pool;
+        }
+
+        function calculateCustomerPreferenceScore(customer, sandwichName) {
+            let score = 0.2; // Base score for any sandwich
+            const sandwichDetails = SANDWICH_DATA[sandwichName];
+            const sandwichMod = player.cookbook[sandwichName].currentMod;
+
+            if (customer.preferences.favoriteSandwich === sandwichName) score += 0.5;
+            if (customer.preferences.preferredClass === sandwichDetails.class) score += 0.2;
+            if (sandwichMod && customer.preferences.preferredMod === sandwichMod) score += 0.1;
+            
+            return Math.min(1.0, score); // Cap score at 1.0
+        }
+
+        function calculatePurchaseScore(customer, sandwichName, locationName) {
+            const weights = { rl: 0.3, cp: 0.5, tp: 0.2 };
+
+            // Normalize factors to a 0-1 scale
+            const normalizedRL = (player.cookbook[sandwichName].level - 1) / 9.0;
+            const location = LOCATIONS.find(l => l.name === locationName);
+            const normalizedTP = location.max_rep > 0 ? (player.reputation[locationName] / location.max_rep) : 0;
+            const cpScore = calculateCustomerPreferenceScore(customer, sandwichName);
+
+            // Calculate weighted score
+            return (normalizedRL * weights.rl) + (cpScore * weights.cp) + (normalizedTP * weights.tp);
+        }
+
+
         // --- Sandwich Mod Functions ---
         function showCookbookModal() {
             modal.classList.remove('hidden');
@@ -1168,20 +1228,17 @@
                 const sandwichDetails = SANDWICH_DATA[recipeName];
                 const isOnMenu = player.menu.includes(recipeName);
 
-                // Ingredients
                 let ingredientsHTML = '';
                 for (const [ing, qty] of Object.entries(sandwichDetails.recipe)) {
                     if (qty > 0) ingredientsHTML += `<span>${INGREDIENT_DATA[ing].emoji}${qty > 1 ? `<span class="text-xs font-semibold">${qty}</span>` : ''}</span> `;
                 }
 
-                // Mods Dropdown
                 let modOptions = `<option value="">None</option>`;
                 MODS.forEach(mod => {
                     const isSelected = mastery.currentMod === mod ? 'selected' : '';
                     modOptions += `<option value="${mod}" ${isSelected}>${mod}</option>`;
                 });
 
-                // Checkbox
                 const isMenuFull = player.menu.length >= player.maxMenu && !isOnMenu;
                 
                 cookbookHTML += `
@@ -1209,7 +1266,7 @@
 
             // Apply initial colors
             for (const recipeName of Object.keys(player.cookbook)) {
-                applyMod(recipeName, player.cookbook[recipeName].currentMod, false);
+                applyMod(recipeName, player.cookbook[recipeName].currentMod);
             }
         }
 
@@ -1255,7 +1312,6 @@
             }
             updateMenuPanel();
 
-            // Update disabled state of all checkboxes in the modal
             const isMenuNowFull = player.menu.length >= player.maxMenu;
             const allCheckboxes = modalContent.querySelectorAll('input[type="checkbox"]');
             allCheckboxes.forEach(cb => {
