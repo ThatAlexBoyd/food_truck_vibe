@@ -385,8 +385,11 @@
 
         function updateInventoryUI() {
             let inventoryHTML = `<h2 class="text-2xl font-bold mb-4">📦 Inventory</h2>
-                                <div class="mb-3 text-center bg-gray-100 p-2 rounded-md">
-                                    <span class="font-semibold">${player.truck.currentCapacity} / ${player.truck.capacity}</span> ingredients stored
+                                <div class="mb-3 flex justify-between items-center bg-gray-100 p-2 rounded-md">
+                                    <div>
+                                        <span class="font-semibold">${player.truck.currentCapacity} / ${player.truck.capacity}</span> inventory
+                                    </div>
+                                    <button onclick="dumpInventory()" class="btn btn-secondary py-1 px-2 text-xs">Dump</button>
                                 </div>
                                 <div class="space-y-2">`;
             for (const [item, quantity] of Object.entries(player.inventory)) { 
@@ -395,6 +398,25 @@
             inventoryHTML += `</div>`; inventoryPanel.innerHTML = inventoryHTML;
         }
         
+        function dumpInventory() {
+            const availableToDump = Object.keys(player.inventory).filter(item => player.inventory[item] > 0);
+
+            if (availableToDump.length === 0) {
+                showModal("Inventory Empty", "You have no ingredients to dump.", "Okay");
+                return;
+            }
+
+            const itemToDump = getRandomElement(availableToDump);
+            const currentAmount = player.inventory[itemToDump];
+            const amountToDump = Math.max(1, Math.round(currentAmount * 0.10));
+
+            player.inventory[itemToDump] -= amountToDump;
+            updateTruckCapacity();
+
+            updateAllUI();
+            showModal("Inventory Dumped", `You dumped <strong>${amountToDump} ${itemToDump}</strong> to make space.`, "Okay");
+        }
+
         function updateMenuPanel() {
             let menuHTML = `<div class="flex items-center justify-between mb-3">
                                 <h2 class="text-2xl font-bold">Menu</h2>
