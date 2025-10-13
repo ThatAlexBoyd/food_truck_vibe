@@ -806,6 +806,12 @@
                                 levelUpInfo: null, 
                                 ingredientsUsed: ingredientsToConsume 
                             };
+
+                            const isLocalFavorite = location.local_preferences.preferredSandwiches.includes(bestSandwich);
+                            if (isLocalFavorite) {
+                                sale.repGain = Math.random() < 0.5 ? 1 : 0; // 50% chance for +1 rep on a favorite
+                            }
+
                             saleEvents.push(sale);
                         }
                     }
@@ -874,7 +880,8 @@
                     sale.truckLevelUpInfo = { newLevel: player.truck.level };
                 }
 
-                totalMoney += sale.price; totalRep += sale.repGain;
+                totalMoney += sale.price; 
+                totalRep += sale.repGain;
                 customerCountEl.textContent = i + 1; moneyEarnedEl.textContent = `$${totalMoney.toFixed(2)}`; repGainedEl.textContent = `+${totalRep}`;
                 [customerCountEl, moneyEarnedEl, repGainedEl].forEach(el => { el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 300); });
                 
@@ -1201,14 +1208,21 @@
         function calculatePurchaseScore(customer, sandwichName, locationName) {
             const weights = { rl: 0.3, cp: 0.5, tp: 0.2 };
 
-            // Normalize factors to a 0-1 scale
+            let modValue = 0;
+            const currentMod = player.cookbook[sandwichName].currentMod;
+            if (currentMod && SANDWICH_MOD_DATA[sandwichName]) {
+                modValue = SANDWICH_MOD_DATA[sandwichName][currentMod] ?? 0;
+            }
+            const modBonus = modValue * 0.10;
+
             const normalizedRL = (player.cookbook[sandwichName].level - 1) / 9.0;
             const location = LOCATIONS.find(l => l.name === locationName);
             const normalizedTP = location.max_rep > 0 ? (player.reputation[locationName] / location.max_rep) : 0;
             const cpScore = calculateCustomerPreferenceScore(customer, sandwichName);
 
-            // Calculate weighted score
-            return (normalizedRL * weights.rl) + (cpScore * weights.cp) + (normalizedTP * weights.tp);
+            const purchaseScore = (normalizedRL * weights.rl) + (cpScore * weights.cp) + (normalizedTP * weights.tp) + modBonus;
+            
+            return Math.max(0, purchaseScore);
         }
 
 
