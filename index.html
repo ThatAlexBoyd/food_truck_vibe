@@ -232,115 +232,55 @@
                 "local_ratio": 0.9,
                 "local_preferences": { "preferredSandwiches": ["Ham & cheese", "Club"], "preferredClasses": ["Classic"], "preferredMods": ["Toasted"] },
                 "tourist_preferences": ["West Coast", "Salad", "Chicken salad"],
-                "recipe_seller": { "name": "Old Man Earl", "emoji": "👴", "description": "<p>He'll teach you how to make a proper <strong>Club</strong> sandwich.</p>", "unlock_condition": { "type": "buy" } },
-                "pointsOfInterest": [
-                    {
-                        id: "central_city_gossip",
-                        name: "Gossip with Locals",
-                        icon: "🏘️",
-                        type: "dialogue",
-                        isAvailable: (player) => true,
-                        data: {
-                            title: "Local Gossip",
-                            dialogue: () => { // Using a function to make it dynamic
-                                const hints = [
-                                    `"Psst... hey! We all agreed that a really good <strong>Club</strong> would hit the spot."`,
-                                    `"Folks around here really go for a good <strong>Classic</strong> sandwich."`,
-                                    `"The secret to a great sandwich here? Make it <strong>Toasted</strong>. That's how we like 'em."`
-                                ];
-                                if (!player.knownPreferences.includes("Central City")) {
-                                    player.knownPreferences.push("Central City");
-                                    // The UI will update after the modal closes
-                                }
-                                return `<p class="text-lg italic">${getRandomElement(hints)}</p>`;
-                            },
-                            choices: [ { text: "Thanks for the tip!", consequence: null } ]
-                        }
-                    }
-                ]
+                "recipe_seller": { "name": "Old Man Earl", "emoji": "👴", "description": "<p>He'll teach you how to make a proper <strong>Club</strong> sandwich.</p>", "unlock_condition": { "type": "buy" } }
             },
             {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "coords": "top: 50%; left: 90%;",
                 "local_ratio": 0.75,
                 "local_preferences": { "preferredSandwiches": ["Italian", "Club"], "preferredClasses": ["Sub"], "preferredMods": ["Spicy", "Double"] },
                 "tourist_preferences": ["Reuben", "Burger", "Chicken salad"],
-                "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>She'll share her recipe for a zesty <strong>Italian</strong> sub.</p>", "unlock_condition": { "type": "buy" }},
-                "pointsOfInterest": [
-                    {
-                        id: "bravoport_sofia_quest",
-                        name: "Chat with 'Salty' Sofia",
-                        icon: "👩‍✈️",
-                        type: "quest",
-                        isAvailable: (player) => !player.activeQuests.some(q => q.questId === 'sofias_craving') && !player.completedQuests.includes('sofias_craving'),
-                        data: {
-                            questId: "sofias_craving",
-                            startDialogue: "<p>'Salty' Sofia waves you over. 'Hey, you! I've been out at sea for weeks, and I'd trade my captain's hat for a real, honest-to-goodness Club sandwich. Think you can help me out?'</p>",
-                        }
-                    }
-                ]
+                "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>She'll share her recipe for a zesty <strong>Italian</strong> sub.</p>", "unlock_condition": { "type": "buy" }}
             },
             {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "A haven for health nuts.", "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "coords": "top: 20%; left: 25%;",
                 "local_ratio": 0.9,
                 "local_preferences": { "preferredSandwiches": ["West Coast", "Salad"], "preferredClasses": ["Wrap", "Special"], "preferredMods": ["Open"] },
                 "tourist_preferences": ["The Ultimate", "Burger", "Ham & cheese"],
-                "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>He's perfected the <strong>West Coast</strong> sandwich, perfect for a long hike.</p>", "unlock_condition": { "type": "buy" }},
-                "pointsOfInterest": []
+                "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>He's perfected the <strong>West Coast</strong> sandwich, perfect for a long hike.</p>", "unlock_condition": { "type": "buy" }}
             },
             {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town for picnics.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "coords": "top: 25%; left: 75%;",
                 "local_ratio": 0.85,
                 "local_preferences": { "preferredSandwiches": ["Chicken salad", "West Coast"], "preferredClasses": ["Wrap"], "preferredMods": ["Toasted"] },
                 "tourist_preferences": ["Italian", "Reuben", "Club"],
-                "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>She's willing to share her prized <strong>Chicken Salad</strong> recipe.</p>", "unlock_condition": { "type": "buy" }},
-                "pointsOfInterest": []
+                "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>She's willing to share her prized <strong>Chicken Salad</strong> recipe.</p>", "unlock_condition": { "type": "buy" }}
             },
             {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], "coords": "top: 85%; left: 70%;",
                 "local_ratio": 0.8,
                 "local_preferences": { "preferredSandwiches": ["Patty melt", "Italian"], "preferredClasses": ["Special"], "preferredMods": ["Spicy", "Tangy"] },
                 "tourist_preferences": ["Salad", "Reuben"],
-                "recipe_seller": { "name": "Chef Antoine", "emoji": "👨‍🍳", "description": "<p>His <strong>Patty Melt</strong> is a local legend.</p>", "unlock_condition": { "type": "mastery", "value": "Club" } },
-                "pointsOfInterest": []
+                "recipe_seller": { "name": "Chef Antoine", "emoji": "👨‍🍳", "description": "<p>His <strong>Patty Melt</strong> is a local legend.</p>", "unlock_condition": { "type": "mastery", "value": "Club" } }
             },
             {"name": "Steel City", "emoji": "🏢", "max_rep": 225, "max_customers": 1000, "lore": "Hard workers need hearty meals.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce"], "available_recipes": ["Reuben"], "coords": "top: 20%; left: 90%;",
                 "local_ratio": 0.8,
                 "local_preferences": { "preferredSandwiches": ["Reuben", "Burger"], "preferredClasses": ["Sub", "Special"], "preferredMods": ["Pressed", "Double"] },
                 "tourist_preferences": ["Italian", "Chicken salad"],
-                "recipe_seller": { "name": "Frankie 'The Furnace'", "emoji": "👨‍🏭", "description": "<p>He'll teach you the <strong>Reuben</strong>: a hefty, hot, and tangy sandwich.</p>", "unlock_condition": { "type": "rep", "value": 50 } },
-                "pointsOfInterest": []
+                "recipe_seller": { "name": "Frankie 'The Furnace'", "emoji": "👨‍🏭", "description": "<p>He'll teach you the <strong>Reuben</strong>: a hefty, hot, and tangy sandwich.</p>", "unlock_condition": { "type": "rep", "value": 50 } }
             },
             {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A travel hub full of artists.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "coords": "top: 80%; left: 50%;",
                 "local_ratio": 0.7,
                 "local_preferences": { "preferredSandwiches": ["Salad", "Italian"], "preferredClasses": ["Special"], "preferredMods": ["Tangy"] },
                 "tourist_preferences": ["Patty melt", "Club"],
-                "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>She pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl.</p>", "unlock_condition": { "type": "buy" }},
-                "pointsOfInterest": []
+                "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>She pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl.</p>", "unlock_condition": { "type": "buy" }}
             },
             {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], "coords": "top: 55%; left: 20%;",
                 "local_ratio": 0.7,
                 "local_preferences": { "preferredSandwiches": ["Burger", "Reuben"], "preferredClasses": ["Special"], "preferredMods": ["Double", "Spicy"] },
                 "tourist_preferences": ["West Coast", "The Ultimate"],
-                "recipe_seller": { "name": "Chad", "emoji": "🏂", "description": "<p>He spent an entire off-season engineering the perfect <strong>Burger</strong>.</p>", "unlock_condition": { "type": "mastery", "value": "Reuben" } },
-                 "pointsOfInterest": [
-                    {
-                        id: "aspen_peak_burger_challenge",
-                        name: "Challenge Chad",
-                        icon: "🏂",
-                        type: "cookoff",
-                        isAvailable: (player) => player.cookbook['Reuben'] && player.cookbook['Reuben'].level >= 5 && !player.cookbook['Burger'],
-                        data: {
-                            title: "The Ultimate Shred-wich",
-                            dialogue: "<p>Chad catches you looking at the slopes. 'Whoa, sick truck! You make sandwiches? Bet they're not as epic as my post-shred creation. I'll teach you, but first, you gotta prove you can handle the heat.'</p><p><strong>Challenge: Sell 15 Reubens in one day!</strong></p>",
-                            competition: { recipe: "Reuben", target: 15 },
-                            reward: { type: "unlock_recipe", value: "Burger", message: "Chad is totally stoked! 'Whoa, you did it! Gnarly! A deal's a deal.' He teaches you the secrets to his legendary Burger." },
-                            failureMessage: "Chad is a little bummed. 'Wipeout, dude. Not enough sales. Come back when you're ready to shred the competition.'"
-                        }
-                    }
-                ]
+                "recipe_seller": { "name": "Chad", "emoji": "🏂", "description": "<p>He spent an entire off-season engineering the perfect <strong>Burger</strong>.</p>", "unlock_condition": { "type": "competition", "value": "Reuben", "target": 15 } }
             },
             {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of big money.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "coords": "top: 20%; left: 10%;",
                 "local_ratio": 0.7,
                 "local_preferences": { "preferredSandwiches": ["The Ultimate", "Burger"], "preferredClasses": ["Sub"], "preferredMods": ["Tangy", "Double"] },
                 "tourist_preferences": ["West Coast", "Burger"],
-                "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>His creation, <strong>'The Ultimate,'</strong> is a blue-chip sandwich guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy" }},
-                "pointsOfInterest": []
+                "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>His creation, <strong>'The Ultimate,'</strong> is a blue-chip sandwich guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy" }}
             },
         ];
         
@@ -613,7 +553,6 @@
             const otherActionsTitle = isCompetitionDay ? `title="You must complete the competition today!"` : '';
             
             let preferencesHTML = '';
-            // *** FIX IS HERE ***: Added a check for player.knownPreferences
             if (player.knownPreferences && player.knownPreferences.includes(locationName)) {
                 preferencesHTML = `<div class="mt-2 p-2 bg-blue-50 rounded-lg text-center text-sm text-blue-800">
                                     <p><strong>Local Favorites:</strong> ${location.local_preferences.preferredSandwiches.join(', ')}</p>
@@ -626,21 +565,9 @@
                                     <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-yellow-400 h-2.5 rounded-full" style="width: ${repPercent}%"></div></div>
                                 </div>`;
 
-            // --- Dynamic Points of Interest ---
-            let pointsOfInterestHTML = '';
-            if (location.pointsOfInterest && location.pointsOfInterest.length > 0) {
-                const availablePOIs = location.pointsOfInterest.filter(poi => poi.isAvailable(player));
-                if (availablePOIs.length > 0) {
-                    availablePOIs.forEach(poi => {
-                        pointsOfInterestHTML += `<button class="btn btn-light-blue py-4" onclick="triggerEvent('${locationName}', '${poi.id}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">${poi.icon}</span> ${poi.name}</button>`;
-                    });
-                }
-            }
-
-            // *** FIX IS HERE ***: Added disabled logic for the recipe seller button
             const recipesToBuy = location.available_recipes.filter(r => !(r in player.cookbook));
 
-            // --- Main Panel HTML ---
+            // --- Main Panel HTML with Standardized Buttons ---
             mainPanel.innerHTML = `
                 <div id="main-panel-content" class="flex flex-col gap-y-6">
                     <header class="text-center">
@@ -663,7 +590,7 @@
                             <button class="btn btn-light-blue py-4" onclick="renderStore('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🛒</span> Visit Store</button>
                             <button class="btn btn-light-blue py-4" onclick="showRecipeSellerModal('${locationName}')" ${otherActionsDisabled || recipesToBuy.length === 0 ? 'disabled' : ''} ${otherActionsTitle}><span class="mr-2">${location.recipe_seller.emoji}</span> Talk to ${location.recipe_seller.name}</button>
                             <button class="btn btn-light-blue py-4" onclick="showBulletinBoard()" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📋</span> Check Bulletin Board</button>
-                            ${pointsOfInterestHTML}
+                            <button class="btn btn-light-blue py-4" onclick="talkToLocals('${locationName}')" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">🏘️</span> Talk to Locals</button>
                         </div>
                     </div>
 
@@ -672,123 +599,7 @@
                     </div>
                 </div>`;
         }
-
-        function triggerEvent(locationName, eventId) {
-            const location = LOCATIONS.find(l => l.name === locationName);
-            const event = location.pointsOfInterest.find(e => e.id === eventId);
-            if (!event) return;
-
-            switch (event.type) {
-                case 'dialogue':
-                    handleDialogueEvent(event.data);
-                    break;
-                case 'quest':
-                    handleQuestEvent(event.data);
-                    break;
-                case 'cookoff':
-                    handleCookoffEvent(locationName, event.data);
-                    break;
-            }
-        }
-
-        function handleDialogueEvent(eventData) {
-            let contentHTML = `<h2 class="text-2xl font-bold mb-4">${eventData.title}</h2>`;
-            const dialogueText = typeof eventData.dialogue === 'function' ? eventData.dialogue() : eventData.dialogue;
-            contentHTML += `<div class="text-left space-y-2 mb-6">${dialogueText}</div>`;
-
-            let choicesHTML = '<div class="flex justify-end gap-3">';
-            eventData.choices.forEach(choice => {
-                const choiceButton = document.createElement('button');
-                choiceButton.className = 'btn btn-primary';
-                choiceButton.textContent = choice.text;
-                choiceButton.onclick = () => {
-                    modal.classList.add('hidden');
-                    if (choice.consequence) {
-                        resolveConsequence(choice.consequence);
-                    }
-                    updateAllUI();
-                    renderAtLocation(player.currentLocation);
-                };
-                choicesHTML += choiceButton.outerHTML;
-            });
-            choicesHTML += '</div>';
-
-            modalContent.innerHTML = contentHTML + choicesHTML;
-            modal.classList.remove('hidden');
-        }
         
-        function handleQuestEvent(eventData) {
-            const questDetails = QUEST_DATA.find(q => q.questId === eventData.questId);
-            const modalHTML = `
-                <h2 class="text-2xl font-bold mb-4">${questDetails.title}</h2>
-                <div class="text-left space-y-2 mb-6">${eventData.startDialogue}</div>
-                <div class="flex justify-end gap-3">
-                    <button id="decline-quest-btn" class="btn btn-secondary">${eventData.declineText || 'Maybe later.'}</button>
-                    <button id="accept-quest-btn" class="btn btn-green">${eventData.acceptText || 'Accept Quest'}</button>
-                </div>`;
-            
-            modalContent.innerHTML = modalHTML;
-            modal.classList.remove('hidden');
-
-            document.getElementById('accept-quest-btn').onclick = () => {
-                player.activeQuests.push({ questId: eventData.questId, progress: 0 });
-                modal.classList.add('hidden');
-                updateAllUI();
-                renderAtLocation(player.currentLocation);
-                showModal("Quest Started!", `New quest added to your journal: <strong>${questDetails.title}</strong>`, "Got it!");
-            };
-            document.getElementById('decline-quest-btn').onclick = () => {
-                modal.classList.add('hidden');
-            };
-        }
-
-        function handleCookoffEvent(locationName, eventData) {
-            const modalHTML = `
-                <h2 class="text-2xl font-bold mb-4">${eventData.title}</h2>
-                <div class="text-left space-y-2 mb-6">${eventData.dialogue}</div>
-                <div class="flex justify-end gap-3">
-                    <button id="decline-cookoff-btn" class="btn btn-secondary">Not today.</button>
-                    <button id="accept-cookoff-btn" class="btn btn-yellow">Let's do this!</button>
-                </div>`;
-
-            modalContent.innerHTML = modalHTML;
-            modal.classList.remove('hidden');
-
-            document.getElementById('accept-cookoff-btn').onclick = () => {
-                player.activeCompetition = { 
-                    location: locationName, 
-                    recipe: eventData.competition.recipe, 
-                    target: eventData.competition.target,
-                    reward: eventData.reward,
-                    failureMessage: eventData.failureMessage
-                };
-                modal.classList.add('hidden');
-                showModal('Challenge Accepted!', `The competition is on for today! Make sure you have the <strong>${eventData.competition.recipe}</strong> on your menu. Good luck!`, 'Let\'s go!', () => renderAtLocation(locationName));
-            };
-             document.getElementById('decline-cookoff-btn').onclick = () => {
-                modal.classList.add('hidden');
-            };
-        }
-
-        function resolveConsequence(consequence) {
-            switch(consequence.type) {
-                case 'give_money':
-                    player.money += consequence.value;
-                    break;
-                case 'change_rep':
-                    const loc = LOCATIONS.find(l => l.name === consequence.location);
-                    player.reputation[consequence.location] = Math.min(loc.max_rep, player.reputation[consequence.location] + consequence.value);
-                    break;
-                case 'unlock_recipe':
-                     player.cookbook[consequence.value] = { level: 1, xp: 0, currentMod: null };
-                     break;
-            }
-            if (consequence.message) {
-                showModal("Update", consequence.message, "Okay");
-            }
-            updateAllUI();
-        }
-
         function showRecipeSellerModal(locationName) {
             const location = LOCATIONS.find(l => l.name === locationName);
             const seller = location.recipe_seller;
@@ -810,21 +621,25 @@
         
                 if (condition.type === 'buy') {
                     challengeMet = player.money >= details.unlock_cost;
-                    challengeHTML = `<div class="p-4 border rounded-lg bg-indigo-50 border-indigo-200"><p class="font-semibold text-lg text-indigo-800">Recipe for Sale: ${recipeName}</p><p class="mt-1 text-sm text-indigo-700">${condition.description || 'Happy to teach you for a small fee.'}</p></div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg bg-indigo-50 border-indigo-200"><p class="font-semibold text-lg text-indigo-800">Recipe for Sale: ${recipeName}</p><p class="mt-1 text-sm text-indigo-700">Happy to teach you for a small fee.</p></div>`;
                     footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-primary" onclick="buyRecipe('${locationName}', '${recipeName}', ${details.unlock_cost})" ${!challengeMet ? 'disabled' : ''}>Buy ($${details.unlock_cost.toFixed(2)})</button></div>`;
                 } 
                 else if (condition.type === 'rep') {
                     const currentRep = player.reputation[locationName];
                     challengeMet = currentRep >= condition.value;
-                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Earn Reputation</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description || `Earn ${condition.value} reputation in this city.`}</p><div class="mt-3 text-center font-bold text-lg ${challengeMet ? 'text-green-600' : 'text-yellow-600'}">${currentRep} / ${condition.value} Reputation</div></div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Earn Reputation</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">Earn ${condition.value} reputation in this city.</p><div class="mt-3 text-center font-bold text-lg ${challengeMet ? 'text-green-600' : 'text-yellow-600'}">${currentRep} / ${condition.value} Reputation</div></div>`;
                     footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>Claim Recipe!</button></div>`;
                 }
                 else if (condition.type === 'mastery') {
                     const requiredRecipe = condition.value;
                     const masteryDetails = player.cookbook[requiredRecipe];
                     challengeMet = masteryDetails && masteryDetails.level >= 10;
-                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Master a Recipe</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">${condition.description || `Master the ${condition.value} sandwich.`}</p></div>`;
+                    challengeHTML = `<div class="p-4 border rounded-lg ${challengeMet ? 'bg-green-50 border-green-200' : 'bg-yellow-50 border-yellow-200'}"><p class="font-semibold text-lg ${challengeMet ? 'text-green-800' : 'text-yellow-800'}">Challenge: Master a Recipe</p><p class="mt-1 text-sm ${challengeMet ? 'text-green-700' : 'text-yellow-700'}">Master the ${condition.value} sandwich.</p></div>`;
                     footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Leave</button><button class="btn btn-green" onclick="buyRecipe('${locationName}', '${recipeName}', 0)" ${!challengeMet ? 'disabled' : ''}>Claim Recipe!</button></div>`;
+                }
+                else if (condition.type === 'competition') {
+                    challengeHTML = `<div class="p-4 border rounded-lg bg-red-50 border-red-200"><p class="font-semibold text-lg text-red-800">Challenge: Sales Competition!</p><p class="mt-1 text-sm text-red-700">Win a sales competition: Sell ${condition.target} ${condition.value}s in one day.</p></div>`;
+                    footerHTML = `<div class="mt-6 flex justify-end gap-3"><button id="modal-leave-btn" class="btn btn-secondary">Maybe Later</button><button class="btn btn-yellow" id="accept-challenge-btn">Accept Challenge!</button></div>`;
                 }
         
                 contentHTML += challengeHTML;
@@ -838,8 +653,24 @@
             modal.classList.remove('hidden');
             
             document.getElementById('modal-leave-btn').onclick = () => { modal.classList.add('hidden'); renderAtLocation(locationName); };
-        }
         
+            const acceptChallengeBtn = document.getElementById('accept-challenge-btn');
+            if (acceptChallengeBtn) {
+                acceptChallengeBtn.onclick = () => {
+                    const recipeToUnlock = recipesToBuy[0];
+                    player.activeCompetition = { 
+                        location: locationName, 
+                        recipe: condition.value, 
+                        target: condition.target,
+                        reward: { type: "unlock_recipe", value: recipeToUnlock },
+                        failureMessage: "Maybe try again another time."
+                    };
+                    modal.classList.add('hidden');
+                    showModal('Challenge Accepted!', `The competition is on for tomorrow! Make sure you have the <strong>${condition.value}</strong> on your menu. Good luck!`, 'Let\'s do this!', () => renderAtLocation(locationName));
+                };
+            }
+        }
+
         function renderStore(locationName) {
              const location = LOCATIONS.find(l => l.name === locationName);
              let ingredientsHTML = '';
@@ -939,7 +770,6 @@
         }
 
         function sellFoodAt(locationName) {
-            const location = LOCATIONS.find(l => l.name === locationName);
             const isCompetition = player.activeCompetition && player.activeCompetition.location === locationName;
             if (isCompetition) {
                 if (!player.menu.includes(player.activeCompetition.recipe)) {
@@ -972,8 +802,6 @@
 
                 if (bestSandwich) {
                     const purchased = Math.random() < highestScore;
-                    console.log(`Customer (${customer.type}) evaluating ${bestSandwich}. Score: ${highestScore.toFixed(2)}. Purchased: ${purchased}`);
-
                     if (purchased) {
                         const sandwich_details = SANDWICH_DATA[bestSandwich];
                         const ingredientsToConsume = { ...sandwich_details.recipe };
@@ -996,14 +824,14 @@
                                 itemName: bestSandwich, 
                                 price: sandwich_details.selling_prices[mastery_details.level - 1], 
                                 repGain: 0, 
-                                xpGain: 1, // Grant 1 XP for every sale now
+                                xpGain: 1,
                                 levelUpInfo: null, 
                                 ingredientsUsed: ingredientsToConsume 
                             };
 
                             const isLocalFavorite = location.local_preferences.preferredSandwiches.includes(bestSandwich);
                             if (isLocalFavorite) {
-                                sale.repGain = Math.random() < 0.5 ? 1 : 0; // 50% chance for +1 rep on a favorite
+                                sale.repGain = Math.random() < 0.5 ? 1 : 0;
                             }
 
                             saleEvents.push(sale);
@@ -1065,12 +893,12 @@
                 
                 updateQuestProgress("make_sandwich", sale.itemName);
 
-                player.truck.xp += 1; // Grant 1 XP per sandwich sold
+                player.truck.xp += 1;
                 if (player.truck.xp >= player.truck.xpToNextLevel) {
                     player.truck.level++;
                     player.truck.xp -= player.truck.xpToNextLevel;
                     player.truck.xpToNextLevel = Math.floor(player.truck.xpToNextLevel * 1.5);
-                    player.truck.capacity += 100; // Reward: Increase inventory capacity
+                    player.truck.capacity += 100;
                     sale.truckLevelUpInfo = { newLevel: player.truck.level };
                 }
 
@@ -1104,20 +932,40 @@
                     
                     if (soldCount >= target) {
                         resultTitle = "🏆 Challenge Won! 🏆";
-                        resultMessage = `<p>You sold <strong>${soldCount} ${compDetails.recipe}s</strong>, crushing the goal of ${target}!</p><p class="mt-2">${compDetails.reward.message}</p>`;
-                        resolveConsequence(compDetails.reward); // Resolve the reward
+                        resultMessage = `<p>You sold <strong>${soldCount} ${compDetails.recipe}s</strong>, crushing the goal of ${target}!</p><p class="mt-2">You've earned the <strong>${compDetails.reward.value}</strong> recipe!</p>`;
+                        buyRecipe(locationName, compDetails.reward.value, 0);
                     } else {
                         resultTitle = "😭 Challenge Lost 😭";
                         resultMessage = `<p>You only sold <strong>${soldCount} ${compDetails.recipe}s</strong> and didn't meet the goal of ${target}.</p><p class="mt-2">${compDetails.failureMessage}</p>`;
                     }
-                    player.activeCompetition = null; // Clear the competition state
+                    player.activeCompetition = null;
                     showModal(resultTitle, resultMessage, 'Awesome!', () => { modal.classList.add('hidden'); player.day++; isNewDay = true; updateAllUI(); renderAtLocation(locationName); });
                 } else {
-                    modal.classList.add('hidden'); modalContent.innerHTML = ''; modalContent.style.maxWidth = "500px";
+                    modal.classList.add('hidden');
                     player.day++; isNewDay = true;
-                    updateAllUI(); renderAtLocation(locationName);
+                    updateAllUI();
+                    renderAtLocation(locationName);
                 }
             };
+        }
+        
+        function talkToLocals(locationName) {
+            const location = LOCATIONS.find(l => l.name === locationName);
+            if (!player.knownPreferences.includes(locationName)) { 
+                player.knownPreferences.push(locationName);
+                updateAllUI();
+                renderAtLocation(locationName);
+            }
+            const hintRecipe = getRandomElement(location.local_preferences.preferredSandwiches);
+            const hintClass = getRandomElement(location.local_preferences.preferredClasses);
+            const hintMod = getRandomElement(location.local_preferences.preferredMods);
+            
+            const dialogues = [
+                `"Psst... hey! I was just talking with my friends, and we all agreed that a really good <strong>${hintRecipe}</strong> would hit the spot right about now. Just sayin'."`,
+                `"You know, folks around here really go for a good <strong>${hintClass}</strong> sandwich. If you had one of those on the menu, you'd probably do great business!"`,
+                `"The secret to a great sandwich here? Make it <strong>${hintMod}</strong>. That's how we like 'em."`
+            ];
+            showModal('Local Gossip', `<p class="text-lg italic">${getRandomElement(dialogues)}</p>`, 'Thanks for the tip!', null);
         }
         
         function checkForWin() { if (Object.keys(player.cookbook).length === Object.keys(SANDWICH_DATA).length && Object.values(player.cookbook).every(r => r.level >= 10)) { showModal('Congratulations!', 'You have mastered all recipes and become the ultimate Sandwich Hero!', 'Play Again', initGame); } }
@@ -1154,35 +1002,46 @@
                 !player.completedQuests.includes(q.questId) && 
                 !player.activeQuests.some(aq => aq.questId === q.questId)
             );
-            newQuests.forEach(q => player.activeQuests.push({ questId: q.questId, progress: 0 }));
-            if (newQuests.length > 0) updateAllUI();
-
+            
             let html = `<h2 class="text-2xl font-bold mb-4 text-center">📋 Town Bulletin Board</h2>`;
             const activeQuestsHere = player.activeQuests.map(aq => ({ ...QUEST_DATA.find(q => q.questId === aq.questId), progress: aq.progress })).filter(q => q.location === player.currentLocation);
+            const availableQuestsHere = QUEST_DATA.filter(q => q.location === player.currentLocation && !player.completedQuests.includes(q.questId) && !activeQuestsHere.some(aq => aq.questId === q.questId));
 
-            if (activeQuestsHere.length > 0) {
+            if (activeQuestsHere.length > 0 || availableQuestsHere.length > 0) {
                 html += `<div class="space-y-4 max-h-96 overflow-y-auto pr-2">`;
-                activeQuestsHere.forEach(quest => {
-                    const objective = quest.objective;
+                // Show available quests to accept
+                availableQuestsHere.forEach(quest => {
                     html += `<div class="p-4 border rounded-lg bg-yellow-50 border-yellow-300">
                                 <h3 class="font-bold text-lg text-yellow-800">${quest.title}</h3>
-                                <p class="text-sm text-yellow-700 mt-1">${quest.description}</p>`;
-                    
+                                <p class="text-sm text-yellow-700 mt-1">${quest.description}</p>
+                                <div class="mt-4 flex justify-end gap-3">
+                                    <button onclick="acceptQuest('${quest.questId}')" class="btn btn-green">Accept Quest</button>
+                                </div>
+                            </div>`;
+                });
+                // Show active quests with progress
+                activeQuestsHere.forEach(quest => {
+                    const objective = quest.objective;
                     let canComplete = false;
+                    let progressText = '';
                     if (objective.type === 'deliver_ingredient') {
                         canComplete = player.inventory[objective.target.ingredient] >= objective.target.amount;
-                        html += `<p class="mt-2 font-semibold">Objective: Deliver ${objective.target.amount} ${objective.target.ingredient}. (${player.inventory[objective.target.ingredient]}/${objective.target.amount})</p>`;
+                        progressText = `Deliver ${objective.target.amount} ${objective.target.ingredient}. (${player.inventory[objective.target.ingredient] || 0}/${objective.target.amount})`;
                     } else if (objective.type === 'make_sandwich') {
                         canComplete = quest.progress >= objective.target.amount;
-                        html += `<p class="mt-2 font-semibold">Objective: Make ${objective.target.amount} ${objective.target.recipe}s. (${quest.progress}/${objective.target.amount})</p>`;
+                        progressText = `Make ${objective.target.amount} ${objective.target.recipe}s. (${quest.progress}/${objective.target.amount})`;
                     } else if (objective.type === 'teach_recipe') {
                         canComplete = player.menu.includes(objective.target.recipe);
-                        html += `<p class="mt-2 font-semibold">Objective: Feature the ${objective.target.recipe} on your menu for one day.</p>`;
+                        progressText = `Feature the ${objective.target.recipe} on your menu for one day.`;
                     }
-                    
-                    html += `<div class="mt-4 flex justify-end gap-3">
-                                <button onclick="completeQuest('${quest.questId}')" class="btn btn-green" ${!canComplete ? 'disabled' : ''}>Complete Quest</button>
-                             </div></div>`;
+                    html += `<div class="p-4 border rounded-lg bg-blue-50 border-blue-300">
+                                <h3 class="font-bold text-lg text-blue-800">${quest.title}</h3>
+                                <p class="text-sm text-blue-700 mt-1">${quest.description}</p>
+                                <p class="mt-2 font-semibold">${progressText}</p>
+                                <div class="mt-4 flex justify-end gap-3">
+                                    <button onclick="completeQuest('${quest.questId}')" class="btn btn-green" ${!canComplete ? 'disabled' : ''}>Complete Quest</button>
+                                </div>
+                             </div>`;
                 });
                 html += `</div>`;
             } else {
@@ -1193,6 +1052,13 @@
             modalContent.innerHTML = html;
             modal.classList.remove('hidden');
             document.getElementById('modal-leave-btn').onclick = () => modal.classList.add('hidden');
+        }
+
+        function acceptQuest(questId) {
+            const questDetails = QUEST_DATA.find(q => q.questId === questId);
+            player.activeQuests.push({ questId: questId, progress: 0 });
+            showBulletinBoard(); // Refresh the bulletin board modal
+            showModal("Quest Accepted!", `You accepted the quest: <strong>${questDetails.title}</strong>. Check your journal for details.`, "Okay");
         }
 
         function showQuestJournal() {
@@ -1214,7 +1080,7 @@
                     
                     let progressHTML = '';
                     if (objective.type === 'deliver_ingredient') {
-                        progressHTML = `Deliver ${objective.target.amount} ${objective.target.ingredient}: (${player.inventory[objective.target.ingredient]}/${objective.target.amount})`;
+                        progressHTML = `Deliver ${objective.target.amount} ${objective.target.ingredient}: (${player.inventory[objective.target.ingredient] || 0}/${objective.target.amount})`;
                     } else if (objective.type === 'make_sandwich') {
                         progressHTML = `Make ${objective.target.amount} ${objective.target.recipe}s: (${activeQuest.progress}/${objective.target.amount})`;
                     } else if (objective.type === 'teach_recipe') {
@@ -1270,7 +1136,7 @@
             
             modal.classList.add('hidden');
             updateAllUI();
-            showModal("Quest Complete!", `You completed "${questDetails.title}"!<br>${rewardText}`, "Excellent!", null);
+            showModal("Quest Complete!", `You completed "${questDetails.title}"!<br>${rewardText}`, "Excellent!", () => renderAtLocation(player.currentLocation));
         }
 
         function generateXpCurves() {
@@ -1304,8 +1170,6 @@
                     xpToNextLevel: 100,
                     capacity: 500,
                     currentCapacity: 0,
-                    currentFuel: 100,
-                    maxFuel: 100,
                 },
                 menu: ["Ham & cheese", "BLT"],
                 maxMenu: 2,
@@ -1326,7 +1190,7 @@
             renderAtLocation(player.currentLocation);
         }
 
-        // --- New Customer Logic Functions ---
+        // --- Customer Logic Functions ---
 
         function createLocalCustomer(location) {
             return {
