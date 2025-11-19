@@ -61,6 +61,13 @@
         .btn-yellow:hover:not(:disabled) {
             background-color: #d97706;
         }
+        .btn-red {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-red:hover:not(:disabled) {
+            background-color: #dc2626;
+        }
         .btn-light-blue {
             background-color: #dbeafe; /* bg-blue-200 */
             color: #1e40af; /* text-blue-800 */
@@ -232,55 +239,64 @@
                 "local_ratio": 0.9,
                 "local_preferences": { "preferredSandwiches": ["Ham & cheese", "Club"], "preferredClasses": ["Classic"], "preferredMods": ["Toasted"] },
                 "tourist_preferences": ["West Coast", "Salad", "Chicken salad"],
-                "recipe_seller": { "name": "Old Man Earl", "emoji": "👴", "description": "<p>He'll teach you how to make a proper <strong>Club</strong> sandwich.</p>", "unlock_condition": { "type": "buy" } }
+                "recipe_seller": { "name": "Old Man Earl", "emoji": "👴", "description": "<p>He'll teach you how to make a proper <strong>Club</strong> sandwich.</p>", "unlock_condition": { "type": "buy" } },
+                "rally": { cost: 50, total_customers: 60, rounds: [ {type: 'count', target: 5, desc: "Sell 5 Sandwiches"}, {type: 'class', value: 'Classic', target: 5, desc: "Sell 5 Classic Sandwiches"}, {type: 'recipe', value: 'Club', target: 5, desc: "Sell 5 Clubs"} ] }
             },
             {"name": "Bravoport", "emoji": "⚓", "max_rep": 100, "max_customers": 300, "lore": "A bustling port city.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Italian"], "coords": "top: 50%; left: 90%;",
                 "local_ratio": 0.75,
                 "local_preferences": { "preferredSandwiches": ["Italian", "Club"], "preferredClasses": ["Sub"], "preferredMods": ["Spicy", "Double"] },
                 "tourist_preferences": ["Reuben", "Burger", "Chicken salad"],
-                "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>She'll share her recipe for a zesty <strong>Italian</strong> sub.</p>", "unlock_condition": { "type": "buy" }}
+                "recipe_seller": {"name": "'Salty' Sofia", "emoji": "👩‍✈️", "description": "<p>She'll share her recipe for a zesty <strong>Italian</strong> sub.</p>", "unlock_condition": { "type": "buy" }},
+                "rally": { cost: 100, total_customers: 80, rounds: [ {type: 'count', target: 10, desc: "Sell 10 Sandwiches"}, {type: 'class', value: 'Sub', target: 10, desc: "Sell 10 Subs"}, {type: 'mod', value: 'Spicy', target: 5, desc: "Sell 5 Spicy Sandwiches"} ] }
             },
             {"name": "Evergreen Pointe", "emoji": "🌲", "max_rep": 125, "max_customers": 400, "lore": "A haven for health nuts.", "available_ingredients": ["Bread", "Meat", "Spread", "Sauce", "Vegetables"], "available_recipes": ["West Coast"], "coords": "top: 20%; left: 25%;",
                 "local_ratio": 0.9,
                 "local_preferences": { "preferredSandwiches": ["West Coast", "Salad"], "preferredClasses": ["Wrap", "Special"], "preferredMods": ["Open"] },
                 "tourist_preferences": ["The Ultimate", "Burger", "Ham & cheese"],
-                "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>He's perfected the <strong>West Coast</strong> sandwich, perfect for a long hike.</p>", "unlock_condition": { "type": "buy" }}
+                "recipe_seller": {"name": "Forrest", "emoji": "👨‍🌾", "description": "<p>He's perfected the <strong>West Coast</strong> sandwich, perfect for a long hike.</p>", "unlock_condition": { "type": "buy" }},
+                "rally": { cost: 150, total_customers: 90, rounds: [ {type: 'class', value: 'Wrap', target: 10, desc: "Sell 10 Wraps"}, {type: 'mod', value: 'Open', target: 10, desc: "Sell 10 Open-Faced"}, {type: 'recipe', value: 'West Coast', target: 10, desc: "Sell 10 West Coasts"} ] }
             },
             {"name": "Maple Heights", "emoji": "🌳", "max_rep": 150, "max_customers": 500, "lore": "A picturesque town for picnics.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Chicken salad"], "coords": "top: 25%; left: 75%;",
                 "local_ratio": 0.85,
                 "local_preferences": { "preferredSandwiches": ["Chicken salad", "West Coast"], "preferredClasses": ["Wrap"], "preferredMods": ["Toasted"] },
                 "tourist_preferences": ["Italian", "Reuben", "Club"],
-                "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>She's willing to share her prized <strong>Chicken Salad</strong> recipe.</p>", "unlock_condition": { "type": "buy" }}
+                "recipe_seller": {"name": "Patty", "emoji": "👩‍🍳", "description": "<p>She's willing to share her prized <strong>Chicken Salad</strong> recipe.</p>", "unlock_condition": { "type": "buy" }},
+                "rally": { cost: 200, total_customers: 100, rounds: [ {type: 'count', target: 20, desc: "Sell 20 Sandwiches"}, {type: 'recipe', value: 'Chicken salad', target: 10, desc: "Sell 10 Chicken Salads"}, {type: 'mod', value: 'Toasted', target: 15, desc: "Sell 15 Toasted Items"} ] }
             },
             {"name": "Bourbon Creek", "emoji": "🎷", "max_rep": 175, "max_customers": 750, "lore": "Slow living, big flavors.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Patty melt"], "coords": "top: 85%; left: 70%;",
                 "local_ratio": 0.8,
                 "local_preferences": { "preferredSandwiches": ["Patty melt", "Italian"], "preferredClasses": ["Special"], "preferredMods": ["Spicy", "Tangy"] },
                 "tourist_preferences": ["Salad", "Reuben"],
-                "recipe_seller": { "name": "Chef Antoine", "emoji": "👨‍🍳", "description": "<p>His <strong>Patty Melt</strong> is a local legend.</p>", "unlock_condition": { "type": "mastery", "value": "Club" } }
+                "recipe_seller": { "name": "Chef Antoine", "emoji": "👨‍🍳", "description": "<p>His <strong>Patty Melt</strong> is a local legend.</p>", "unlock_condition": { "type": "mastery", "value": "Club" } },
+                "rally": { cost: 250, total_customers: 120, rounds: [ {type: 'mod', value: 'Tangy', target: 15, desc: "Sell 15 Tangy Items"}, {type: 'class', value: 'Special', target: 15, desc: "Sell 15 Special Class"}, {type: 'recipe', value: 'Patty melt', target: 10, desc: "Sell 10 Patty Melts"} ] }
             },
             {"name": "Steel City", "emoji": "🏢", "max_rep": 225, "max_customers": 1000, "lore": "Hard workers need hearty meals.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce"], "available_recipes": ["Reuben"], "coords": "top: 20%; left: 90%;",
                 "local_ratio": 0.8,
                 "local_preferences": { "preferredSandwiches": ["Reuben", "Burger"], "preferredClasses": ["Sub", "Special"], "preferredMods": ["Pressed", "Double"] },
                 "tourist_preferences": ["Italian", "Chicken salad"],
-                "recipe_seller": { "name": "Frankie 'The Furnace'", "emoji": "👨‍🏭", "description": "<p>He'll teach you the <strong>Reuben</strong>: a hefty, hot, and tangy sandwich.</p>", "unlock_condition": { "type": "rep", "value": 50 } }
+                "recipe_seller": { "name": "Frankie 'The Furnace'", "emoji": "👨‍🏭", "description": "<p>He'll teach you the <strong>Reuben</strong>: a hefty, hot, and tangy sandwich.</p>", "unlock_condition": { "type": "rep", "value": 50 } },
+                "rally": { cost: 300, total_customers: 150, rounds: [ {type: 'mod', value: 'Double', target: 20, desc: "Sell 20 Double Items"}, {type: 'recipe', value: 'Reuben', target: 15, desc: "Sell 15 Reubens"}, {type: 'class', value: 'Sub', target: 25, desc: "Sell 25 Subs"} ] }
             },
             {"name": "Twin River City", "emoji": "🎶", "max_rep": 275, "max_customers": 1500, "lore": "A travel hub full of artists.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Salad"], "coords": "top: 80%; left: 50%;",
                 "local_ratio": 0.7,
                 "local_preferences": { "preferredSandwiches": ["Salad", "Italian"], "preferredClasses": ["Special"], "preferredMods": ["Tangy"] },
                 "tourist_preferences": ["Patty melt", "Club"],
-                "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>She pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl.</p>", "unlock_condition": { "type": "buy" }}
+                "recipe_seller": {"name": "Belle", "emoji": "👩‍🎤", "description": "<p>She pieced together the perfect recipe for a no-bread <strong>Salad</strong> bowl.</p>", "unlock_condition": { "type": "buy" }},
+                "rally": { cost: 350, total_customers: 180, rounds: [ {type: 'class', value: 'Special', target: 30, desc: "Sell 30 Special Class"}, {type: 'recipe', value: 'Salad', target: 20, desc: "Sell 20 Salads"}, {type: 'count', target: 50, desc: "Sell 50 Sandwiches Total"} ] }
             },
             {"name": "Aspen Peak", "emoji": "🚠", "max_rep": 375, "max_customers": 5000, "lore": "Lavish treats for hungry folks.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["Burger"], "coords": "top: 55%; left: 20%;",
                 "local_ratio": 0.7,
                 "local_preferences": { "preferredSandwiches": ["Burger", "Reuben"], "preferredClasses": ["Special"], "preferredMods": ["Double", "Spicy"] },
                 "tourist_preferences": ["West Coast", "The Ultimate"],
-                "recipe_seller": { "name": "Chad", "emoji": "🏂", "description": "<p>He spent an entire off-season engineering the perfect <strong>Burger</strong>.</p>", "unlock_condition": { "type": "competition", "value": "Reuben", "target": 15 } }
+                "recipe_seller": { "name": "Chad", "emoji": "🏂", "description": "<p>He spent an entire off-season engineering the perfect <strong>Burger</strong>.</p>", "unlock_condition": { "type": "competition", "value": "Reuben", "target": 15 } },
+                "rally": { cost: 500, total_customers: 250, rounds: [ {type: 'class', value: 'Special', target: 40, desc: "Sell 40 Special Class"}, {type: 'recipe', value: 'Burger', target: 20, desc: "Sell 20 Burgers"}, {type: 'mod', value: 'Double', target: 30, desc: "Sell 30 Double Items"} ] }
             },
             {"name": "Bay City", "emoji": "🌉", "max_rep": 575, "max_customers": 10000, "lore": "A metropolis of big money.", "available_ingredients": ["Bread", "Meat", "Cheese", "Spread", "Toppings", "Sauce", "Vegetables"], "available_recipes": ["The Ultimate"], "coords": "top: 20%; left: 10%;",
                 "local_ratio": 0.7,
                 "local_preferences": { "preferredSandwiches": ["The Ultimate", "Burger"], "preferredClasses": ["Sub"], "preferredMods": ["Tangy", "Double"] },
                 "tourist_preferences": ["West Coast", "Burger"],
-                "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>His creation, <strong>'The Ultimate,'</strong> is a blue-chip sandwich guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy" }}
+                "recipe_seller": {"name": "The Investor", "emoji": "👨‍💼", "description": "<p>His creation, <strong>'The Ultimate,'</strong> is a blue-chip sandwich guaranteed to deliver maximum flavor dividends.</p>", "unlock_condition": { "type": "buy" }},
+                "rally": { cost: 1000, total_customers: 500, rounds: [ {type: 'recipe', value: 'The Ultimate', target: 20, desc: "Sell 20 Ultimate Sandwiches"}, {type: 'class', value: 'Sub', target: 50, desc: "Sell 50 Subs"}, {type: 'count', target: 100, desc: "Sell 100 Sandwiches Total"} ] }
             },
         ];
         
@@ -353,6 +369,7 @@
         let player = {};
         let isNewDay = false;
         let currentMapSelection = null;
+        let activeRally = null; // To track current rally state
 
         const statusPanel = document.getElementById('status-panel'), inventoryPanel = document.getElementById('inventory-panel'), menuPanel = document.getElementById('menu-panel'), mainPanel = document.getElementById('main-panel'), modal = document.getElementById('modal'), modalContent = document.getElementById('modal-content');
         
@@ -369,6 +386,7 @@
                 <div class="space-y-3">
                     <p class="text-lg"><strong>🗓️ Day:</strong> <span class="text-blue-600 font-semibold">${player.day}</span></p>
                     <p class="text-lg"><strong>💰 Money:</strong> <span class="text-green-600">$${player.money.toFixed(2)}</span></p>
+                    <p class="text-lg"><strong>🎫 Bumper Stickers:</strong> <span class="text-purple-600 font-bold">${player.bumperStickers}</span></p>
                     <div>
                         <p class="text-lg"><strong>🚚 Truck Lvl:</strong> <span class="text-yellow-600 font-semibold">${player.truck.level}</span></p>
                         <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
@@ -480,7 +498,17 @@
             const recipeDone = location.available_recipes.length === 0 || location.available_recipes.every(r => r in player.cookbook);
             const repDone = player.reputation[location.name] >= location.max_rep;
             const favsDone = player.knownPreferences.includes(location.name);
-            return `<div class="mt-2 pt-2 border-t"><h4 class="font-semibold text-sm mb-1 text-gray-600">Location Goals</h4><div class="flex justify-around text-xs"><span title="Purchase all local recipes">${recipeDone ? '📗' : '⬜️'} Recipe</span><span title="Earn maximum reputation here">${repDone ? '⭐' : '⬜️'} Reputation</span><span title="Learn the local favorites">${favsDone ? '🏅' : '⬜️'} Favorites</span></div></div>`;
+            const rallyDone = player.completedRallies.includes(location.name);
+            
+            return `<div class="mt-2 pt-2 border-t">
+                        <h4 class="font-semibold text-sm mb-1 text-gray-600">Location Goals</h4>
+                        <div class="flex justify-around text-xs">
+                            <span title="Purchase all local recipes">${recipeDone ? '📗' : '⬜️'} Recipe</span>
+                            <span title="Earn maximum reputation here">${repDone ? '⭐' : '⬜️'} Reputation</span>
+                            <span title="Learn the local favorites">${favsDone ? '🏅' : '⬜️'} Favorites</span>
+                            <span title="Complete the Bumper Sticker Rally">${rallyDone ? '🎫' : '⬜️'} Rally</span>
+                        </div>
+                    </div>`;
         }
 
         function updateMapInfoPanel(locationName) {
@@ -551,7 +579,9 @@
             let sellButtonHelperText = !isMenuValid ? `<p class="text-sm text-gray-500 mt-2">Add items to your menu from the Cookbook to enable selling.</p>` : '';
             const otherActionsDisabled = isCompetitionDay ? 'disabled' : '';
             const otherActionsTitle = isCompetitionDay ? `title="You must complete the competition today!"` : '';
-            
+            const rallyButtonText = player.completedRallies.includes(locationName) ? "🏁 Rally Completed!" : "🏁 Bumper Sticker Rally";
+            const rallyButtonDisabled = player.completedRallies.includes(locationName) || isCompetitionDay || !isMenuValid ? 'disabled' : '';
+
             let preferencesHTML = '';
             if (player.knownPreferences && player.knownPreferences.includes(locationName)) {
                 preferencesHTML = `<div class="mt-2 p-2 bg-blue-50 rounded-lg text-center text-sm text-blue-800">
@@ -577,10 +607,17 @@
                         ${preferencesHTML}
                     </header>
                     
-                    <div class="text-center">
-                        <button class="btn btn-green w-full text-xl shadow-lg hover:shadow-xl py-5" onclick="sellFoodAt('${locationName}')" ${!isMenuValid ? 'disabled' : ''} ${sellButtonTitle}>
-                            ${sellButtonText}
-                        </button>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <button class="btn btn-green w-full text-lg shadow-lg hover:shadow-xl py-5 h-full" onclick="sellFoodAt('${locationName}')" ${!isMenuValid ? 'disabled' : ''} ${sellButtonTitle}>
+                                ${sellButtonText}
+                            </button>
+                        </div>
+                        <div class="text-center">
+                             <button class="btn btn-primary w-full text-lg shadow-lg hover:shadow-xl py-5 h-full" onclick="showRallyEntryModal('${locationName}')" ${rallyButtonDisabled}>
+                                ${rallyButtonText}
+                            </button>
+                        </div>
                         ${sellButtonHelperText}
                     </div>
 
@@ -598,6 +635,366 @@
                         <button class="btn btn-secondary w-full py-3" onclick="goToLocationMenu()" ${otherActionsDisabled} ${otherActionsTitle}><span class="mr-2">📍</span> Change Location</button>
                     </div>
                 </div>`;
+        }
+
+        // --- Rally Logic ---
+
+        function showRallyEntryModal(locationName) {
+            const location = LOCATIONS.find(l => l.name === locationName);
+            const rally = location.rally;
+            const canAfford = player.money >= rally.cost;
+            
+            const modalHTML = `
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold mb-2">🏁 ${locationName} Rally</h2>
+                    <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg mb-4 text-sm">
+                        <div class="text-gray-600 text-right">Rounds:</div><div class="font-bold text-left">3</div>
+                        <div class="text-gray-600 text-right">Customer Pool:</div><div class="font-bold text-left">${rally.total_customers}</div>
+                        <div class="text-gray-600 text-right">Shopping?</div><div class="font-bold text-left text-red-600">Disabled</div>
+                        <div class="text-gray-600 text-right">Entry Fee:</div><div class="font-bold text-left ${canAfford ? 'text-green-600' : 'text-red-600'}">$${rally.cost.toFixed(2)}</div>
+                    </div>
+                    <p class="text-xs text-gray-500 italic mb-6">Manage your inventory wisely. Use one pool of customers to complete all challenges.</p>
+                    <div class="flex justify-end gap-3">
+                        <button id="modal-cancel-btn" class="btn btn-secondary">Cancel</button>
+                        <button id="modal-confirm-btn" class="btn btn-primary" ${!canAfford ? 'disabled' : ''}>Start Rally</button>
+                    </div>
+                </div>
+            `;
+            
+            modalContent.innerHTML = modalHTML;
+            modal.classList.remove('hidden');
+            
+            document.getElementById('modal-cancel-btn').onclick = () => modal.classList.add('hidden');
+            document.getElementById('modal-confirm-btn').onclick = () => {
+                player.money -= rally.cost;
+                modal.classList.add('hidden');
+                startRally(locationName);
+            };
+        }
+
+        function startRally(locationName) {
+            const location = LOCATIONS.find(l => l.name === locationName);
+            activeRally = {
+                locationName: locationName,
+                currentRound: 0,
+                customersLeft: location.rally.total_customers,
+                maxCustomers: location.rally.total_customers,
+                inventorySnapshot: JSON.parse(JSON.stringify(player.inventory)), // Snapshot for processing, though actual inventory is used
+                roundProgress: 0
+            };
+            renderRallyInterface();
+        }
+
+        function renderRallyInterface() {
+            const location = LOCATIONS.find(l => l.name === activeRally.locationName);
+            const rounds = location.rally.rounds;
+            
+            // Health Bar Logic
+            const healthPercent = (activeRally.customersLeft / activeRally.maxCustomers) * 100;
+            let healthColor = 'bg-green-500';
+            if (healthPercent < 50) healthColor = 'bg-yellow-500';
+            if (healthPercent < 25) healthColor = 'bg-red-500';
+
+            // Cards Logic
+            let cardsHTML = '';
+            rounds.forEach((round, index) => {
+                let cardClass = "border-gray-200 bg-gray-50 text-gray-400"; // Default/Future
+                let title = `Round ${index + 1}`;
+                let desc = "???";
+                
+                if (index < activeRally.currentRound) {
+                    // Completed
+                    cardClass = "border-green-500 bg-green-50 text-green-800";
+                    title += " ✅";
+                    desc = round.desc;
+                } else if (index === activeRally.currentRound) {
+                    // Active
+                    cardClass = "border-blue-500 bg-white shadow-md ring-2 ring-blue-400";
+                    desc = round.desc;
+                }
+
+                cardsHTML += `
+                    <div class="border-2 rounded-lg p-4 flex flex-col items-center justify-center text-center h-32 ${cardClass}">
+                        <h4 class="font-bold mb-2">${title}</h4>
+                        <p class="text-sm">${desc}</p>
+                    </div>
+                `;
+            });
+
+            const html = `
+                <div class="flex flex-col gap-y-6">
+                    <header class="text-center">
+                        <h2 class="text-3xl font-bold">🏁 ${activeRally.locationName} Rally</h2>
+                        <p class="text-gray-500">Round ${activeRally.currentRound + 1} of 3</p>
+                    </header>
+
+                    <div class="bg-white p-4 rounded-lg border shadow-sm">
+                        <div class="flex justify-between mb-2 text-sm font-bold text-gray-700">
+                            <span>Customer Pool</span>
+                            <span>${activeRally.customersLeft} / ${activeRally.maxCustomers}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-4">
+                            <div class="${healthColor} h-4 rounded-full transition-all duration-500" style="width: ${healthPercent}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        ${cardsHTML}
+                    </div>
+
+                    <div class="text-center mt-4">
+                         <button class="btn btn-primary w-full text-xl shadow-lg py-4" onclick="simulateRallyRound()">
+                            Start Round Selling
+                        </button>
+                        <p class="text-xs text-gray-400 mt-2">Warning: Inventory is not replenished between rounds.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="text-red-500 text-sm underline" onclick="quitRally()">Forfeit Rally</button>
+                    </div>
+                </div>
+            `;
+            mainPanel.innerHTML = html;
+            updateStatusUI();
+        }
+
+        function quitRally() {
+            const html = `
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold mb-2 text-red-600">Forfeit Rally?</h2>
+                    <p class="mb-6">Are you sure? You will lose your entry fee and current progress.</p>
+                    <div class="flex justify-center gap-4">
+                        <button id="modal-stay-btn" class="btn btn-secondary">Keep Playing</button>
+                        <button id="modal-forfeit-btn" class="btn btn-red">Forfeit</button>
+                    </div>
+                </div>
+            `;
+            modalContent.innerHTML = html;
+            modal.classList.remove('hidden');
+            
+            document.getElementById('modal-stay-btn').onclick = () => modal.classList.add('hidden');
+            document.getElementById('modal-forfeit-btn').onclick = () => {
+                modal.classList.add('hidden');
+                activeRally = null;
+                updateAllUI();
+                renderAtLocation(player.currentLocation);
+            };
+        }
+
+        async function simulateRallyRound() {
+            const location = LOCATIONS.find(l => l.name === activeRally.locationName);
+            const roundObjective = location.rally.rounds[activeRally.currentRound];
+            
+            let dayPotential = Math.floor(location.max_customers * 0.25); 
+            let actualCustomers = Math.min(dayPotential, activeRally.customersLeft);
+            
+            const numLocals = Math.floor(actualCustomers * location.local_ratio);
+            const numTourists = actualCustomers - numLocals;
+            let customerPool = [];
+            for (let i = 0; i < numLocals; i++) customerPool.push(createLocalCustomer(location));
+            for (let i = 0; i < numTourists; i++) customerPool.push(createTouristCustomer(location));
+
+            const saleEvents = [];
+            activeRally.roundProgress = 0;
+            let objectiveMet = false;
+
+            for (const customer of customerPool) {
+                if (objectiveMet) break; 
+
+                activeRally.customersLeft--; 
+
+                let bestSandwich = null;
+                let highestScore = 0;
+                for (const sandwichName of player.menu) {
+                    const score = calculatePurchaseScore(customer, sandwichName, activeRally.locationName);
+                    if (score > highestScore) {
+                        highestScore = score;
+                        bestSandwich = sandwichName;
+                    }
+                }
+
+                if (bestSandwich && Math.random() < highestScore) {
+                    const sandwich_details = SANDWICH_DATA[bestSandwich];
+                    const ingredients = sandwich_details.recipe;
+                    let can_make = true;
+                    for (const [ing, qty] of Object.entries(ingredients)) {
+                        if (player.inventory[ing] < qty) { can_make = false; break; }
+                    }
+
+                    if (can_make) {
+                        for (const [ing, qty] of Object.entries(ingredients)) {
+                            player.inventory[ing] -= qty;
+                        }
+                        
+                        let countSale = false;
+                        if (roundObjective.type === 'count') countSale = true;
+                        else if (roundObjective.type === 'class' && sandwich_details.class === roundObjective.value) countSale = true;
+                        else if (roundObjective.type === 'recipe' && bestSandwich === roundObjective.value) countSale = true;
+                        else if (roundObjective.type === 'mod') {
+                            const currentMod = player.cookbook[bestSandwich].currentMod;
+                            if (currentMod === roundObjective.value) countSale = true;
+                        }
+
+                        const sale = { 
+                            itemName: bestSandwich, 
+                            price: sandwich_details.selling_prices[player.cookbook[bestSandwich].level - 1], 
+                            repGain: 0, 
+                            xpGain: 1,
+                            ingredientsUsed: ingredients,
+                            countedTowardsObjective: countSale
+                        };
+                        saleEvents.push(sale);
+                        
+                        if (countSale) {
+                            activeRally.roundProgress++;
+                            if (activeRally.roundProgress >= roundObjective.target) {
+                                objectiveMet = true;
+                            }
+                        }
+                    }
+                }
+                
+                if (activeRally.customersLeft <= 0 && !objectiveMet) {
+                    break; 
+                }
+            }
+
+            await showRallyVisualizer(saleEvents, objectiveMet);
+        }
+
+        async function showRallyVisualizer(saleEvents, objectiveMet) {
+            const location = LOCATIONS.find(l => l.name === activeRally.locationName);
+            const objective = location.rally.rounds[activeRally.currentRound];
+            
+            const modalHTML = `
+                <div class="w-full">
+                    <h2 class="text-2xl font-bold mb-2 text-center">🔄 Round ${activeRally.currentRound + 1} Processing...</h2>
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4 text-center">
+                        <p class="text-sm text-gray-600 mb-1">Objective: ${objective.desc}</p>
+                        <div class="text-3xl font-bold mb-2">
+                            <span id="rally-progress-count">0</span> / ${objective.target}
+                        </div>
+                        <div class="w-full bg-gray-300 rounded-full h-4">
+                            <div id="rally-progress-bar" class="bg-blue-600 h-4 rounded-full transition-all duration-200" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-center mb-4">
+                        <div class="bg-gray-50 p-2 rounded">
+                            <div class="text-xs text-gray-500">Customers Remaining</div>
+                            <div class="font-bold" id="rally-cust-left">${activeRally.customersLeft + saleEvents.length}</div>
+                        </div>
+                         <div class="bg-gray-50 p-2 rounded">
+                            <div class="text-xs text-gray-500">Revenue</div>
+                            <div class="font-bold text-green-600" id="rally-revenue">$0.00</div>
+                        </div>
+                    </div>
+                    <p id="rally-log" class="text-center text-sm text-gray-500 h-6 italic"></p>
+                </div>
+            `;
+            
+            modalContent.innerHTML = modalHTML;
+            modal.classList.remove('hidden');
+
+            const progressCountEl = document.getElementById('rally-progress-count');
+            const progressBarEl = document.getElementById('rally-progress-bar');
+            const revenueEl = document.getElementById('rally-revenue');
+            const logEl = document.getElementById('rally-log');
+
+            let currentProgress = 0;
+            let currentRevenue = 0;
+            
+            const totalDuration = Math.min(4000, saleEvents.length * 100);
+            const delay = saleEvents.length > 0 ? totalDuration / saleEvents.length : 0;
+
+            for (let i = 0; i < saleEvents.length; i++) {
+                const sale = saleEvents[i];
+                currentRevenue += sale.price;
+                player.money += sale.price; 
+                
+                if (sale.countedTowardsObjective) {
+                    currentProgress++;
+                    progressCountEl.innerText = currentProgress;
+                    progressBarEl.style.width = `${(currentProgress / objective.target) * 100}%`;
+                    progressCountEl.classList.add('flash');
+                    setTimeout(() => progressCountEl.classList.remove('flash'), 200);
+                }
+
+                revenueEl.innerText = `$${currentRevenue.toFixed(2)}`;
+                logEl.innerText = `Sold ${sale.itemName}...`;
+                
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+            
+            updateTruckCapacity();
+            updateAllUI();
+
+            setTimeout(() => {
+                if (objectiveMet) {
+                    if (activeRally.currentRound < 2) {
+                        showRoundCompleteModal();
+                    } else {
+                        completeRally();
+                    }
+                } else {
+                    if (activeRally.customersLeft <= 0) {
+                        failRally("You ran out of customers!");
+                    } else {
+                        showRoundIncompleteModal();
+                    }
+                }
+            }, 1000);
+        }
+
+        function showRoundCompleteModal() {
+             const html = `
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold mb-4 text-green-600">Round Complete!</h2>
+                    <p class="mb-6">You met the objective! Prepare for the next round.</p>
+                    <button id="modal-next-round-btn" class="btn btn-primary">Next Round</button>
+                </div>
+            `;
+            modalContent.innerHTML = html;
+            document.getElementById('modal-next-round-btn').onclick = () => {
+                activeRally.currentRound++;
+                modal.classList.add('hidden');
+                renderRallyInterface();
+            };
+        }
+
+        function showRoundIncompleteModal() {
+            const html = `
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold mb-2 text-yellow-600">Round Incomplete</h2>
+                    <p class="mb-4">You haven't met the objective yet, but you still have customers waiting!</p>
+                    <div class="font-bold text-xl mb-6">${activeRally.customersLeft} Customers Remaining</div>
+                    <button id="modal-continue-btn" class="btn btn-primary">Keep Selling</button>
+                </div>
+            `;
+            modalContent.innerHTML = html;
+            document.getElementById('modal-continue-btn').onclick = () => {
+                modal.classList.add('hidden');
+                renderRallyInterface();
+            };
+        }
+
+        function completeRally() {
+            player.completedRallies.push(activeRally.locationName);
+            player.bumperStickers++;
+            activeRally = null;
+            updateAllUI();
+            
+            showModal(
+                "🎉 RALLY WON! 🎉", 
+                "<p>You completed all 3 rounds and proved your mastery!</p><p class='mt-4 text-center text-4xl'>🎫</p><p class='text-center mt-2'>You earned a <strong>Bumper Sticker</strong>!</p>", 
+                "Awesome!", 
+                () => renderAtLocation(player.currentLocation)
+            );
+        }
+
+        function failRally(reason) {
+            activeRally = null;
+            updateAllUI();
+            showModal("❌ Rally Failed", `<p>${reason}</p><p>Better luck next time.</p>`, "Leave", () => renderAtLocation(player.currentLocation));
         }
         
         function showRecipeSellerModal(locationName) {
@@ -1181,6 +1578,8 @@
                 activeEvent: null, 
                 daysSinceEvent: 0,
                 activeCompetition: null,
+                bumperStickers: 0,
+                completedRallies: [],
             };
             
             updateTruckCapacity();
@@ -1244,7 +1643,7 @@
             let modValue = 0;
             const currentMod = player.cookbook[sandwichName].currentMod;
             if (currentMod && SANDWICH_MOD_DATA[sandwichName]) {
-                modValue = SANDWICH_MOD_DATA[sandwichName][mod] ?? 0;
+                modValue = SANDWICH_MOD_DATA[sandwichName][currentMod] ?? 0;
             }
             const modBonus = modValue * 0.10;
 
